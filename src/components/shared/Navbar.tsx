@@ -47,7 +47,7 @@ const Navbar = () => {
     const fetcheventData = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:8000/eventCollection"
+          "https://server-gs.vercel.app/eventCollection"
         );
         setEventData(response.data);
       } catch (error) {
@@ -68,7 +68,7 @@ const Navbar = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get("http://localhost:8000/category");
+        const response = await axios.get("https://server-gs.vercel.app/category");
         setCategories(response.data);
       } catch (error) {
         console.error(error);

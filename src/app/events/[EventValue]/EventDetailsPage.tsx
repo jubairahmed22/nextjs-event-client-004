@@ -37,7 +37,7 @@ const EventDetailsPage: React.FC<EventDetailsPageProps> = ({ params }) => {
       setLoading(true);
       try {
         const response = await axios.get<Event>(
-          `http://localhost:8000/eventCollection/${EventValue}`
+          `https://server-gs.vercel.app/eventCollection/${EventValue}`
         );
         setEvent(response.data);
       } catch (error) {
@@ -55,7 +55,7 @@ const EventDetailsPage: React.FC<EventDetailsPageProps> = ({ params }) => {
     const fetchEventProducts = async () => {
       try {
         const response = await axios.get<EventProductsResponse>(
-          `http://localhost:8000/web/event-products/${EventValue}?page=${page}`
+          `https://server-gs.vercel.app/web/event-products/${EventValue}?page=${page}`
         );
         setEventProducts(response.data.products);
         setTotalPages(response.data.totalPages);

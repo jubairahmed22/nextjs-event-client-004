@@ -109,7 +109,7 @@ const CartModalForm: React.FC = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get<{ taxValue: number }>(
-          "http://localhost:8000/event-company-tax-value"
+          "https://server-gs.vercel.app/event-company-tax-value"
         );
         setData(response.data);
         setError(null);
@@ -387,7 +387,7 @@ const CartModalForm: React.FC = () => {
         totalPrice: totalCartPrice,
       };
 
-      const response = await fetch("http://localhost:8000/save-payment", {
+      const response = await fetch("https://server-gs.vercel.app/save-payment", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(paymentData),

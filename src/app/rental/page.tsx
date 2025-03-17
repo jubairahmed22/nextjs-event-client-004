@@ -21,7 +21,7 @@ const RentalMainPage: React.FC = () => {
 
   const fetchCategories = useCallback(async () => {
     try {
-      const response = await axios.get<Category[]>("http://localhost:8000/web/rental");
+      const response = await axios.get<Category[]>("https://server-gs.vercel.app/web/rental");
       setCategories(response.data);
       setLoading(false);
     } catch (error) {

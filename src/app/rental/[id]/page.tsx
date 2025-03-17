@@ -26,7 +26,7 @@ const RentalDetailsPage = () => {
       const fetchRentalDetails = async () => {
         try {
           const response = await axios.get<RentalDetails>(
-            `http://localhost:8000/web/rental/${id}`
+            `https://server-gs.vercel.app/web/rental/${id}`
           );
           setRental(response.data);
           setLoading(false);

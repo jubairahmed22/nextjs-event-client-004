@@ -38,7 +38,7 @@ const Page = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:8000/all-gallery");
+        const response = await fetch("https://server-gs.vercel.app/all-gallery");
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
