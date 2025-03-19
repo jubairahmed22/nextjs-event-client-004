@@ -86,7 +86,7 @@ const RentalMainPage: React.FC = () => {
       ) : (
         <>
           <div className="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-5 mb-10 w-full sm:mx-4">
-            {categories.map((event) => (
+            {categories?.map((event) => (
               <Link key={event._id} href={`/rental/${event._id}`}>
                 <div className="relative h-[300px] w-full rounded-xl">
                   <img
