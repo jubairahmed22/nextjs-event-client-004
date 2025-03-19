@@ -564,7 +564,7 @@ const CartModalForm: React.FC = () => {
         </div>
 
         {/* Tab Content */}
-        <div className="p-8 border border-gray-200 rounded-xl bg-gray-50 shadow-sm h-[550px] overflow-y-scroll">
+        <div className="p-8 border border-gray-200 rounded-xl bg-gray-50 shadow-sm h-[500px] overflow-y-scroll">
           {activeTab === "tab1" && (
             <div>
               {currentItems.length > 0 ? (
