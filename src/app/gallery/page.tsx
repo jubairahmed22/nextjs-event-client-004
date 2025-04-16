@@ -144,7 +144,7 @@ const Page = () => {
       <div className="pb-10 max-w-screen-2xl mx-auto">
         <div className="py-10 mx-auto w-full max-w-screen-2xl p-4 ">
           <h1 className="font-bold tracking-wider text-4xl text-center font-playfairDisplay  text-rose-900">
-            Gallery asdf
+            Gallery 
           </h1> 
           <p className="font-semibold tracking-wider text-lg mt-5 text-center font-playfairDisplay  text-rose-900">
             Relive the unforgettable moments from our past events through our
