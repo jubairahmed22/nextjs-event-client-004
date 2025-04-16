@@ -163,6 +163,7 @@ const Page = () => {
                     </p>
                   </div>
                 </div>
+                
               </div>
             </div>
             <div className="w-full px-4 lg:w-1/2 xl:w-5/12">
@@ -1032,6 +1033,37 @@ const Page = () => {
               </div>
             </div>
           </div>
+          <div className="w-full h-96 mt-10 relative group rounded-xl overflow-hidden shadow-2xl border-2 border-white/20 hover:border-blue-400 transition-all duration-300">
+  {/* Gradient overlay for a premium look */}
+  <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-purple-500/10 z-10 pointer-events-none"></div>
+  
+  {/* Custom marker pulse animation (floating) */}
+  <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20">
+    <div className="w-6 h-6 bg-red-500 rounded-full animate-pulse"></div>
+    <div className="w-6 h-6 bg-red-500/30 rounded-full absolute inset-0 animate-ping"></div>
+  </div>
+
+  {/* Google Maps iframe with smoother loading */}
+  <iframe
+    width="100%"
+    height="100%"
+    frameBorder="0"
+    scrolling="no"
+    marginHeight="0"
+    marginWidth="0"
+    src="https://maps.google.com/maps?q=My%20Color%20Events%20%26%20Design%20LLC,%20Monroe%20Turnpike,%20Monroe,%20CT,%20USA&t=m&z=16&output=embed&iwloc=near"
+    className="group-hover:scale-105 transition-transform duration-500 ease-in-out"
+    allowFullScreen
+    loading="lazy"
+    title="My Color Events & Design LLC Location"
+  ></iframe>
+
+  {/* Floating info box */}
+  <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-lg shadow-md z-20">
+    <h3 className="font-bold text-gray-800">My Color Events & Design LLC</h3>
+    <p className="text-sm text-gray-600">Monroe Turnpike, Monroe, CT</p>
+  </div>
+</div>
         </div>
       </section>
     </div>

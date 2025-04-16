@@ -122,7 +122,7 @@ const EventCart: React.FC = () => {
         }
       }
     };
-  
+
     const intervalId = setInterval(fetchData, 1000);
     return () => clearInterval(intervalId);
   }, []);
@@ -137,7 +137,7 @@ const EventCart: React.FC = () => {
       if (storedCartData) {
         const parsedCart: CartItem[] = JSON.parse(storedCartData);
         setCartItems(parsedCart);
-  
+
         if (parsedCart[0]?.selectedDate) {
           const date = new Date(parsedCart[0].selectedDate);
           const hours = date.getHours();
@@ -149,7 +149,7 @@ const EventCart: React.FC = () => {
         }
       }
     };
-  
+
     updateCartData();
     const intervalId = setInterval(updateCartData, 1000);
     return () => clearInterval(intervalId);
@@ -274,10 +274,10 @@ const EventCart: React.FC = () => {
     setEmail("");
     setVenueName("");
     setAddress(""),
-    setCity(""),
-    setPostCode(""),
-    setState(""),
-    setVenueNotes("");
+      setCity(""),
+      setPostCode(""),
+      setState(""),
+      setVenueNotes("");
     setPhoneNumber("");
     setSelectedPricingValue("");
     setProjectSelectedDate("");
@@ -293,7 +293,7 @@ const EventCart: React.FC = () => {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-
+  
     const result = await Swal.fire({
       title: "Are you sure?",
       text: "Do you want to send a quote request?",
@@ -304,101 +304,163 @@ const EventCart: React.FC = () => {
       confirmButtonText: "Yes, send it!",
       cancelButtonText: "No, cancel!",
     });
-
+  
     if (result.isConfirmed) {
-      const generateSetCode = () => {
-        return Math.random().toString(36).substr(2, 8).toUpperCase();
-      };
-
-      const setCode = generateSetCode();
-
-      const [startYear, startMonth, startDay] = projectSelectDate.split("-");
-      let startHour = parseInt(projectSelectedHour, 10);
-      const startMinute = parseInt(projectSelectedMinute, 10);
-
-      if (projectSelectedPeriod === "PM" && startHour < 12) startHour += 12;
-      if (projectSelectedPeriod === "AM" && startHour === 12) startHour = 0;
-
-      const combinedStartDate = new Date(
-        Date.UTC(
-          parseInt(startYear),
-          parseInt(startMonth) - 1,
-          parseInt(startDay),
-          startHour,
-          startMinute
-        )
-      );
-
-      const [endYear, endMonth, endDay] = projectSelectEndDate.split("-");
-      let endHour = parseInt(projectSelectedEndHour, 10);
-      const endMinute = parseInt(projectSelectedEndMinute, 10);
-
-      if (projectSelectedEndPeriod === "PM" && endHour < 12) endHour += 12;
-      if (projectSelectedEndPeriod === "AM" && endHour === 12) endHour = 0;
-
-      const combinedEndDate = new Date(
-        Date.UTC(
-          parseInt(endYear),
-          parseInt(endMonth) - 1,
-          parseInt(endDay),
-          endHour,
-          endMinute
-        )
-      );
-
-      const paymentData: PaymentData = {
-        firstName,
-        lastName,
-        phoneNumber,
-        email,
-        address,
-        city,
-        state,
-        postCode,
-        VenueNotes,
-        projectSelectDate: combinedStartDate,
-        projectSelectEndDate: combinedEndDate,
-        set: [
-          {
-            setCode,
-            setTitle: VenueName,
-            startDate: combinedStartDate,
-            endDate: combinedEndDate,
-            products: cartItems.map((item) => {
-              const priceValue = item.perDayPricing;
-              const productTotal = item.perDayPricing * item.quantity;
-
-              return {
-                singleImage: item.singleImage,
-                title: item.title,
-                productId: item.productId,
-                quantity: item.quantity,
-                selectedDate: item.selectedDate || "",
-                contractDescription: item.contractDescription,
-                productDescription: item.productDescription,
-                internalNotes: item.internalNotes,
-                length: item.length,
-                height: item.height,
-                shape: item.shape,
-                width: item.width,
-                productCode: item.productCode,
-                selectedPricingValue: priceValue,
-                tax: data?.taxValue || 0,
-                productTotal,
-              };
-            }),
-          },
-        ],
-        totalPrice: totalCartPrice,
-      };
-
-      const response = await fetch("https://server-gs.vercel.app/save-payment", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(paymentData),
+      // Show loading indicator
+      Swal.fire({
+        title: "<span style='font-family: Poppins, sans-serif'>Processing...</span>",
+        html: "<div style='font-family: Poppins, sans-serif'>Please wait while we process your request</div>",
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+          // Apply to all text in the modal
+          const popup = Swal.getPopup();
+          if (popup) {
+            popup.style.fontFamily = "'Poppins', sans-serif";
+          }
+        },
       });
-
-      if (response.ok) {
+  
+      try {
+        const generateSetCode = () => {
+          return Math.random().toString(36).substr(2, 8).toUpperCase();
+        };
+  
+        const setCode = generateSetCode();
+  
+        const [startYear, startMonth, startDay] = projectSelectDate.split("-");
+        let startHour = parseInt(projectSelectedHour, 10);
+        const startMinute = parseInt(projectSelectedMinute, 10);
+  
+        if (projectSelectedPeriod === "PM" && startHour < 12) startHour += 12;
+        if (projectSelectedPeriod === "AM" && startHour === 12) startHour = 0;
+  
+        const combinedStartDate = new Date(
+          Date.UTC(
+            parseInt(startYear),
+            parseInt(startMonth) - 1,
+            parseInt(startDay),
+            startHour,
+            startMinute
+          )
+        );
+  
+        const [endYear, endMonth, endDay] = projectSelectEndDate.split("-");
+        let endHour = parseInt(projectSelectedEndHour, 10);
+        const endMinute = parseInt(projectSelectedEndMinute, 10);
+  
+        if (projectSelectedEndPeriod === "PM" && endHour < 12) endHour += 12;
+        if (projectSelectedEndPeriod === "AM" && endHour === 12) endHour = 0;
+  
+        const combinedEndDate = new Date(
+          Date.UTC(
+            parseInt(endYear),
+            parseInt(endMonth) - 1,
+            parseInt(endDay),
+            endHour,
+            endMinute
+          )
+        );
+  
+        const paymentData: PaymentData = {
+          firstName,
+          lastName,
+          phoneNumber,
+          email,
+          address,
+          city,
+          state,
+          postCode,
+          VenueNotes,
+          projectSelectDate: combinedStartDate,
+          projectSelectEndDate: combinedEndDate,
+          set: [
+            {
+              setCode,
+              setTitle: VenueName,
+              startDate: combinedStartDate,
+              endDate: combinedEndDate,
+              products: cartItems.map((item) => {
+                const priceValue = item.perDayPricing;
+                const productTotal = item.perDayPricing * item.quantity;
+  
+                return {
+                  singleImage: item.singleImage,
+                  title: item.title,
+                  productId: item.productId,
+                  quantity: item.quantity,
+                  selectedDate: item.selectedDate || "",
+                  contractDescription: item.contractDescription,
+                  productDescription: item.productDescription,
+                  internalNotes: item.internalNotes,
+                  length: item.length,
+                  height: item.height,
+                  shape: item.shape,
+                  width: item.width,
+                  productCode: item.productCode,
+                  selectedPricingValue: priceValue,
+                  tax: data?.taxValue || 0,
+                  productTotal,
+                };
+              }),
+            },
+          ],
+          totalPrice: totalCartPrice,
+        };
+  
+        // First, save the payment data
+        // Swal.update({
+        //   title: "Saving payment details...",
+        // });
+        
+        const paymentResponse = await fetch(
+          "https://server-gs.vercel.app/save-payment",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(paymentData),
+          }
+        );
+  
+        if (!paymentResponse.ok) {
+          throw new Error("Failed to save payment details");
+        }
+  
+        // Then send the email notification
+        // Swal.update({
+        //   title: "Sending confirmation email...",
+        // });
+  
+        const emailResponse = await fetch(
+          "https://server-gs.vercel.app/api/sent-cart-details",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              firstName,
+              lastName,
+              email,
+              phone: phoneNumber,
+              message: `Quote request for ${VenueName}. Total price: $${totalCartPrice}`,
+              cartItems: cartItems.map((item) => ({
+                title: item.title,
+                quantity: item.quantity,
+                price: item.perDayPricing,
+                total: item.perDayPricing * item.quantity,
+              })),
+              totalPrice: totalCartPrice,
+              startDate: combinedStartDate,
+              endDate: combinedEndDate,
+              venueNotes: VenueNotes,
+            }),
+          }
+        );
+  
+        if (!emailResponse.ok) {
+          throw new Error("Failed to send email notification");
+        }
+  
+        // Success - close loading and show success message
         Swal.fire({
           title: "Success!",
           text: "Quote request sent successfully!",
@@ -406,17 +468,17 @@ const EventCart: React.FC = () => {
           confirmButtonText: "OK",
         });
         resetForm();
-      } else {
+      } catch (error) {
+        console.error("Error:", error);
         Swal.fire({
           title: "Error!",
-          text: "Failed to save payment details.",
+          text: "An error occurred while processing your request.",
           icon: "error",
           confirmButtonText: "OK",
         });
       }
     }
   };
-
   const toggleDropdown = (index: number) => {
     setDropdownVisible((prev) => ({
       ...prev,
@@ -462,8 +524,6 @@ const EventCart: React.FC = () => {
 
   const inputRef = useRef(null);
 
-
-
   useEffect(() => {
     // Load the Google Maps API script dynamically
     const script = document.createElement("script");
@@ -498,35 +558,33 @@ const EventCart: React.FC = () => {
             return;
           }
 
-        const addressComponents = place.address_components;
-let postCode = "",
-  state = "",
-  city = "",
-  address = place.formatted_address;
-const fullAddress = place.name
-  ? `${place.name}, ${place.formatted_address}`
-  : place.formatted_address || ""; // Fallback to empty string if undefined
+          const addressComponents = place.address_components;
+          let postCode = "",
+            state = "",
+            city = "",
+            address = place.formatted_address;
+          const fullAddress = place.name
+            ? `${place.name}, ${place.formatted_address}`
+            : place.formatted_address || ""; // Fallback to empty string if undefined
 
-setAddress(fullAddress); // Now fullAddress is guaranteed to be a string
-setCity(city);
-setState(state);
-setPostCode(postCode);
-// Check if addressComponents is defined before using it
-if (addressComponents) {
-  addressComponents.forEach((component) => {
-    if (component.types.includes("postal_code")) {
-      postCode = component.long_name;
-    }
-    if (component.types.includes("administrative_area_level_1")) {
-      state = component.long_name;
-    }
-    if (component.types.includes("locality")) {
-      city = component.long_name;
-    }
-  });
-}
-
-          
+          setAddress(fullAddress); // Now fullAddress is guaranteed to be a string
+          setCity(city);
+          setState(state);
+          setPostCode(postCode);
+          // Check if addressComponents is defined before using it
+          if (addressComponents) {
+            addressComponents.forEach((component) => {
+              if (component.types.includes("postal_code")) {
+                postCode = component.long_name;
+              }
+              if (component.types.includes("administrative_area_level_1")) {
+                state = component.long_name;
+              }
+              if (component.types.includes("locality")) {
+                city = component.long_name;
+              }
+            });
+          }
 
           setAddress(fullAddress);
           setCity(city);
@@ -566,7 +624,10 @@ if (addressComponents) {
                       const totalPrice = item.perDayPricing * item.quantity;
 
                       return (
-                        <div key={item.productId || index} className="rounded-lg border  border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 md:p-6">
+                        <div
+                          key={item.productId || index}
+                          className="rounded-lg border  border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 md:p-6"
+                        >
                           <div className="space-y-4 md:flex md:items-center md:justify-between md:gap-6 md:space-y-0">
                             <div className="shrink-0 md:order-1">
                               {item.singleImage ? (
@@ -591,8 +652,8 @@ if (addressComponents) {
                             </div>
 
                             <label htmlFor="counter-input" className="sr-only">
-  Choose quantity:
-</label>
+                              Choose quantity:
+                            </label>
 
                             <div className="flex items-center justify-between md:order-3 md:justify-end">
                               <div className="flex items-center">
@@ -624,7 +685,6 @@ if (addressComponents) {
                                   type="text"
                                   id="counter-input"
                                   className="w-10 shrink-0 border-0 bg-transparent text-center text-sm font-medium text-gray-900 focus:outline-none focus:ring-0 dark:text-white"
-                                  placeholder=""
                                   value={item.quantity}
                                   required
                                 />
@@ -717,62 +777,58 @@ if (addressComponents) {
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div className="grid grid-cols-1 gap-4 w-full">
                     <div className="flex flex-row gap-5 items-center w-full">
-                    <div className="w-full">
-                      <label className="block mb-2 text-sm font-medium text-gray-900">
-                        First Name
-                      </label>
-                      <input
-                        type="text"
-                        value={firstName}
-                        onChange={(e) => setFirstName(e.target.value)}
-                        className="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-rose-500 focus:border-rose-500"
-                        placeholder="Enter first name"
-                        required
-                      />
-                    </div>
+                      <div className="w-full">
+                        <label className="block mb-2 text-sm font-medium text-gray-900">
+                          First Name
+                        </label>
+                        <input
+                          type="text"
+                          value={firstName}
+                          onChange={(e) => setFirstName(e.target.value)}
+                          className="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-rose-500 focus:border-rose-500"
+                          required
+                        />
+                      </div>
 
-                    <div className="w-full">
-                      <label className="block mb-2 text-sm font-medium text-gray-900">
-                        Last Name
-                      </label>
-                      <input
-                        type="text"
-                        value={lastName}
-                        onChange={(e) => setLastName(e.target.value)}
-                        className="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-rose-500 focus:border-rose-500"
-                        placeholder="Enter last name"
-                        required
-                      />
-                    </div>
+                      <div className="w-full">
+                        <label className="block mb-2 text-sm font-medium text-gray-900">
+                          Last Name
+                        </label>
+                        <input
+                          type="text"
+                          value={lastName}
+                          onChange={(e) => setLastName(e.target.value)}
+                          className="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-rose-500 focus:border-rose-500"
+                          required
+                        />
+                      </div>
                     </div>
                     <div className="flex flex-row gap-5 items-center w-full">
-                    <div className="w-full">
-                      <label className="block mb-2 text-sm font-medium text-gray-900">
-                        Email
-                      </label>
-                      <input
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        className="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-rose-500 focus:border-rose-500"
-                        placeholder="Enter email address"
-                        required
-                      />
-                    </div>
-                    <div className="w-full">
-                      <label className="block mb-2 text-sm font-medium text-gray-900">
-                        Phone number
-                      </label>
-                      <input
-                        value={phoneNumber}
-                        onChange={handlePhoneChange}
-                        type="tel"
-                        className="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-rose-500 focus:border-rose-500"
-                        placeholder="Enter phone number (US)"
-                        maxLength={13}
-                        required
-                      />
-                    </div>
+                      <div className="w-full">
+                        <label className="block mb-2 text-sm font-medium text-gray-900">
+                          Email
+                        </label>
+                        <input
+                          type="email"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          className="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-rose-500 focus:border-rose-500"
+                          required
+                        />
+                      </div>
+                      <div className="w-full">
+                        <label className="block mb-2 text-sm font-medium text-gray-900">
+                          Phone number (US)
+                        </label>
+                        <input
+                          value={phoneNumber}
+                          onChange={handlePhoneChange}
+                          type="tel"
+                          className="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-rose-500 focus:border-rose-500"
+                          maxLength={13}
+                          required
+                        />
+                      </div>
                     </div>
                     <p className="text-xl font-semibold text-gray-900 mt-5">
                       Venue / Delivery Location
@@ -787,7 +843,6 @@ if (addressComponents) {
                         value={VenueName}
                         onChange={(e) => setVenueName(e.target.value)}
                         className="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-rose-500 focus:border-rose-500"
-                        placeholder="Type..."
                         required
                       />
                     </div>
@@ -929,7 +984,7 @@ if (addressComponents) {
                         </div>
                       </div>
                     </div>
-                    
+
                     <div className="mt-8">
                       <h2 className="text-xl font-semibold text-gray-800 mb-4">
                         Location Details
@@ -938,7 +993,6 @@ if (addressComponents) {
                         <input
                           ref={inputRef}
                           className="p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all w-full"
-                          placeholder="Enter a location"
                         />
                       </div>
                       <div className="grid grid-cols-2 gap-5 mt-5">
@@ -951,7 +1005,6 @@ if (addressComponents) {
                             value={address}
                             onChange={(e) => setAddress(e.target.value)}
                             className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
-                            placeholder="Enter address"
                             required
                           />
                         </div>
@@ -964,7 +1017,6 @@ if (addressComponents) {
                             value={city}
                             onChange={(e) => setCity(e.target.value)}
                             className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
-                            placeholder="Enter city"
                             required
                           />
                         </div>
@@ -977,7 +1029,6 @@ if (addressComponents) {
                             value={state}
                             onChange={(e) => setState(e.target.value)}
                             className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
-                            placeholder="Enter state"
                             required
                           />
                         </div>
@@ -990,7 +1041,6 @@ if (addressComponents) {
                             value={postCode}
                             onChange={(e) => setPostCode(e.target.value)}
                             className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
-                            placeholder="Enter post code"
                             required
                           />
                         </div>
@@ -1005,7 +1055,6 @@ if (addressComponents) {
                         value={VenueNotes}
                         onChange={(e) => setVenueNotes(e.target.value)}
                         className="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-rose-500 focus:border-rose-500"
-                        placeholder="Type..."
                       />
                     </div>
                   </div>

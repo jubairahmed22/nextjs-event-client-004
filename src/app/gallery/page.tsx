@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import EventPageLoading from "@/components/Loading/EventPageLoading";
+import InstaPost from "@/components/shared/InstaPost";
 
 // Define the type for the user data
 interface User {
@@ -34,11 +35,13 @@ const Page = () => {
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState(1); // Add currentPage state
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("https://server-gs.vercel.app/all-gallery");
+        setLoading(true);
+        const response = await fetch(`https://server-gs.vercel.app/all-gallery?page=${currentPage}`);
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
@@ -53,15 +56,15 @@ const Page = () => {
       }
     };
 
-    // Fetch data immediately when the component mounts
     fetchData();
+  }, [currentPage]); // Add currentPage to dependency array
 
-    // Set up an interval to fetch data every second
-    const intervalId = setInterval(fetchData, 1000);
-
-    // Clean up the interval when the component unmounts
-    return () => clearInterval(intervalId);
-  }, []);
+  const handlePageChange = (newPage: number) => {
+    if (newPage >= 1 && newPage <= galleryData.totalPages) {
+      setCurrentPage(newPage);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState<Gallery | null>(null); // Use Gallery type
@@ -161,6 +164,7 @@ const Page = () => {
         {loading ? (
           <EventPageLoading></EventPageLoading>
         ) : (
+          <>
           <div className="grid lg:grid-cols-2 md:grid-cols-1 gap-5">
             {galleryData.users.map((gallery) => (
               <div
@@ -168,35 +172,51 @@ const Page = () => {
                 onClick={() => openModal(gallery)}
                 className="relative h-[400px] rounded-xl "
               >
-                {/* Video Background */}
-
                 <img
                   className="absolute inset-0 w-full h-full object-cover rounded-xl"
                   src={gallery.singleImage}
                   alt=""
                 ></img>
-
-                {/* Overlay */}
                 <div className="absolute inset-0 bg-black opacity-5 rounded-xl"></div>
-
-                {/* Content */}
-                <section className="relative z-10 h-full">
-                  <div className="flex justify-center flex-col gap-6 items-center h-full">
-                    {/* <h1 className="tracking-wider lg:text-3xl text-center font-playfairDisplay text-white font-extrabold leading-none md:text-5xl  dark:text-white [text-shadow:_0_0_8px_rgba(255,255,255,0.6),_0_0_16px_rgba(255,255,255,0.4)]">
-                  {gallery.title}
-                </h1> */}
-
-                    {/* <Link
-                  className="px-6 py-2 bg-white text-xl font-playfairDisplay"
-                  href={`/events/${event.EventValue}`}
-                >
-                  Learn More
-                </Link> */}
-                  </div>
-                </section>
               </div>
             ))}
           </div>
+
+          {/* Add Pagination Controls */}
+          {galleryData.totalPages > 1 && (
+            <div className="flex justify-end mt-8 font-montserrat">
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => handlePageChange(currentPage - 1)}
+                  disabled={currentPage === 1}
+                >
+                  Previous
+                </button>
+                
+                {Array.from({ length: galleryData.totalPages }, (_, i) => i + 1).map(page => (
+                  <button
+                    key={page}
+                    onClick={() => handlePageChange(page)}
+                    className={`px-4 py-2 rounded-md border text-sm font-medium ${
+                      currentPage === page
+                        ? "bg-rose-900 text-white border-rose-900"
+                        : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
+                    }`}
+                  >
+                    {page}
+                  </button>
+                ))}
+                
+                <button
+                  onClick={() => handlePageChange(currentPage + 1)}
+                  disabled={currentPage === galleryData.totalPages}
+                >
+                  Next
+                </button>
+              </div>
+            </div>
+          )}
+        </>
         )}
       </div>
       {isModalOpen && selectedImage && (
@@ -292,6 +312,7 @@ const Page = () => {
           </div>
         </div>
       )}
+      <InstaPost></InstaPost>
     </div>
   );
 };

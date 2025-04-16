@@ -45,7 +45,7 @@ const ModalCart: React.FC<ModalCartProps> = ({ isVisible, onClose, cart }) => {
           </button>
         </div>
 
-        <div className="bg-green h-[600px] overflow-y-auto shadow-lg">
+        <div className="bg-green h-[90%] overflow-y-auto shadow-lg">
            <CartModalForm ></CartModalForm>
         </div>
         <div className="flex mx-5"></div>

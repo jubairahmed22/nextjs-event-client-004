@@ -1,3 +1,4 @@
+import TeamMember from "@/components/shared/TeamMember";
 import yousufmia from "../../assets/yousuf-mamu.jpeg"; // Import the image
 
 const page = () => {
@@ -67,7 +68,7 @@ const page = () => {
             </div>
         </div>
       </section> */}
-                                            
+      <TeamMember></TeamMember>                           
     </div>
   );
 };

@@ -287,130 +287,194 @@ const CartModalForm: React.FC = () => {
   };
 
   const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
-
-    const result = await Swal.fire({
-      title: "Are you sure?",
-      text: "Do you want to send a quote request?",
-      icon: "question",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, send it!",
-      cancelButtonText: "No, cancel!",
-    });
-
-    if (result.isConfirmed) {
-      const generateSetCode = () => {
-        return Math.random().toString(36).substr(2, 8).toUpperCase();
-      };
-
-      const setCode = generateSetCode();
-
-      const [startYear, startMonth, startDay] = projectSelectDate.split("-");
-      let startHour = parseInt(projectSelectedHour, 10);
-      const startMinute = parseInt(projectSelectedMinute, 10);
-
-      if (projectSelectedPeriod === "PM" && startHour < 12) startHour += 12;
-      if (projectSelectedPeriod === "AM" && startHour === 12) startHour = 0;
-
-      const combinedStartDate = new Date(
-        Date.UTC(
-          parseInt(startYear),
-          parseInt(startMonth) - 1,
-          parseInt(startDay),
-          startHour,
-          startMinute
-        )
-      );
-
-      const [endYear, endMonth, endDay] = projectSelectEndDate.split("-");
-      let endHour = parseInt(projectSelectedEndHour, 10);
-      const endMinute = parseInt(projectSelectedEndMinute, 10);
-
-      if (projectSelectedEndPeriod === "PM" && endHour < 12) endHour += 12;
-      if (projectSelectedEndPeriod === "AM" && endHour === 12) endHour = 0;
-
-      const combinedEndDate = new Date(
-        Date.UTC(
-          parseInt(endYear),
-          parseInt(endMonth) - 1,
-          parseInt(endDay),
-          endHour,
-          endMinute
-        )
-      );
-
-      const paymentData: PaymentData = {
-        firstName,
-        lastName,
-        phoneNumber,
-        email,
-        address,
-        city,
-        state,
-        postCode,
-        VenueNotes,
-        projectSelectDate: combinedStartDate,
-        projectSelectEndDate: combinedEndDate,
-        set: [
-          {
-            setCode,
-            setTitle: VenueName,
-            startDate: combinedStartDate,
-            endDate: combinedEndDate,
-            products: cartItems.map((item) => {
-              const priceValue = item.perDayPricing;
-              const productTotal = item.perDayPricing * item.quantity;
-
-              return {
-                singleImage: item.singleImage,
-                title: item.title,
-                productId: item.productId,
-                quantity: item.quantity,
-                selectedDate: item.selectedDate || "",
-                contractDescription: item.contractDescription,
-                productDescription: item.productDescription,
-                internalNotes: item.internalNotes,
-                length: item.length,
-                height: item.height,
-                shape: item.shape,
-                width: item.width,
-                productCode: item.productCode,
-                selectedPricingValue: priceValue,
-                tax: data?.taxValue || 0,
-                productTotal,
-              };
-            }),
-          },
-        ],
-        totalPrice: totalCartPrice,
-      };
-
-      const response = await fetch("https://server-gs.vercel.app/save-payment", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(paymentData),
+      event.preventDefault();
+    
+      const result = await Swal.fire({
+        title: "Are you sure?",
+        text: "Do you want to send a quote request?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, send it!",
+        cancelButtonText: "No, cancel!",
       });
-
-      if (response.ok) {
+    
+      if (result.isConfirmed) {
+        // Show loading indicator
         Swal.fire({
-          title: "Success!",
-          text: "Quote request sent successfully!",
-          icon: "success",
-          confirmButtonText: "OK",
+          title: "<span style='font-family: Poppins, sans-serif'>Processing...</span>",
+          html: "<div style='font-family: Poppins, sans-serif'>Please wait while we process your request</div>",
+          allowOutsideClick: false,
+          didOpen: () => {
+            Swal.showLoading();
+            // Apply to all text in the modal
+            const popup = Swal.getPopup();
+            if (popup) {
+              popup.style.fontFamily = "'Poppins', sans-serif";
+            }
+          },
         });
-        resetForm();
-      } else {
-        Swal.fire({
-          title: "Error!",
-          text: "Failed to save payment details.",
-          icon: "error",
-          confirmButtonText: "OK",
-        });
+    
+        try {
+          const generateSetCode = () => {
+            return Math.random().toString(36).substr(2, 8).toUpperCase();
+          };
+    
+          const setCode = generateSetCode();
+    
+          const [startYear, startMonth, startDay] = projectSelectDate.split("-");
+          let startHour = parseInt(projectSelectedHour, 10);
+          const startMinute = parseInt(projectSelectedMinute, 10);
+    
+          if (projectSelectedPeriod === "PM" && startHour < 12) startHour += 12;
+          if (projectSelectedPeriod === "AM" && startHour === 12) startHour = 0;
+    
+          const combinedStartDate = new Date(
+            Date.UTC(
+              parseInt(startYear),
+              parseInt(startMonth) - 1,
+              parseInt(startDay),
+              startHour,
+              startMinute
+            )
+          );
+    
+          const [endYear, endMonth, endDay] = projectSelectEndDate.split("-");
+          let endHour = parseInt(projectSelectedEndHour, 10);
+          const endMinute = parseInt(projectSelectedEndMinute, 10);
+    
+          if (projectSelectedEndPeriod === "PM" && endHour < 12) endHour += 12;
+          if (projectSelectedEndPeriod === "AM" && endHour === 12) endHour = 0;
+    
+          const combinedEndDate = new Date(
+            Date.UTC(
+              parseInt(endYear),
+              parseInt(endMonth) - 1,
+              parseInt(endDay),
+              endHour,
+              endMinute
+            )
+          );
+    
+          const paymentData: PaymentData = {
+            firstName,
+            lastName,
+            phoneNumber,
+            email,
+            address,
+            city,
+            state,
+            postCode,
+            VenueNotes,
+            projectSelectDate: combinedStartDate,
+            projectSelectEndDate: combinedEndDate,
+            set: [
+              {
+                setCode,
+                setTitle: VenueName,
+                startDate: combinedStartDate,
+                endDate: combinedEndDate,
+                products: cartItems.map((item) => {
+                  const priceValue = item.perDayPricing;
+                  const productTotal = item.perDayPricing * item.quantity;
+    
+                  return {
+                    singleImage: item.singleImage,
+                    title: item.title,
+                    productId: item.productId,
+                    quantity: item.quantity,
+                    selectedDate: item.selectedDate || "",
+                    contractDescription: item.contractDescription,
+                    productDescription: item.productDescription,
+                    internalNotes: item.internalNotes,
+                    length: item.length,
+                    height: item.height,
+                    shape: item.shape,
+                    width: item.width,
+                    productCode: item.productCode,
+                    selectedPricingValue: priceValue,
+                    tax: data?.taxValue || 0,
+                    productTotal,
+                  };
+                }),
+              },
+            ],
+            totalPrice: totalCartPrice,
+          };
+    
+          // First, save the payment data
+          // Swal.update({
+          //   title: "Saving payment details...",
+          // });
+          
+          const paymentResponse = await fetch(
+            "https://server-gs.vercel.app/save-payment",
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(paymentData),
+            }
+          );
+    
+          if (!paymentResponse.ok) {
+            throw new Error("Failed to save payment details");
+          }
+    
+          // Then send the email notification
+          // Swal.update({
+          //   title: "Sending confirmation email...",
+          // });
+    
+          const emailResponse = await fetch(
+            "https://server-gs.vercel.app/api/sent-cart-details",
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                firstName,
+                lastName,
+                email,
+                phone: phoneNumber,
+                message: `Quote request for ${VenueName}. Total price: $${totalCartPrice}`,
+                cartItems: cartItems.map((item) => ({
+                  title: item.title,
+                  quantity: item.quantity,
+                  price: item.perDayPricing,
+                  total: item.perDayPricing * item.quantity,
+                })),
+                totalPrice: totalCartPrice,
+                startDate: combinedStartDate,
+                endDate: combinedEndDate,
+                venueNotes: VenueNotes,
+              }),
+            }
+          );
+    
+          if (!emailResponse.ok) {
+            throw new Error("Failed to send email notification");
+          }
+    
+          // Success - close loading and show success message
+          Swal.fire({
+            title: "Success!",
+            text: "Quote request sent successfully!",
+            icon: "success",
+            confirmButtonText: "OK",
+          });
+          resetForm();
+        } catch (error) {
+          console.error("Error:", error);
+          Swal.fire({
+            title: "Error!",
+            text: "An error occurred while processing your request.",
+            icon: "error",
+            confirmButtonText: "OK",
+          });
+        }
       }
-    }
-  };
+    };
+
 
   const toggleDropdown = (index: number) => {
     setDropdownVisible((prev) => ({
