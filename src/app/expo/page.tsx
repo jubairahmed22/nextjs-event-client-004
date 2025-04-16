@@ -31,7 +31,7 @@ export default function ExpoPage() {
     setError("");
 
     try {
-      const response = await fetch("http://localhost:8000/web/post-expo", {
+      const response = await fetch("https://server-gs.vercel.app/web/post-expo", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -47,7 +47,7 @@ export default function ExpoPage() {
 
       // Second POST after successful first one
       const secondaryResponse = await fetch(
-        "http://localhost:8000/api/sent-expo-registration",
+        "https://server-gs.vercel.app/api/sent-expo-registration",
         {
           method: "POST",
           headers: {
@@ -138,7 +138,7 @@ export default function ExpoPage() {
                   </span>
                 </div>
                 <p className="text-green-700 text-sm mb-6">
-                  We've sent a confirmation email with event details.
+                  We have sent a confirmation email with event details.
                 </p>
                 <button
                   onClick={() => setSuccess(false)}
