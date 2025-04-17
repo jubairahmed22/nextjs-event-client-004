@@ -45,8 +45,8 @@ const NavCart: React.FC = () => {
     <div>
       <button
         onClick={openModalPersonal}
-        className="fixed z-50 shadow-lg bg-white border border-gray-400 rounded bottom-4 right-4 dark:bg-gray-700 dark:border-gray-600"
-      >
+ className="hidden lg:block fixed z-50 shadow-lg bg-white border border-gray-400 rounded bottom-4 right-4 dark:bg-gray-700 dark:border-gray-600"
+>
         <div className="relative flex justify-center items-center p-4">
           {/* Badge */}
           <div className="absolute top-0 -mt-4 flex justify-center items-center w-6 h-6 bg-black text-white text-sm font-bold rounded-full">
