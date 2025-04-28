@@ -20,9 +20,6 @@ const nextConfig = {
   experimental: {
     // This helps with the useSearchParams() issue
     missingSuspenseWithCSRBailout: false,
-
-    // Recommended for static exports
-    appDir: true,
   },
 };
 
