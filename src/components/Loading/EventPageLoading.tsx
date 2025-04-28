@@ -1,7 +1,7 @@
 const EventPageLoading = () => {
   return (
-    <div className="mx-auto max-w-screen-2xl pb-10">
-      <div className="grid lg:grid-cols-2 md:grid-cols-1 gap-5">
+    <div className="mx-auto max-w-screen-4xl pb-10">
+      <div className="grid lg:grid-cols-3 md:grid-cols-1 gap-5">
         <div
           role="status"
           className="flex items-center h-[400px] w-full justify-center bg-gray-300 rounded-lg animate-pulse dark:bg-gray-700"

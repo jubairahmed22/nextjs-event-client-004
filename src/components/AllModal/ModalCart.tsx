@@ -20,7 +20,7 @@ const ModalCart: React.FC<ModalCartProps> = ({ isVisible, onClose, cart }) => {
   return (
     <>
       <div className="fixed bottom-0 right-0 z-50 bg-white rounded-xl w-[650px] mx-3 sm:mx-auto shadow-xl">
-        <div className="flex rounded-t justify-between py-8 px-5 items-center border-b shadow-md bg-rose-900">
+        <div className="flex rounded-t justify-between py-6 px-5 items-center border-b shadow-md bg-rose-900">
           <h1 className="text-white text-xl font-raleway text600">
             Quote Request <span className="font-roboto">({cart.length})</span>
           </h1>

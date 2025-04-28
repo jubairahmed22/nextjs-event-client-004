@@ -6,6 +6,8 @@ import NavCart from "@/components/shared/NavCart";
 import Footer from "@/components/shared/Footer";
 import NavbarDynamic from "@/components/shared/NavbarDynamic";
 import NavbarDynamicSidebar from "@/components/shared/NavbarDynamicSidebar";
+import { FilterProvider } from "./contexts/FilterContext";
+import NavbarDynamicSidebarAllProduct from "@/components/shared/NavbarDynamicSidebarAllProduct";
 
 export const metadata: Metadata = {
   title: "My Color Events",
@@ -29,10 +31,14 @@ export default async function RootLayout({
     <body>
       {/* <Navbar /> */}
       {/* <NavbarDynamic></NavbarDynamic> */}
-      <NavbarDynamicSidebar></NavbarDynamicSidebar>
+      <FilterProvider>
+      {/* <NavbarDynamicSidebar></NavbarDynamicSidebar> */}
+      <NavbarDynamicSidebarAllProduct></NavbarDynamicSidebarAllProduct>
       <NavCart />
       <div className="min-h-screen">{children}</div>
       <Footer></Footer>
+        </FilterProvider>
+      
     </body>
   </html>
   );

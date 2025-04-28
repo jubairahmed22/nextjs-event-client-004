@@ -6,6 +6,7 @@ import { useEffect, useState, useCallback } from "react";
 import toast from "react-hot-toast";
 import Image from "next/image";
 import ModalProductDetails from "@/components/AllModal/ModalProductDetails";
+import ProductCard from "@/components/Card/ProductCard";
 
 interface Category {
   _id: string;
@@ -44,7 +45,7 @@ interface ProductsResponse {
 }
 
 // Constants
-const API_BASE_URL = "https://server-gs.vercel.app";
+const API_BASE_URL = "http://localhost:8000";
 const DEFAULT_PAGE = 1;
 const PRODUCTS_PER_PAGE = 2;
 
@@ -116,107 +117,7 @@ const LoadingSkeleton = () => (
   </div>
 );
 
-// Product Card Component
-const ProductCard = ({
-  product,
-  isWishlisted,
-  onToggleWishlist,
-  onOpenDetails,
-}: {
-  product: Product;
-  isWishlisted: boolean;
-  onToggleWishlist: (product: EventProduct) => void;
-  onOpenDetails: (productId: string) => void;
-}) => (
-  <div className="group bg-white p-4 font-lora rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 hover:border-rose-100 flex flex-col h-full">
-    <div 
-      onClick={() => onOpenDetails(product._id)} 
-      className="relative overflow-hidden rounded-lg aspect-square mb-4 flex-grow cursor-pointer"
-    >
-      {product.singleImage ? (
-        <>
-          <Image
-            src={product.singleImage}
-            alt={product.title}
-            fill
-            className="object-cover transition-transform duration-500 group-hover:scale-105"
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-          />
-          <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-            <span className="bg-white/90 text-rose-700 px-4 py-2 rounded-full font-medium text-sm shadow-md">
-              Quick View
-            </span>
-          </div>
-        </>
-      ) : (
-        <div className="w-full h-full flex items-center justify-center bg-gray-50 rounded-lg">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth="1.5"
-            stroke="currentColor"
-            className="w-16 h-16 text-gray-300"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
-            />
-          </svg>
-        </div>
-      )}
-    </div>
 
-    <div className="flex flex-col flex-grow">
-      <h3 
-        onClick={() => onOpenDetails(product._id)}
-        className="text-lg font-semibold text-gray-800 hover:text-rose-600 transition-colors cursor-pointer line-clamp-2 mb-2"
-      >
-        {product.title}
-      </h3>
-      
-      <div className="flex items-center justify-between mb-4">
-        <div>
-          <p className="text-2xl font-bold text-rose-700">
-            ${product.perDayPricing}
-            <span className="text-sm font-normal text-gray-500 ml-1">/day</span>
-          </p>
-          <p className="text-sm text-gray-500">ID: {product.productId}</p>
-        </div>
-      </div>
-
-      <button
-        onClick={(e) => {
-          e.stopPropagation();
-          onToggleWishlist({ ...product, quantity: 1 });
-        }}
-        className={`mt-auto w-full py-3 px-4 rounded-lg font-medium transition-all duration-200 flex items-center justify-center space-x-2 ${
-          isWishlisted
-            ? "bg-rose-700 text-white shadow-inner"
-            : "bg-rose-50 text-rose-700 hover:bg-rose-100 border border-rose-200 hover:border-rose-300"
-        }`}
-        aria-label={isWishlisted ? "Remove from wishlist" : "Add to wishlist"}
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill={isWishlisted ? "currentColor" : "none"}
-          viewBox="0 0 24 24"
-          strokeWidth="2"
-          stroke="currentColor"
-          className={`w-5 h-5 ${isWishlisted ? "text-white" : "text-rose-600"}`}
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
-          />
-        </svg>
-        <span>{isWishlisted ? "Saved" : "Save to Wishlist"}</span>
-      </button>
-    </div>
-  </div>
-);
 
 // Pagination Component
 const Pagination = ({
@@ -482,11 +383,26 @@ const SubCategoryPage = ({ params }: { params: { id: string } }) => {
     router.replace(`/subcategory/${params.id}?${params.toString()}`, { scroll: false });
   };
 
+  const calculateDiscountedPrice = (product: EventProduct): number => {
+    if (product.Promotion === "true") {
+      const perDayPricing = parseFloat(product.perDayPricing);
+      const promotionValue = parseFloat(product.promotionValue);
+      
+      if (product.promotionType === "$") {
+        return perDayPricing - promotionValue;
+      } else if (product.promotionType === "%") {
+        return perDayPricing - (perDayPricing * promotionValue) / 100;
+      }
+    }
+    return parseFloat(product.perDayPricing);
+  };
+  
+
   const toggleWishlist = useCallback((product: EventProduct) => {
     try {
       const existingCart = JSON.parse(localStorage.getItem("cart") || "[]");
       const productIndex = existingCart.findIndex((item: EventProduct) => item._id === product._id);
-
+  
       let updatedCart: EventProduct[];
       if (productIndex > -1) {
         updatedCart = existingCart.filter((item: EventProduct) => item._id !== product._id);
@@ -494,12 +410,21 @@ const SubCategoryPage = ({ params }: { params: { id: string } }) => {
           position: "bottom-center",
         });
       } else {
-        updatedCart = [...existingCart, { ...product, quantity: 1 }];
+        // Calculate the final price before adding to cart
+        const finalPrice = calculateDiscountedPrice(product);
+        
+        updatedCart = [...existingCart, { 
+          ...product, 
+          quantity: 1,
+          // Add the calculated price as a new field for easy reference
+          perDayPricing : finalPrice
+        }];
+        
         toast.success(`${product.title} added to wishlist!`, {
           position: "bottom-center",
         });
       }
-
+  
       localStorage.setItem("cart", JSON.stringify(updatedCart));
       setWishlistedProducts(prev => {
         const updated = new Set(prev);
@@ -509,6 +434,23 @@ const SubCategoryPage = ({ params }: { params: { id: string } }) => {
     } catch (error) {
       console.error("Error updating wishlist:", error);
       toast.error("Failed to update wishlist");
+    }
+  }, []);
+
+  useEffect(() => {
+    try {
+      const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+      // Calculate prices for existing items in cart
+      const cartWithCalculatedPrices = cart.map((item: EventProduct) => ({
+        ...item,
+      perDayPricing: calculateDiscountedPrice(item)
+      }));
+      
+      localStorage.setItem("cart", JSON.stringify(cartWithCalculatedPrices));
+      const wishlistedIds = new Set<string>(cart.map((item: EventProduct) => item._id));
+      setWishlistedProducts(wishlistedIds);
+    } catch (error) {
+      console.error("Error loading wishlist:", error);
     }
   }, []);
 
@@ -551,7 +493,7 @@ const SubCategoryPage = ({ params }: { params: { id: string } }) => {
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent backdrop-blur-sm"></div>
 
         {/* Content Wrapper */}
-        <div className="relative z-10 w-full px-4 mx-auto max-w-screen-2xl">
+        <div className="relative z-10 w-full px-4 mx-auto max-w-screen-4xl">
           <div className="flex flex-col justify-center items-start h-full py-10 sm:py-14 lg:py-20">
             <h1 className="text-white font-playfairDisplay font-extrabold tracking-wide leading-tight text-3xl sm:text-xl lg:text-4xl drop-shadow-[0_4px_10px_rgba(0,0,0,0.5)]">
               {subCategory.title?.charAt(0).toUpperCase() +

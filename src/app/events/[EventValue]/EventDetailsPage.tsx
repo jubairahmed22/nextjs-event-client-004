@@ -151,7 +151,7 @@ const EventDetailsPage: React.FC<EventDetailsPageProps> = ({ params }) => {
       </div>
 
       {/* Event Products Section */}
-      <div className="mt-10 max-w-screen-2xl px-4 mx-auto">
+      <div className="mt-10 max-w-screen-4xl px-4 mx-auto">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 ">
           {eventProducts.map((product) => (
             <div

@@ -1,5 +1,6 @@
 "use client";
 import axios from "axios";
+import Link from "next/link";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import Swal from "sweetalert2";
 
@@ -293,7 +294,7 @@ const EventCart: React.FC = () => {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-  
+
     const result = await Swal.fire({
       title: "Are you sure?",
       text: "Do you want to send a quote request?",
@@ -304,11 +305,12 @@ const EventCart: React.FC = () => {
       confirmButtonText: "Yes, send it!",
       cancelButtonText: "No, cancel!",
     });
-  
+
     if (result.isConfirmed) {
       // Show loading indicator
       Swal.fire({
-        title: "<span style='font-family: Poppins, sans-serif'>Processing...</span>",
+        title:
+          "<span style='font-family: Poppins, sans-serif'>Processing...</span>",
         html: "<div style='font-family: Poppins, sans-serif'>Please wait while we process your request</div>",
         allowOutsideClick: false,
         didOpen: () => {
@@ -320,21 +322,21 @@ const EventCart: React.FC = () => {
           }
         },
       });
-  
+
       try {
         const generateSetCode = () => {
           return Math.random().toString(36).substr(2, 8).toUpperCase();
         };
-  
+
         const setCode = generateSetCode();
-  
+
         const [startYear, startMonth, startDay] = projectSelectDate.split("-");
         let startHour = parseInt(projectSelectedHour, 10);
         const startMinute = parseInt(projectSelectedMinute, 10);
-  
+
         if (projectSelectedPeriod === "PM" && startHour < 12) startHour += 12;
         if (projectSelectedPeriod === "AM" && startHour === 12) startHour = 0;
-  
+
         const combinedStartDate = new Date(
           Date.UTC(
             parseInt(startYear),
@@ -344,14 +346,16 @@ const EventCart: React.FC = () => {
             startMinute
           )
         );
-  
+
         const [endYear, endMonth, endDay] = projectSelectEndDate.split("-");
         let endHour = parseInt(projectSelectedEndHour, 10);
         const endMinute = parseInt(projectSelectedEndMinute, 10);
-  
+
         if (projectSelectedEndPeriod === "PM" && endHour < 12) endHour += 12;
         if (projectSelectedEndPeriod === "AM" && endHour === 12) endHour = 0;
-  
+
+        const allProductPrice = cartItems.reduce((sum, item) => sum + (item.perDayPricing * item.quantity), 0)
+
         const combinedEndDate = new Date(
           Date.UTC(
             parseInt(endYear),
@@ -361,7 +365,7 @@ const EventCart: React.FC = () => {
             endMinute
           )
         );
-  
+
         const paymentData: PaymentData = {
           firstName,
           lastName,
@@ -383,7 +387,7 @@ const EventCart: React.FC = () => {
               products: cartItems.map((item) => {
                 const priceValue = item.perDayPricing;
                 const productTotal = item.perDayPricing * item.quantity;
-  
+
                 return {
                   singleImage: item.singleImage,
                   title: item.title,
@@ -405,14 +409,16 @@ const EventCart: React.FC = () => {
               }),
             },
           ],
-          totalPrice: totalCartPrice,
+          totalPrice: allProductPrice,
+         
+          
         };
-  
+
         // First, save the payment data
         // Swal.update({
         //   title: "Saving payment details...",
         // });
-        
+
         const paymentResponse = await fetch(
           "https://server-gs.vercel.app/save-payment",
           {
@@ -421,16 +427,16 @@ const EventCart: React.FC = () => {
             body: JSON.stringify(paymentData),
           }
         );
-  
+
         if (!paymentResponse.ok) {
           throw new Error("Failed to save payment details");
         }
-  
+
         // Then send the email notification
         // Swal.update({
         //   title: "Sending confirmation email...",
         // });
-  
+
         const emailResponse = await fetch(
           "https://server-gs.vercel.app/api/sent-cart-details",
           {
@@ -441,25 +447,25 @@ const EventCart: React.FC = () => {
               lastName,
               email,
               phone: phoneNumber,
-              message: `Quote request for ${VenueName}. Total price: $${totalCartPrice}`,
+              message: `Quote request for ${VenueName}. Total price: $${allProductPrice}`,
               cartItems: cartItems.map((item) => ({
                 title: item.title,
                 quantity: item.quantity,
                 price: item.perDayPricing,
                 total: item.perDayPricing * item.quantity,
               })),
-              totalPrice: totalCartPrice,
+              totalPrice: allProductPrice,
               startDate: combinedStartDate,
               endDate: combinedEndDate,
               venueNotes: VenueNotes,
             }),
           }
         );
-  
+
         if (!emailResponse.ok) {
           throw new Error("Failed to send email notification");
         }
-  
+
         // Success - close loading and show success message
         Swal.fire({
           title: "Success!",
@@ -629,7 +635,7 @@ const EventCart: React.FC = () => {
                           className="rounded-lg border  border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 md:p-6"
                         >
                           <div className="space-y-4 md:flex md:items-center md:justify-between md:gap-6 md:space-y-0">
-                            <div className="shrink-0 md:order-1">
+                            <div className="shrink-0 md:order-1 ">
                               {item.singleImage ? (
                                 <div>
                                   <img
@@ -673,21 +679,32 @@ const EventCart: React.FC = () => {
                                   >
                                     <path
                                       stroke="currentColor"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      stroke-width="2"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      strokeWidth="2"
                                       d="M1 1h16"
                                     />
                                   </svg>
                                 </button>
 
                                 <input
-                                  type="text"
+                                  type="number" // Changed from "text" to "number"
                                   id="counter-input"
-                                  className="w-10 shrink-0 border-0 bg-transparent text-center text-sm font-medium text-gray-900 focus:outline-none focus:ring-0 dark:text-white"
+                                  className="w-20 shrink-0 border-0 bg-transparent text-center text-sm font-medium text-gray-900 focus:outline-none focus:ring-0 dark:text-white"
                                   value={item.quantity}
+                                  onChange={(e) => {
+                                    const newQuantity =
+                                      parseInt(e.target.value) || 0; // Ensure we get a number
+                                    // Add validation if needed (e.g., minimum 1)
+                                    handleQuantityChange(
+                                      index,
+                                      newQuantity - item.quantity
+                                    ); // Calculate difference
+                                  }}
+                                  min="1" // Optional: set minimum quantity
                                   required
                                 />
+
                                 <button
                                   type="button"
                                   onClick={() => handleQuantityChange(index, 1)}
@@ -702,16 +719,16 @@ const EventCart: React.FC = () => {
                                   >
                                     <path
                                       stroke="currentColor"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      stroke-width="2"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      strokeWidth="2"
                                       d="M9 1v16M1 9h16"
                                     />
                                   </svg>
                                 </button>
                               </div>
                               <div className="text-end md:order-4 md:w-32">
-                                <p className="text-base  font-bold text-gray-900 dark:text-white">
+                                <p className="text-base font-bold text-gray-900 dark:text-white">
                                   <span className="text-xl">
                                     Total ${totalPrice}
                                   </span>
@@ -720,14 +737,20 @@ const EventCart: React.FC = () => {
                             </div>
 
                             <div className="w-full min-w-0 flex-1 space-y-4 md:order-2 md:max-w-md">
-                              <a className="text-base font-medium text-gray-900 hover:underline dark:text-white">
+                              <Link href={`/all-products/${item._id}`} passHref>
+                                <strong className="hover:underline">
+                                  {item.title}
+                                </strong>
+                              </Link>
+                              <br></br>
+                              <p className="text-base font-medium text-gray-900  dark:text-white">
                                 {item.productDescription}
-                              </a>
+                              </p>
 
                               <div className="flex items-center gap-4">
                                 <button
                                   type="button"
-                                  className="inline-flex items-center gap-2 text-xl font-medium text-rose-900 hover:text-gray-900 hover:underline dark:text-gray-400 dark:hover:text-white"
+                                  className="inine-flex items-center gap-2 text-xl font-medium text-rose-900 hover:text-gray-900 hover:underline dark:text-gray-400 dark:hover:text-white"
                                 >
                                   <strong>product price </strong>
                                   {item.perDayPricing}
@@ -768,6 +791,18 @@ const EventCart: React.FC = () => {
                       Your cart is empty.
                     </p>
                   )}
+                  {currentItems.length > 0 ? (
+                    <div className="w-full flex justify-end text-xl font-montserrat font-semibold">
+                      Products Total Price:{" "}
+                      {currentItems.reduce(
+                        (sum, item) => sum + item.perDayPricing * item.quantity,
+                        0
+                      )}
+                    </div>
+                  ) : (
+                    ""
+                  )}
+
                   {/* cart end */}
                 </div>
               </div>
@@ -831,12 +866,12 @@ const EventCart: React.FC = () => {
                       </div>
                     </div>
                     <p className="text-xl font-semibold text-gray-900 mt-5">
-                      Venue / Delivery Location
+                      Event Information
                     </p>
                     {/* Date and Time Selection */}
                     <div>
                       <label className="block mb-2 text-sm font-medium text-gray-900">
-                        Venue Name
+                        Event Title
                       </label>
                       <input
                         type="text"

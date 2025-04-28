@@ -1,5 +1,6 @@
 "use client";
 import axios from "axios";
+import Link from "next/link";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import Swal from "sweetalert2";
 
@@ -599,10 +600,10 @@ const CartModalForm: React.FC = () => {
 
   return (
     <div className="cart-modal flex flex-col h-full bg-white rounded-lg shadow-xl font-poppins">
-      <div className="p-8">
+      <div className="p-5">
         {/* Tab Buttons */}
 
-        <div className="flex space-x-4 mb-8">
+        <div className="flex space-x-4 mb-6">
           <button
             onClick={() => setActiveTab("tab1")}
             aria-label="View Cart Items"
@@ -628,7 +629,7 @@ const CartModalForm: React.FC = () => {
         </div>
 
         {/* Tab Content */}
-        <div className="p-8 border border-gray-200 rounded-xl bg-gray-50 shadow-sm h-[500px] overflow-y-scroll">
+        <div className="p-2 border border-gray-200 rounded-xl bg-gray-50 shadow-sm h-[500px] overflow-y-scroll">
           {activeTab === "tab1" && (
             <div>
               {currentItems.length > 0 ? (
@@ -638,7 +639,7 @@ const CartModalForm: React.FC = () => {
                   return (
                     <div
                       key={index}
-                      className="mb-8 border-b border-gray-200 pb-8 last:border-b-0"
+                      className="mb-4 border-b border-gray-200 pb-8 last:border-b-0"
                     >
                       <div
                         onClick={() => toggleDropdown(index)}
@@ -660,10 +661,13 @@ const CartModalForm: React.FC = () => {
                           )}
 
                           <div className="flex flex-col justify-center">
-                            <h1 className="text-xl font-semibold text-gray-900">
-                              {item.title}
-                            </h1>
-                            <p className="text-md font-semibold text-rose-700">
+                            <Link href={`/all-products/${item._id}`} passHref>
+                               <h1 className="text-md hover:underline font-semibold text-gray-900">
+                                 {item.title}
+                               </h1>
+                            </Link>
+                            
+                            <p className="text-sm font-semibold text-rose-700">
                               Quantity:{" "}
                               <span className="font-bold">{item.quantity}</span>
                             </p>
@@ -692,14 +696,14 @@ const CartModalForm: React.FC = () => {
                           <div className="space-y-6">
                             <div>
                               <div className="flex flex-row gap-4 w-full justify-between">
-                                <h1 className="text-xl font-semibold text-rose-900">
+                                <h1 className="text-md font-semibold text-rose-900">
                                   Price:{" "}
                                   <span className="font-bold">
                                     {item.perDayPricing} $
                                   </span>
                                 </h1>
                                 <form className="w-full flex flex-col justify-center items-center">
-                                  <label className="text-xl font-semibold text-rose-900 mb-1">
+                                  <label className="text-md font-semibold text-rose-900 mb-1">
                                     Choose quantity:
                                   </label>
                                   <div className="flex items-center">
@@ -754,7 +758,7 @@ const CartModalForm: React.FC = () => {
                                     </button>
                                   </div>
                                 </form>
-                                <h1 className="text-xl font-semibold text-rose-900">
+                                <h1 className="text-md font-semibold text-rose-900">
                                   Total:{" "}
                                   <span className="font-bold">
                                     {totalPrice} $

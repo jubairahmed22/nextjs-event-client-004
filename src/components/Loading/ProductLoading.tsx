@@ -8,7 +8,7 @@ const ProductLoading = () => {
             <div className="h-8  rounded-full dark:bg-gray-700 w-[30%] mx-auto mb-4"></div>
           <span className="sr-only">Loading...</span>
         </div>
-        <div className="mx-auto max-w-screen-2xl pb-10">
+        <div className="mx-auto max-w-screen-4xl pb-10">
       <div className="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 p-4">
         <div
           role="status"

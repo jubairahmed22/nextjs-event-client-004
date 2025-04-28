@@ -141,17 +141,25 @@ const Page = () => {
 
   return (
     <div>
-      <div className="pb-10 max-w-screen-2xl mx-auto">
-        <div className="py-10 mx-auto w-full max-w-screen-2xl p-4 ">
-          <h1 className="font-bold tracking-wider text-4xl text-center font-playfairDisplay  text-rose-900">
-            Gallery 
-          </h1> 
-          <p className="font-semibold tracking-wider text-lg mt-5 text-center font-playfairDisplay  text-rose-900">
-            Relive the unforgettable moments from our past events through our
-            exclusive gallery! From vibrant celebrations and inspiring speakers
-            to breathtaking performances and heartwarming connections, our
-            photos capture the energy and excitement of every occasion.
+      <div className="relative overflow-hidden font-montserrat">
+        <div className="mx-auto max-w-screen-4xl px-4 py-16 relative z-10">
+        <h1 className="mb-6 text-center text-lg md:text-2xl lg:text-4xl font-playfairDisplay font-bold text-white leading-tight">
+          <span className="relative inline-block">
+            <span className="relative text-transparent bg-clip-text bg-gradient-to-r from-rose-800 to-rose-900">
+              ABOUT / WHAT WE DO
+            </span>
+          </span>
+        </h1>
+
+        {/* Mission Paragraph */}
+        <div className="max-w-3xl mx-auto mb-16 text-center">
+          <p className="text-md md:text-md text-rose-800 font-light leading-relaxed">
+            We craft extraordinary events that tell your unique story. With passion and precision, 
+            we transform dreams into reality through innovative planning, exquisite design, 
+            and flawless execution. Our mission is to create moments that linger in memory 
+            long after the last guest departs.
           </p>
+        </div>
           <div
             className="h-1 w-full mt-5"
             style={{
@@ -165,12 +173,12 @@ const Page = () => {
           <EventPageLoading></EventPageLoading>
         ) : (
           <>
-          <div className="grid lg:grid-cols-2 md:grid-cols-1 gap-5">
+          <div className="grid lg:grid-cols-3 md:grid-cols-1 gap-5">
             {galleryData.users.map((gallery) => (
               <div
                 key={gallery.singleImage}
                 onClick={() => openModal(gallery)}
-                className="relative h-[400px] rounded-xl "
+                className="relative h-[460px] rounded-xl "
               >
                 <img
                   className="absolute inset-0 w-full h-full object-cover rounded-xl"

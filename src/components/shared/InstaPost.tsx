@@ -106,7 +106,7 @@ const InstaPost = () => {
     return <div className="text-center text-red-500 py-10">Error: {error}</div>;
 
   return (
-    <div className="px-4 py-8 max-w-screen-2xl mx-auto">
+    <div className="px-4 py-8 max-w-screen-4xl mx-auto">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {posts.map((post) => {
           const postId = extractInstagramId(post.instagramLink);

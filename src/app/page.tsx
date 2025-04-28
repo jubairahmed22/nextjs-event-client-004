@@ -1,3 +1,8 @@
+import HomeAboutCompo from "@/components/homeContent/HomeAboutCompo";
+import HomeDiscountProduct from "@/components/homeContent/HomeDiscountProduct";
+import HomeGalleryCompo from "@/components/homeContent/HomeGalleryCompo";
+import HomeServiceCompo from "@/components/homeContent/HomeServiceCompo";
+import HomeSliderCompo from "@/components/homeContent/HomeSliderCompo";
 import CategoryHome from "@/components/shared/CategoryHome";
 import EventHeroSection from "@/components/shared/EventHeroSection";
 import HomeEvents from "@/components/shared/HomeEvents";
@@ -8,7 +13,12 @@ const HomePage = () => {
   return (
     <div>
       <EventHeroSection></EventHeroSection>
-      <CategoryHome></CategoryHome>
+      <HomeAboutCompo></HomeAboutCompo>
+      <HomeSliderCompo></HomeSliderCompo>
+      <HomeDiscountProduct></HomeDiscountProduct>
+      <HomeServiceCompo></HomeServiceCompo>
+      <HomeGalleryCompo></HomeGalleryCompo>
+      {/* <CategoryHome></CategoryHome> */}
       {/* <InstaPost></InstaPost> */}
       {/* <HomeWishlist></HomeWishlist>
       <HomeEvents></HomeEvents> */}

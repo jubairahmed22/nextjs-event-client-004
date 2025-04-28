@@ -11,7 +11,7 @@ const Footer = () => {
    
 
 <footer className="bg-rose-900 dark:bg-gray-900">
-    <div className="mx-auto w-full max-w-screen-2xl p-4 py-6 lg:py-8">
+    <div className="mx-auto w-full max-w-screen-4xl p-4 py-6 lg:py-8">
         <div className="md:flex md:justify-between">
           <div className="mb-6 md:mb-0">
               <a href="https://flowbite.com/" className="flex items-center">                  {/* <img src="https://flowbite.com/docs/images/logo.svg" className="h-8 me-3" alt="FlowBite Logo" /> */}
@@ -30,10 +30,10 @@ const Footer = () => {
               </div>
           <div className="grid lg:grid-cols-4 md:grid-cols-2  place-items-end sm:grid-cols-2 gap-5 font-poppins text-white">
               
-              <img alt="" className="w-28 h-28 object-cover" src={love.src}></img>
-              <img alt="" className="w-28 h-28 object-cover" src={aed.src}></img>
-              <img alt="" className="w-28 h-28 object-cover" src={iwed.src}></img>
-              <img alt="" className="w-28 h-28 object-cover" src={lwpi.src}></img>
+              <img alt="" className="w-20 h-20 object-cover" src={love.src}></img>
+              <img alt="" className="w-20 h-20 object-cover" src={aed.src}></img>
+              <img alt="" className="w-20 h-20 object-cover" src={iwed.src}></img>
+              <img alt="" className="w-20 h-20 object-cover" src={lwpi.src}></img>
           </div>
           </div>
       </div>
