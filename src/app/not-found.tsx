@@ -1,7 +1,10 @@
+// app/not-found.js
+"use client"
+
 import Link from "next/link";
 import Head from "next/head";
 
-const NotFoundPage = () => {
+export default function NotFound() {
   return (
     <>
       <Head>
@@ -51,6 +54,4 @@ const NotFoundPage = () => {
       </div>
     </>
   );
-};
-
-export default NotFoundPage;
+}

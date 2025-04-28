@@ -22,6 +22,7 @@ interface ProductDetails {
   promotionType: string;
 }
 
+
 export default function ProductDetailsPage() {
   const { id } = useParams();
   const [product, setProduct] = useState<ProductDetails | null>(null);

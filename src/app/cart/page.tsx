@@ -66,7 +66,7 @@ interface PaymentData {
   totalPrice: number;
 }
 
-const EventCart: React.FC = () => {
+const EventCart = ()  => {
   const [activeTab, setActiveTab] = useState<string>("tabCart");
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [selectedDate, setSelectedDate] = useState<string>("");

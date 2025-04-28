@@ -1,8 +1,9 @@
+"use client"
 import TeamMember from "@/components/shared/TeamMember";
 import yousufmia from "../../assets/yousuf-mamu.jpeg"; // Import the image
 import khadija from "../../assets/asdfa.webp"; // Import the image
 
-const page = () => {
+const Page = () => {
   return (
     <div className="max-w-screen-2xl mx-auto font-playfairDisplay">
       <section className="py-24 relative xl:mr-0 lg:mr-5 mr-0 max-w-screen-4xl ">
@@ -88,4 +89,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
