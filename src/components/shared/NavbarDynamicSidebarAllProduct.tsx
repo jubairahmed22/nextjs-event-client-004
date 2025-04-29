@@ -126,9 +126,11 @@ const staticLinks = [
 const NavbarDynamicSidebarAllProduct: React.FC = () => {
   const pathname = usePathname();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [cart, setCart] = useState<Array<any>>([]);
   const isActive = (href: string) => pathname.startsWith(href);
 
   const toggleSidebar = () => setIsSidebarOpen((prev) => !prev);
+  const closeSidebar = () => setIsSidebarOpen(false);
 
   const MenuIcon = () => (
     <svg
@@ -176,14 +178,10 @@ const NavbarDynamicSidebarAllProduct: React.FC = () => {
     </svg>
   );
 
-  const [cart, setCart] = useState<Array<any>>([]); // Define the type for cart items
-
   useEffect(() => {
-    // Set initial cart state from localStorage
     const savedCart = JSON.parse(localStorage.getItem("cart") || "[]");
     setCart(savedCart);
 
-    // Listen for changes across tabs/windows
     const handleStorageChange = (event: StorageEvent) => {
       if (event.key === "cart") {
         const updatedCart = JSON.parse(event.newValue || "[]");
@@ -192,26 +190,29 @@ const NavbarDynamicSidebarAllProduct: React.FC = () => {
     };
     window.addEventListener("storage", handleStorageChange);
 
-    // Timer to update cart every second
     const intervalId = setInterval(() => {
       const updatedCart = JSON.parse(localStorage.getItem("cart") || "[]");
       setCart(updatedCart);
     }, 1000);
 
-    // Cleanup both interval and event listener on unmount
     return () => {
       clearInterval(intervalId);
       window.removeEventListener("storage", handleStorageChange);
     };
   }, []);
 
+  const handleLinkClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    closeSidebar();
+  };
+
   return (
     <>
       {/* HEADER */}
       <header className="sticky font-montserrat top-0 z-50 bg-white/90 dark:bg-neutral-950/90 backdrop-blur-lg shadow-sm border-b border-gray-100 dark:border-neutral-800 transition-colors duration-300">
         <div className="max-w-screen-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex  justify-between items-center py-3 md:py-4 gap-3">
-            {/* Logo - Animated gradient */}
+          <div className="flex justify-between items-center py-3 md:py-4 gap-3">
+            {/* Logo */}
             <Link
               href="/"
               className="lg:text-3xl md:text-2xl font-pacifico hover:text-rose-600 transition-all duration-300 hover:scale-[1.02] w-full md:w-auto flex items-center group"
@@ -222,12 +223,12 @@ const NavbarDynamicSidebarAllProduct: React.FC = () => {
               </span>
             </Link>
 
-            {/* Product Search - Enhanced with focus state */}
+            {/* Product Search */}
             <div className="hidden md:flex flex-1 md:mx-6 min-w-[200px] max-w-xl">
               <ProductSearch />
             </div>
 
-            {/* Navigation Links - Improved hover states */}
+            {/* Navigation Links */}
             <nav className="hidden md:flex gap-2 items-center">
               {staticLinks.map((item) => (
                 <Link
@@ -262,7 +263,7 @@ const NavbarDynamicSidebarAllProduct: React.FC = () => {
               ))}
             </nav>
 
-            {/* Categories Button - Enhanced with micro-interactions */}
+            {/* Categories Button */}
             <button
               onClick={toggleSidebar}
               className="flex items-center gap-2 bg-gradient-to-r from-rose-700 to-pink-600 hover:from-rose-600 hover:to-pink-500 text-white px-4 py-2.5 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-rose-500/30 active:scale-[0.98] group relative overflow-hidden"
@@ -272,35 +273,7 @@ const NavbarDynamicSidebarAllProduct: React.FC = () => {
                 Categories
               </span>
               <span className="relative z-10 h-5 w-5">
-                {isSidebarOpen ? (
-                  <svg
-                    className="absolute inset-0 transition-all duration-300 group-hover:rotate-90"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  </svg>
-                ) : (
-                  <svg
-                    className="absolute inset-0 transition-all duration-300 group-hover:rotate-180"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M4 6h16M4 12h16M4 18h16"
-                    />
-                  </svg>
-                )}
+                {isSidebarOpen ? <XIcon /> : <MenuIcon />}
               </span>
               <span className="absolute inset-0 bg-gradient-to-r from-rose-600 to-pink-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             </button>
@@ -313,46 +286,36 @@ const NavbarDynamicSidebarAllProduct: React.FC = () => {
         className={`fixed font-montserrat top-0 right-0 h-full w-full sm:w-96 bg-white dark:bg-neutral-950 shadow-xl z-40 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] ${
           isSidebarOpen ? "translate-x-0" : "translate-x-full"
         }`}
+        onClick={(e) => e.stopPropagation()}
       >
         <div className="flex flex-col h-full overflow-hidden">
-          {/* Header with gradient accent */}
+          {/* Header */}
           <div className="flex justify-between items-center p-6 border-b dark:border-neutral-800 bg-gradient-to-r from-rose-50/50 to-pink-50/50 dark:from-neutral-900 dark:to-neutral-900 relative">
             <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-rose-500 to-pink-500"></div>
             <h2 className="text-2xl font-bold bg-gradient-to-r from-rose-700 to-pink-600 bg-clip-text text-transparent">
               Browse Categories
             </h2>
             <button
-              onClick={toggleSidebar}
+              onClick={closeSidebar}
               className="text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-neutral-800 p-2 rounded-full transition-all duration-200 hover:rotate-90"
               aria-label="Close sidebar"
             >
-              <svg
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
+              <XIcon />
             </button>
           </div>
-          {/* Mobile Search - Full width */}
+
+          {/* Mobile Search */}
           <div className="md:hidden px-6 py-4 border-b dark:border-neutral-800">
             <ProductSearch />
           </div>
 
-          {/* Mobile Navigation - Improved spacing */}
+          {/* Mobile Navigation */}
           <div className="md:hidden px-6 pt-4 pb-3 border-b dark:border-neutral-800 grid grid-cols-3 gap-2">
             {staticLinks.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                onClick={() => setIsSidebarOpen(false)}
+                onClick={handleLinkClick}
                 className={`flex items-center text-xs px-2 py-2 rounded-lg transition duration-200 ${
                   isActive(item.href)
                     ? "text-rose-700 font-semibold dark:text-rose-400 bg-rose-50 dark:bg-neutral-800"
@@ -370,16 +333,18 @@ const NavbarDynamicSidebarAllProduct: React.FC = () => {
             ))}
           </div>
 
-          <FilterCategorySidebar></FilterCategorySidebar>
-      
+          {/* Filter Category Sidebar */}
+          <div onClick={(e) => e.stopPropagation()}>
+            <FilterCategorySidebar closeSidebar={closeSidebar} />
+          </div>
         </div>
       </aside>
 
-      {/* Overlay - Smoother transition */}
+      {/* Overlay */}
       {isSidebarOpen && (
         <div
           className="fixed inset-0 bg-black/40 z-30 backdrop-blur-sm transition-opacity duration-500 ease-in-out opacity-0 animate-fadeIn"
-          onClick={toggleSidebar}
+          onClick={closeSidebar}
         />
       )}
     </>

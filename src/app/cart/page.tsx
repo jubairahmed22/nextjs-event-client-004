@@ -110,7 +110,7 @@ const EventCart = ()  => {
     const fetchData = async () => {
       try {
         const response = await axios.get<{ taxValue: number }>(
-          "https://server-gs.vercel.app/event-company-tax-value"
+          "http://localhost:8000/event-company-tax-value"
         );
         setData(response.data);
         setError(null);
@@ -420,7 +420,7 @@ const EventCart = ()  => {
         // });
 
         const paymentResponse = await fetch(
-          "https://server-gs.vercel.app/save-payment",
+          "http://localhost:8000/save-payment",
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -438,7 +438,7 @@ const EventCart = ()  => {
         // });
 
         const emailResponse = await fetch(
-          "https://server-gs.vercel.app/api/sent-cart-details",
+          "http://localhost:8000/api/sent-cart-details",
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },

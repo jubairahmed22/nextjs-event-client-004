@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 
 const HomeServiceCompo = () => {
@@ -158,9 +159,12 @@ const HomeServiceCompo = () => {
           <p className="text-rose-800/90 max-w-2xl mx-auto mb-8">
             Lets discuss how we can bring your vision to life with our bespoke event services.
           </p>
+          <Link href="/wishListForm">
           <button className="px-8 py-3 bg-gradient-to-r from-rose-700 to-rose-900 text-white rounded-full font-medium shadow-lg hover:shadow-xl hover:shadow-rose-400/20 transition-all duration-300 hover:scale-105">
             Get in Touch
           </button>
+          </Link>
+          
         </div>
       </div>
     </div>

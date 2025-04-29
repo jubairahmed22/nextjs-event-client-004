@@ -70,7 +70,7 @@ export const ProductsPage = () => {
 
         // Fetch products
         const response = await fetch(
-          `https://server-gs.vercel.app${endpoint}?${new URLSearchParams(
+          `http://localhost:8000${endpoint}?${new URLSearchParams(
             apiParams
           ).toString()}`
         );

@@ -60,7 +60,7 @@ const RentalDetailsPage = () => {
       const fetchRentalDetails = async () => {
         try {
           const response = await axios.get<RentalDetails>(
-            `https://server-gs.vercel.app/web/rental/${id}`
+            `http://localhost:8000/web/rental/${id}`
           );
           setRental(response.data);
           setLoading(false);
@@ -81,7 +81,7 @@ const RentalDetailsPage = () => {
         setCatValueLoading(true);
         try {
           const response = await axios.get<CatValueData>(
-            `https://server-gs.vercel.app/next-web/category-products/${rental.catValue}?page=${page}&limit=${limit}`
+            `http://localhost:8000/next-web/category-products/${rental.catValue}?page=${page}&limit=${limit}`
           );
           setCatValueData(response.data);
         } catch (error) {

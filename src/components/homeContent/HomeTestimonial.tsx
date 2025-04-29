@@ -10,6 +10,8 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { FilterPromotionButton } from "../AllProductCopmonent/FilterPromotionButton";
+import TestimonialCard from "../Card/TestimonialCard";
+import HomeCounter from "./HomeCounter";
 
 interface Product {
   _id: string;
@@ -35,7 +37,7 @@ const API_BASE_URL = "http://localhost:8000";
 const DEFAULT_PAGE = 1;
 const PRODUCTS_PER_PAGE = 8;
 
-const HomeDiscountProduct = () => {
+const HomeTestimonial = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const currentPage = parseInt(
@@ -76,7 +78,7 @@ const HomeDiscountProduct = () => {
       setError(null);
 
       const response = await fetch(
-        `${API_BASE_URL}/web/products/discount?page=${currentPage}&limit=${PRODUCTS_PER_PAGE}`
+        `${API_BASE_URL}/admin/testimonial?page=${currentPage}&limit=${PRODUCTS_PER_PAGE}`
       );
 
       if (!response.ok) {
@@ -242,14 +244,22 @@ const HomeDiscountProduct = () => {
   }
 
   return (
-    <div className="mx-auto max-w-screen-4xl px-4 py-16 relative z-10">
+    <div className="mx-auto max-w-screen-4xl px-4 py-16 relative z-10 font-montserrat">
       <h1 className="mb-10 text-center text-lg md:text-2xl lg:text-4xl font-playfairDisplay font-bold text-white leading-tight">
         <span className="relative inline-block">
           <span className="relative text-transparent bg-clip-text bg-gradient-to-r from-rose-800 to-rose-900">
-            Promotional Product
+          TESTIMONIAL
           </span>
         </span>
       </h1>
+      {/* <div className="max-w-3xl mx-auto mb-16 text-center">
+          <p className="text-md md:text-md text-rose-800 font-light leading-relaxed">
+          What our happy customer says!
+
+          </p>
+        </div> */}
+
+      <HomeCounter></HomeCounter>
 
       <div className="relative overflow-hidden mt-16">
         {/* Navigation Arrows - Only show if there are multiple slides */}
@@ -288,7 +298,7 @@ const HomeDiscountProduct = () => {
           {groupedProducts.map((group, index) => (
             <div
               key={index}
-              className="w-full flex-shrink-0 py-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 px-4 "
+              className="w-full flex-shrink-0 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 px-4 "
             >
               {group.map((product) => (
                 <motion.div
@@ -296,13 +306,10 @@ const HomeDiscountProduct = () => {
                   whileHover={{ y: -5, scale: 1.02 }}
                   transition={{ type: "spring", stiffness: 400, damping: 10 }}
                 >
-                  <ProductCard
+                 
+                  <TestimonialCard
                     product={product}
-                    isWishlisted={wishlistedProducts.has(product._id)}
-                    onToggleWishlist={toggleWishlist}
-                    onOpenDetails={openModalProductDetails}
-                    discountedPrice={calculateDiscountedPrice(product)}
-                  />
+                  ></TestimonialCard>
                 </motion.div>
               ))}
             </div>
@@ -326,21 +333,8 @@ const HomeDiscountProduct = () => {
         )}
       </div>
 
-      <div className="w-full flex justify-center items-center my-10">
-        <FilterPromotionButton></FilterPromotionButton>
-      </div>
-
-      {isModalOpen && selectedProduct && (
-        <ModalProductDetails
-          product={selectedProduct}
-          isWishlisted={wishlistedProducts.has(selectedProduct._id)}
-          onToggleWishlist={toggleWishlist}
-          onClose={closeModalProductDetails}
-          discountedPrice={calculateDiscountedPrice(selectedProduct)}
-        />
-      )}
     </div>
   );
 };
 
-export default HomeDiscountProduct;
+export default HomeTestimonial;

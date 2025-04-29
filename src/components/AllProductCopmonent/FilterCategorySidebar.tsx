@@ -4,7 +4,7 @@
 import { useFilters } from "@/app/contexts/FilterContext";
 import { FilterInput } from "./FilterInput";
 
-export const FilterCategorySidebar = () => {
+export const FilterCategorySidebar = ({closeSidebar}) => {
   const {
     isSidebarOpen,
     categories,
@@ -17,6 +17,13 @@ export const FilterCategorySidebar = () => {
     handleSubCategoryChange,
     clearFilters,
   } = useFilters();
+
+
+  const handleCategoryClick = () => {
+    // Your existing click logic
+    closeSidebar(); // Close sidebar when a category is selected
+  };
+
 
   return (
     <div
@@ -75,9 +82,10 @@ export const FilterCategorySidebar = () => {
       
         <div className="space-y-1">
           {categories.map((category) => (
-            <div key={category._id}>
+            <div onClick={handleCategoryClick} key={category._id}>
               <button
                 onClick={() => handleCategoryChange(category._id)}
+      
                 className={`w-full text-left px-3 py-2 rounded-md transition-colors ${
                   filters.category === category._id
                     ? "bg-rose-50 text-rose-700"

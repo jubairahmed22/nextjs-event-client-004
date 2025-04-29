@@ -20,7 +20,7 @@ const HomeEvents: React.FC = () => {
       setLoading(true); // Start loading
       try {
         const response = await axios.get<Event[]>(
-          "https://server-gs.vercel.app/eventCollection"
+          "http://localhost:8000/eventCollection"
         );
         setEventData(response.data);
       } catch (error) {

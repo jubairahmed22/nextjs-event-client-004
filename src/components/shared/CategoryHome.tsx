@@ -26,7 +26,7 @@ const CategoryHome = () => {
     const fetchCategories = async () => {
       try {
         const response = await fetch(
-          "https://server-gs.vercel.app/admin/main-category"
+          "http://localhost:8000/admin/main-category"
         );
 
         if (!response.ok) {

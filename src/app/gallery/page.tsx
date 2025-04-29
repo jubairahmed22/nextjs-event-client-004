@@ -41,7 +41,7 @@ const Page = () => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const response = await fetch(`https://server-gs.vercel.app/all-gallery?page=${currentPage}`);
+        const response = await fetch(`http://localhost:8000/all-gallery?page=${currentPage}`);
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
@@ -146,20 +146,20 @@ const Page = () => {
         <h1 className="mb-6 text-center text-lg md:text-2xl lg:text-4xl font-playfairDisplay font-bold text-white leading-tight">
           <span className="relative inline-block">
             <span className="relative text-transparent bg-clip-text bg-gradient-to-r from-rose-800 to-rose-900">
-              ABOUT / WHAT WE DO
+              Gallery
             </span>
           </span>
         </h1>
 
         {/* Mission Paragraph */}
-        <div className="max-w-3xl mx-auto mb-16 text-center">
+        {/* <div className="max-w-3xl mx-auto mb-16 text-center">
           <p className="text-md md:text-md text-rose-800 font-light leading-relaxed">
             We craft extraordinary events that tell your unique story. With passion and precision, 
             we transform dreams into reality through innovative planning, exquisite design, 
             and flawless execution. Our mission is to create moments that linger in memory 
             long after the last guest departs.
           </p>
-        </div>
+        </div> */}
           <div
             className="h-1 w-full mt-5"
             style={{
@@ -173,7 +173,7 @@ const Page = () => {
           <EventPageLoading></EventPageLoading>
         ) : (
           <>
-          <div className="grid lg:grid-cols-3 md:grid-cols-1 gap-5">
+          <div className="grid lg:grid-cols-3 md:grid-cols-1 gap-5 px-10">
             {galleryData.users.map((gallery) => (
               <div
                 key={gallery.singleImage}

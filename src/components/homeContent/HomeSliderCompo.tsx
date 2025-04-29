@@ -32,7 +32,7 @@ const HomeSliderCompo = () => {
   }, [slides.length]);
 
   return (
-    <div className="py-10 max-w-screen-4xl mx-auto font-montserrat relative overflow-hidden">
+    <div className="py-10 px-4 max-w-screen-4xl mx-auto font-montserrat relative overflow-hidden">
       <div className="relative h-[500px] md:h-[400px] w-full rounded-xl">
         <AnimatePresence mode="wait">
           <motion.div

@@ -10,7 +10,7 @@ interface PageParams {
 export async function generateStaticParams(): Promise<PageParams[]> {
   try {
     // Fetch all catValues from your API
-    const response = await fetch("https://server-gs.vercel.app/category");
+    const response = await fetch("http://localhost:8000/category");
     if (!response.ok) {
       throw new Error(`Failed to fetch categories: ${response.statusText}`);
     }
@@ -35,7 +35,7 @@ export default async function Page({ params }: { params: { catValue: string } })
 
   // Fetch categories to check if the current catValue is valid
   async function fetchCategories() {
-    const response = await fetch("https://server-gs.vercel.app/category");
+    const response = await fetch("http://localhost:8000/category");
     if (!response.ok) {
       throw new Error(`Failed to fetch categories: ${response.statusText}`);
     }
