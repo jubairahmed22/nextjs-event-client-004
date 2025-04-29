@@ -109,7 +109,7 @@ export const FilterProvider = ({ children }: { children: ReactNode }) => {
     const fetchCategories = async () => {
       try {
         setLoading(true);
-        const res = await fetch("http://localhost:8000/web/main-category");
+        const res = await fetch("https://server-gs.vercel.app/web/main-category");
         const data = await res.json();
         const formatted = (data.products || []).map((cat: Category) => ({
           ...cat,
@@ -131,7 +131,7 @@ export const FilterProvider = ({ children }: { children: ReactNode }) => {
     if (subCategories[categoryId]) return;
     try {
       const res = await fetch(
-        `http://localhost:8000/admin/web/sub-category/${categoryId}`
+        `https://server-gs.vercel.app/admin/web/sub-category/${categoryId}`
       );
       const data = await res.json();
       if (data.subCategories?.length > 0) {

@@ -65,7 +65,7 @@ const CategoryDetailsPage: React.FC<CategoryDetailsPageProps> = ({
     const fetchEventDetails = async () => {
       setLoading(true);
       try {
-        const response = await axios.get<Event>(`http://localhost:8000/category/${catValue}`);
+        const response = await axios.get<Event>(`https://server-gs.vercel.app/category/${catValue}`);
         setEvent(response.data);
       } catch (error) {
         console.error("Failed to fetch event details:", error);
@@ -82,7 +82,7 @@ const CategoryDetailsPage: React.FC<CategoryDetailsPageProps> = ({
   useEffect(() => {
     const fetchEventProducts = async () => {
       try {
-        const response = await axios.get<CategoryProductsResponse>(`http://localhost:8000/web/category-products/${catValue}?page=${page}`);
+        const response = await axios.get<CategoryProductsResponse>(`https://server-gs.vercel.app/web/category-products/${catValue}?page=${page}`);
         setEventProducts(response.data.products);
         setTotalPages(response.data.totalPages);
       } catch (error) {

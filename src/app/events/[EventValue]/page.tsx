@@ -24,7 +24,7 @@ interface PageProps {
 export async function generateStaticParams(): Promise<PageParams[]> {
   try {
     // Fetch all event values from your API
-    const response = await fetch("http://localhost:8000/eventCollection");
+    const response = await fetch("https://server-gs.vercel.app/eventCollection");
     if (!response.ok) {
       throw new Error(`Failed to fetch events: ${response.statusText}`);
     }
@@ -49,7 +49,7 @@ export default function Page({ params }: PageProps) {
 
   // Fetch events to check if the current EventValue is valid
   async function fetchEvents() {
-    const response = await fetch("http://localhost:8000/eventCollection");
+    const response = await fetch("https://server-gs.vercel.app/eventCollection");
     if (!response.ok) {
       throw new Error(`Failed to fetch events: ${response.statusText}`);
     }

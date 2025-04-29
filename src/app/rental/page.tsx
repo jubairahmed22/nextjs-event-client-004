@@ -30,7 +30,7 @@ const RentalMainPage: React.FC = () => {
     try {
       setLoading(true);
       const response = await axios.get(
-        `http://localhost:8000/web/rental?page=${page}&limit=${limit}`
+        `https://server-gs.vercel.app/web/rental?page=${page}&limit=${limit}`
       );
 
       // Ensure response structure is valid
