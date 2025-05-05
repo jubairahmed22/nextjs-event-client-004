@@ -14,6 +14,7 @@ const config: Config = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+
       fontFamily: {
         marcellus: ["Marcellus", "serif"],
         jost: ["Jost", "sans-serif"],
@@ -37,7 +38,7 @@ const config: Config = {
         wide: '0.025em',     // Custom wider spacing
         wider: '0.05em',     // Custom wider spacing
         widest: '0.1em',    // Custom widest spacing
-        custom: '0.2em',     // Your custom letter spacing
+        custom: '10 em',     // Your custom letter spacing
       },
     },
   },

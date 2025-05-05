@@ -12,7 +12,7 @@ const LoadingSkeleton: FC<LoadingSkeletonProps> = ({
   hasTitle = true,
 }) => {
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="max-w-screen-3xl mx-auto px-4 py-8">
       <div className="animate-pulse">
         {hasTitle && (
           <div className="h-8 w-1/3 bg-gray-200 rounded mb-6 dark:bg-gray-700"></div>

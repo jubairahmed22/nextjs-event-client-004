@@ -16,7 +16,7 @@ const HomePage = () => {
       <EventHeroSection></EventHeroSection>
       <HomeAboutCompo></HomeAboutCompo>
       <HomeSliderCompo></HomeSliderCompo>
-      <HomeDiscountProduct></HomeDiscountProduct>
+      {/* <HomeDiscountProduct></HomeDiscountProduct> */}
       <HomeServiceCompo></HomeServiceCompo>
       <HomeGalleryCompo></HomeGalleryCompo>
       <HomeTestimonial></HomeTestimonial>

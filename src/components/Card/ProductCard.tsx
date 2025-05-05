@@ -58,11 +58,11 @@ const ProductCard: React.FC<ProductCardProps> = ({
   };
 
   return (
-    <Link href={`/all-products/${product._id}`} passHref>
-      <div className="group relative bg-white p-4 font-lora rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 hover:border-rose-100 flex flex-col h-full">
+    
+      <div className="group relative bg-white p-4 font-lora  shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 hover:border-rose-100 flex flex-col h-full">
   {/* Ribbon/Badge for Featured */}
   {product.isFeatured && (
-    <div className="absolute top-2 left-2 bg-rose-600 text-white text-xs font-bold px-2 py-1 rounded-md shadow-sm z-10">
+    <div className="absolute top-2 left-2 bg-rose-600 text-white text-xs font-bold px-2 py-1  shadow-sm z-10">
       Featured
     </div>
   )}
@@ -70,7 +70,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   {/* Promotional Ribbon - More prominent and animated */}
   {product?.Promotion === "true" && (
     <div className="absolute top-2 right-2 z-10 animate-bounce hover:animate-none">
-      <div className="relative bg-gradient-to-r from-rose-600 to-pink-500 text-white text-md font-bold px-3 py-3 rounded-md shadow-lg transform rotate-3 hover:rotate-0 transition-transform duration-300">
+      <div className="relative bg-gradient-to-r from-rose-600 to-pink-500 text-white text-md font-bold px-3 py-3  shadow-lg transform rotate-3 hover:rotate-0 transition-transform duration-300">
         <span className="block transform -rotate-3 hover:rotate-0 transition-transform duration-300">
         Discount {product.promotionType === "%" 
             ? `-${product.promotionValue}%` 
@@ -81,10 +81,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
     </div>
   )}
 
-  {/* Image Container with Hover Effects */}
+  {/* Image max-w-screen-3xl with Hover Effects */}
   <div
     
-    className="relative overflow-hidden rounded-lg aspect-square mb-4 flex-grow cursor-pointer"
+    className="relative overflow-hidden  aspect-square mb-4 flex-grow cursor-pointer"
     role="button"
     tabIndex={0}
     aria-label={`View details for ${product.title}`}
@@ -100,11 +100,13 @@ const ProductCard: React.FC<ProductCardProps> = ({
           priority={false}
         />
         {/* Quick View Overlay */}
+        <Link href={`/all-products/${product._id}`} passHref>
         <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
           <span className="bg-white/90 text-rose-700 px-4 py-2 rounded-full font-medium text-sm shadow-md hover:shadow-lg transition-shadow">
             View Details
           </span>
         </div>
+        </Link>
       </>
     ) : (
       <div className="w-full h-full flex items-center justify-center bg-gray-50 rounded-lg">
@@ -145,13 +147,13 @@ const ProductCard: React.FC<ProductCardProps> = ({
         <div className="space-y-1">
           <div className="flex items-end gap-2">
             <span className="text-2xl font-bold text-rose-700">
-              ${getDiscountedPrice(product)}
+              ${getDiscountedPrice(product).toFixed(2)}
             </span>
             <span className="text-sm font-medium text-gray-500 mb-1">/day</span>
           </div>
           <div className="flex items-center gap-2">
             <span className="text-xl font-medium text-gray-700 line-through">
-              ${product.perDayPricing}
+            ${(Number(product.perDayPricing) || 0).toFixed(2)}
             </span>
             <span className="text-xs font-medium bg-rose-100 text-rose-800 px-1.5 py-0.5 rounded">
               Save ${(product.perDayPricing - getDiscountedPrice(product)).toFixed(2)}
@@ -171,7 +173,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
     {/* Wishlist Button with Enhanced Animation */}
     <button
       onClick={handleToggleWishlist}
-      className={`mt-auto w-full py-3 px-4 rounded-lg font-medium transition-all duration-300 flex items-center justify-center space-x-2 ${
+      className={`mt-auto w-full py-3 px-4 font-medium transition-all duration-300 flex items-center justify-center space-x-2 ${
         isWishlisted
           ? "bg-rose-700 text-white shadow-md hover:shadow-lg"
           : "bg-rose-50 text-rose-700 hover:bg-rose-100 border border-rose-200 hover:border-rose-300"
@@ -219,7 +221,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
     </button>
   </div>
     </div>
-    </Link>
+
   );
 };
 

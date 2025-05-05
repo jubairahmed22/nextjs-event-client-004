@@ -35,8 +35,8 @@ const HomeEvent: React.FC = () => {
   }, []);
 
   return (
-    <div className="pb-10 max-w-screen-4xl mx-auto">
-      <div className="py-10 mx-auto w-full max-w-screen-4xl p-4 ">
+    <div className="pb-10 max-w-screen-3xl mx-auto">
+      <div className="py-10 mx-auto w-full max-w-screen-3xl p-4 ">
         <h1 className="font-bold tracking-wider text-4xl text-center font-playfairDisplay  text-rose-900">
           Events
         </h1>

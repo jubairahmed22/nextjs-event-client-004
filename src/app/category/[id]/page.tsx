@@ -300,14 +300,14 @@ const CategoryPage = ({ params }: { params: { id: string } }) => {
 
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent backdrop-blur-sm"></div>
 
-        <div className="relative z-10 w-full px-4 mx-auto max-w-screen-4xl">
+        <div className="relative z-10 w-full px-4 mx-auto max-w-screen-3xl">
           <div className="flex flex-col justify-center items-start h-full py-10 sm:py-14 lg:py-20">
             <h1 className="text-white font-playfairDisplay font-extrabold tracking-wide leading-tight text-3xl sm:text-xl lg:text-4xl drop-shadow-[0_4px_10px_rgba(0,0,0,0.5)]">
               {category.title?.charAt(0).toUpperCase() +
                 category.title?.slice(1)}
             </h1>
             {category.description && (
-              <p className="text-white/90 mt-4 max-w-2xl text-lg drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
+              <p className="text-white/90 mt-4 max-w-screen-3xl text-lg drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
                 {category.description}
               </p>
             )}
@@ -316,7 +316,7 @@ const CategoryPage = ({ params }: { params: { id: string } }) => {
       </section>
 
       {/* Content Section */}
-      <div className="container mx-auto px-4 py-8">
+      <div className="max-w-screen-3xl mx-auto px-4 py-8">
       
 
         {/* Subcategories or Products */}

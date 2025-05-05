@@ -58,7 +58,7 @@ const HomeCounter = () => {
     };
 
     return (
-        <div ref={counterRef} className="mx-auto max-w-screen-4xl px-4 pt-10 relative z-10 font-montserrat w-full">
+        <div ref={counterRef} className="mx-auto max-w-screen-3xl px-4 pt-10 relative z-10 font-montserrat w-full">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
   {counters.map((counter) => (
     <div 

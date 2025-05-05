@@ -3,8 +3,6 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-// import { Product } from "@/components/AllProductCopmonent/types";
-// import { FilterSidebar } from "@/components/AllProductCopmonent/FilterSidebar";
 import { StatsCards } from "@/components/AllProductCopmonent/StatsCards";
 import { Pagination } from "@/components/AllProductCopmonent/Pagination";
 import { FilterSidebar } from "@/components/AllProductCopmonent/FilterSidebar";
@@ -12,6 +10,7 @@ import { useFilters } from "../contexts/FilterContext";
 import toast from "react-hot-toast";
 import ProductCard from "@/components/Card/ProductCard";
 import { ProductGridSkeleton } from "@/components/AllProductCopmonent/ProductSkeleton";
+import { FilterSearchAllProducts } from "@/components/AllProductCopmonent/FilterSearchAllProducts";
 
 export const ProductsPage = () => {
   const router = useRouter();
@@ -20,7 +19,8 @@ export const ProductsPage = () => {
   const [loading, setLoading] = useState(true);
   const [totalPages, setTotalPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
-
+  const [showFilterDropdown, setShowFilterDropdown] = useState(false);
+  const [totalProducts, setTotalProducts] = useState(0)
   const { filters, isSidebarOpen, setIsSidebarOpen } = useFilters();
 
   // Initialize page from URL params
@@ -78,6 +78,7 @@ export const ProductsPage = () => {
 
         setProducts(data.products);
         setTotalPages(data.totalPages);
+        setTotalProducts(data.totalProducts || 0);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching products:", error);
@@ -88,6 +89,12 @@ export const ProductsPage = () => {
     fetchProducts();
   }, [currentPage, filters]);
 
+  // In ProductsPage.tsx
+useEffect(() => {
+  // Reset to page 1 when filters change (except for page changes)
+  setCurrentPage(1);
+}, [filters.category, filters.subCategory, filters.promotionFilter, filters.title, filters.minPrice, filters.maxPrice]);
+
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
 
@@ -96,8 +103,6 @@ export const ProductsPage = () => {
     urlParams.set("page", JSON.stringify({ searchPage: page }));
     router.push(`?${urlParams.toString()}`, undefined, { shallow: true });
   };
-
-  // start add product
 
   const [selectedProductId, setSelectedProductId] = useState<string | null>(
     null
@@ -156,7 +161,6 @@ export const ProductsPage = () => {
           {
             ...product,
             quantity: 1,
-            // Add the calculated price as a new field for easy reference
             perDayPricing: finalPrice,
           },
         ];
@@ -183,7 +187,6 @@ export const ProductsPage = () => {
   useEffect(() => {
     try {
       const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-      // Calculate prices for existing items in cart
       const cartWithCalculatedPrices = cart.map((item: EventProduct) => ({
         ...item,
         perDayPricing: calculateDiscountedPrice(item),
@@ -200,74 +203,76 @@ export const ProductsPage = () => {
   }, []);
 
   return (
-    <div className="flex min-h-screen max-w-screen-4xl mx-auto px-4">
-      {/* Sidebar for desktop - always visible on md+ screens */}
-      <div className="hidden md:block md:w-72 flex-shrink-0 sticky top-0 h-screen overflow-y-auto transition-all duration-300">
-        <FilterSidebar />
-      </div>
-
+    <div className="flex min-h-screen max-w-screen-3xl mx-auto px-4">
       {/* Main content area */}
       <div className="flex-1 p-4 md:p-5 relative">
-        {/* Mobile filter toggle button - only visible on small screens */}
-        <button
-          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-          className="md:hidden mb-4 p-2 bg-gray-200 rounded-md sticky top-4 z-10 transition-all hover:bg-gray-300 active:scale-95"
-        >
-          {isSidebarOpen ? (
-            <span className="flex items-center">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5 mr-1"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                  clipRule="evenodd"
-                />
-              </svg>
-              Hide Filters
-            </span>
-          ) : (
-            <span className="flex items-center">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5 mr-1"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-                  clipRule="evenodd"
-                />
-              </svg>
-              Show Filters
-            </span>
-          )}
-        </button>
+        {/* Filter button and dropdown */}
+        <div className="relative mb-4 flex">
+          {/* Sidebar Toggle Button */}
+          <div className="flex flex-row items-center gap-5">
+          <button
+            onClick={() => setShowFilterDropdown(!showFilterDropdown)}
+            className="flex text-xl font-semibold font-montserrat items-center gap-2 px-4 py-2 bg-transparent text-gray-700 hover:text-blue-600 rounded-md hover:bg-gray-50 transition-colors"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
+              <path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6" />
+            </svg>
+            <span>Filters</span>
+          </button>
+          <div className="mt-3">
+          <FilterSearchAllProducts></FilterSearchAllProducts>
+          </div>
+          </div>
 
-        {/* Mobile sidebar overlay and sidebar */}
-        <div
-          className={`fixed inset-0 z-20 md:hidden transition-opacity duration-300 ${
-            isSidebarOpen
-              ? "opacity-100 pointer-events-auto"
-              : "opacity-0 pointer-events-none"
-          }`}
-        >
+          {/* Sidebar */}
           <div
-            className="absolute inset-0 bg-black bg-opacity-50"
-            onClick={() => setIsSidebarOpen(false)}
-          ></div>
-        </div>
-
-        <div
-          className={`fixed inset-y-0 left-0 w-72 bg-white z-30 overflow-y-auto transform transition-all duration-300 ease-in-out md:hidden ${
-            isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-          }`}
-        >
-          <FilterSidebar />
+            className={`fixed inset-0 z-40 flex transition-opacity duration-300 ease-in-out ${
+              showFilterDropdown
+                ? "opacity-100"
+                : "opacity-0 pointer-events-none"
+            }`}
+         
+            onClick={() => setShowFilterDropdown(false)}
+          >
+            <div
+              className={`absolute left-0 top-0 h-full w-96 bg-white shadow-xl transform transition-all duration-300 ease-in-out ${
+                showFilterDropdown ? "translate-x-0" : "-translate-x-full"
+              }`}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="h-full  p-6">
+                {/* <div className="flex justify-between items-center mb-6">
+                  <button
+                    onClick={() => setShowFilterDropdown(false)}
+                    className="text-gray-500 hover:text-gray-700"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-6 w-6"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M6 18L18 6M6 6l12 12"
+                      />
+                    </svg>
+                  </button>
+                </div> */}
+                <FilterSidebar />
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Content */}
@@ -286,7 +291,7 @@ export const ProductsPage = () => {
                 isSidebarOpen ? "md:blur-0 blur-sm" : "blur-0"
               }`}
             >
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4">
                 {products.map((product) => (
                   <ProductCard
                     key={product._id}
@@ -300,6 +305,7 @@ export const ProductsPage = () => {
               <Pagination
                 currentPage={currentPage}
                 totalPages={totalPages}
+                totalProducts={totalProducts}
                 onPageChange={handlePageChange}
               />
             </div>

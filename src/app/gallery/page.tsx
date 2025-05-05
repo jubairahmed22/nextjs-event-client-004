@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import EventPageLoading from "@/components/Loading/EventPageLoading";
 import InstaPost from "@/components/shared/InstaPost";
+import { motion } from "framer-motion";
 
 // Define the type for the user data
 interface User {
@@ -41,7 +42,9 @@ const Page = () => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const response = await fetch(`https://server-gs.vercel.app/all-gallery?page=${currentPage}`);
+        const response = await fetch(
+          `https://server-gs.vercel.app/all-gallery?page=${currentPage}`
+        );
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
@@ -70,7 +73,7 @@ const Page = () => {
   const [selectedImage, setSelectedImage] = useState<Gallery | null>(null); // Use Gallery type
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  const modalRef = useRef(null); // Ref for the modal container
+  const modalRef = useRef(null); // Ref for the modal max-w-screen-3xl
 
   const openModal = (gallery: Gallery) => {
     setSelectedImage(gallery);
@@ -139,20 +142,36 @@ const Page = () => {
     return <div>Error: {error}</div>;
   }
 
+  const text = "Gallery";
+  const letters = text.split("");
+
   return (
     <div>
       <div className="relative overflow-hidden font-montserrat">
-        <div className="mx-auto max-w-screen-4xl px-4 py-16 relative z-10">
-        <h1 className="mb-6 text-center text-lg md:text-2xl lg:text-4xl font-playfairDisplay font-bold text-white leading-tight">
-          <span className="relative inline-block">
-            <span className="relative text-transparent bg-clip-text bg-gradient-to-r from-rose-800 to-rose-900">
-              Gallery
-            </span>
-          </span>
-        </h1>
+        <div className="mx-auto max-w-screen-3xl px-4 pt-20 relative z-10">
+          <motion.div className="text-start px-4 mb-16">
+            <h1 className="mb-4 text-lg md:text-2xl lg:text-6xl uppercase font-playfairDisplay font-bold">
+              <span className="relative inline-block">
+                {letters.map((letter, i) => (
+                  <motion.span
+                    key={i}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{
+                      duration: 0.5,
+                      delay: i * 0.05,
+                    }}
+                    className="relative text-transparent bg-clip-text bg-gradient-to-r from-rose-700 to-rose-900"
+                  >
+                    {letter === " " ? "\u00A0" : letter}
+                  </motion.span>
+                ))}
+              </span>
+            </h1>
+          </motion.div>
 
-        {/* Mission Paragraph */}
-        {/* <div className="max-w-3xl mx-auto mb-16 text-center">
+          {/* Mission Paragraph */}
+          {/* <div className="max-w-screen-3xl mx-auto mb-16 text-center">
           <p className="text-md md:text-md text-rose-800 font-light leading-relaxed">
             We craft extraordinary events that tell your unique story. With passion and precision, 
             we transform dreams into reality through innovative planning, exquisite design, 
@@ -160,71 +179,74 @@ const Page = () => {
             long after the last guest departs.
           </p>
         </div> */}
-          <div
+          {/* <div
             className="h-1 w-full mt-5"
             style={{
               background:
                 "linear-gradient(to right, transparent, #6B021A, transparent)",
             }}
-          ></div>
+          ></div> */}
         </div>
 
         {loading ? (
           <EventPageLoading></EventPageLoading>
         ) : (
           <>
-          <div className="grid lg:grid-cols-3 md:grid-cols-1 gap-5 px-10">
-            {galleryData.users.map((gallery) => (
-              <div
-                key={gallery.singleImage}
-                onClick={() => openModal(gallery)}
-                className="relative h-[460px] rounded-xl "
-              >
-                <img
-                  className="absolute inset-0 w-full h-full object-cover rounded-xl"
-                  src={gallery.singleImage}
-                  alt=""
-                ></img>
-                <div className="absolute inset-0 bg-black opacity-5 rounded-xl"></div>
-              </div>
-            ))}
-          </div>
-
-          {/* Add Pagination Controls */}
-          {galleryData.totalPages > 1 && (
-            <div className="flex justify-end mt-8 font-montserrat">
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={() => handlePageChange(currentPage - 1)}
-                  disabled={currentPage === 1}
+            <div className="grid lg:grid-cols-3 md:grid-cols-1 gap-5 px-10">
+              {galleryData.users.map((gallery) => (
+                <div
+                  key={gallery.singleImage}
+                  onClick={() => openModal(gallery)}
+                  className="relative h-[460px] rounded-xl "
                 >
-                  Previous
-                </button>
-                
-                {Array.from({ length: galleryData.totalPages }, (_, i) => i + 1).map(page => (
-                  <button
-                    key={page}
-                    onClick={() => handlePageChange(page)}
-                    className={`px-4 py-2 rounded-md border text-sm font-medium ${
-                      currentPage === page
-                        ? "bg-rose-900 text-white border-rose-900"
-                        : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
-                    }`}
-                  >
-                    {page}
-                  </button>
-                ))}
-                
-                <button
-                  onClick={() => handlePageChange(currentPage + 1)}
-                  disabled={currentPage === galleryData.totalPages}
-                >
-                  Next
-                </button>
-              </div>
+                  <img
+                    className="absolute inset-0 w-full h-full object-cover rounded-xl"
+                    src={gallery.singleImage}
+                    alt=""
+                  ></img>
+                  <div className="absolute inset-0 bg-black opacity-5 rounded-xl"></div>
+                </div>
+              ))}
             </div>
-          )}
-        </>
+
+            {/* Add Pagination Controls */}
+            {galleryData.totalPages > 1 && (
+              <div className="flex justify-end mt-8 font-montserrat">
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => handlePageChange(currentPage - 1)}
+                    disabled={currentPage === 1}
+                  >
+                    Previous
+                  </button>
+
+                  {Array.from(
+                    { length: galleryData.totalPages },
+                    (_, i) => i + 1
+                  ).map((page) => (
+                    <button
+                      key={page}
+                      onClick={() => handlePageChange(page)}
+                      className={`px-4 py-2 rounded-md border text-sm font-medium ${
+                        currentPage === page
+                          ? "bg-rose-900 text-white border-rose-900"
+                          : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
+                      }`}
+                    >
+                      {page}
+                    </button>
+                  ))}
+
+                  <button
+                    onClick={() => handlePageChange(currentPage + 1)}
+                    disabled={currentPage === galleryData.totalPages}
+                  >
+                    Next
+                  </button>
+                </div>
+              </div>
+            )}
+          </>
         )}
       </div>
       {isModalOpen && selectedImage && (
@@ -247,23 +269,22 @@ const Page = () => {
 
             {/* Slider Indicators */}
             <div className="absolute z-30 flex -translate-x-1/2 bottom-5 left-1/2 space-x-3 rtl:space-x-reverse">
-              {[
-                selectedImage.singleImage,
-                ...selectedImage.images,
-              ].map((_, index) => (
-                <button
-                  key={index}
-                  type="button"
-                  className={`w-3 h-3 rounded-full ${
-                    currentImageIndex === index
-                      ? "bg-white"
-                      : "bg-white/50 hover:bg-white/80"
-                  }`}
-                  aria-current={currentImageIndex === index}
-                  aria-label={`Slide ${index + 1}`}
-                  onClick={() => goToImage(index)}
-                ></button>
-              ))}
+              {[selectedImage.singleImage, ...selectedImage.images].map(
+                (_, index) => (
+                  <button
+                    key={index}
+                    type="button"
+                    className={`w-3 h-3 rounded-full ${
+                      currentImageIndex === index
+                        ? "bg-white"
+                        : "bg-white/50 hover:bg-white/80"
+                    }`}
+                    aria-current={currentImageIndex === index}
+                    aria-label={`Slide ${index + 1}`}
+                    onClick={() => goToImage(index)}
+                  ></button>
+                )
+              )}
             </div>
 
             {/* Slider Controls */}

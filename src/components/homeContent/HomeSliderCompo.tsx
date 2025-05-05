@@ -32,7 +32,7 @@ const HomeSliderCompo = () => {
   }, [slides.length]);
 
   return (
-    <div className="py-10 px-4 max-w-screen-4xl mx-auto font-montserrat relative overflow-hidden">
+    <div className="py-10 px-4 max-w-screen-3xl mx-auto font-montserrat relative overflow-hidden">
       <div className="relative h-[500px] md:h-[400px] w-full rounded-xl">
         <AnimatePresence mode="wait">
           <motion.div
@@ -49,12 +49,12 @@ const HomeSliderCompo = () => {
               className="w-full h-full object-cover rounded-xl"
             />
             <div className="absolute inset-0 bg-black bg-opacity-30 flex items-end pb-16 md:pb-24 rounded-xl">
-              <div className="container mx-auto px-4 text-white">
+              <div className="max-w-screen-3xl  px-4 text-white">
                 <motion.h2 
                   initial={{ y: 20, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ delay: 0.3, duration: 0.5 }}
-                  className="text-3xl md:text-5xl font-bold mb-2"
+                  className="text-3xl md:text-5xl text-start font-bold mb-2"
                 >
                   {slides[currentSlide].title}
                 </motion.h2>

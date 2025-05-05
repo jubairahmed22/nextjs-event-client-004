@@ -210,7 +210,7 @@ const NavbarDynamicSidebarAllProduct: React.FC = () => {
     <>
       {/* HEADER */}
       <header className="sticky font-montserrat top-0 z-50 bg-white/90 dark:bg-neutral-950/90 backdrop-blur-lg shadow-sm border-b border-gray-100 dark:border-neutral-800 transition-colors duration-300">
-        <div className="max-w-screen-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-screen-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-3 md:py-4 gap-3">
             {/* Logo */}
             <Link
@@ -224,7 +224,7 @@ const NavbarDynamicSidebarAllProduct: React.FC = () => {
             </Link>
 
             {/* Product Search */}
-            <div className="hidden md:flex flex-1 md:mx-6 min-w-[200px] max-w-xl">
+            <div className="hidden md:flex flex-1 md:mx-6 min-w-[200px] max-w-screen-3xl">
               <ProductSearch />
             </div>
 

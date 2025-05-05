@@ -98,7 +98,7 @@ const fetchProducts = async (
 
 // Loading Skeleton Component
 const LoadingSkeleton = () => (
-  <div className="container mx-auto px-4 py-8">
+  <div className="max-w-screen-3xl mx-auto px-4 py-8">
     <div className="animate-pulse">
       <div className="h-8 w-1/3 bg-gray-200 rounded mb-6"></div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
@@ -493,14 +493,14 @@ const SubCategoryPage = ({ params }: { params: { id: string } }) => {
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent backdrop-blur-sm"></div>
 
         {/* Content Wrapper */}
-        <div className="relative z-10 w-full px-4 mx-auto max-w-screen-4xl">
+        <div className="relative z-10 w-full px-4 mx-auto max-w-screen-3xl">
           <div className="flex flex-col justify-center items-start h-full py-10 sm:py-14 lg:py-20">
             <h1 className="text-white font-playfairDisplay font-extrabold tracking-wide leading-tight text-3xl sm:text-xl lg:text-4xl drop-shadow-[0_4px_10px_rgba(0,0,0,0.5)]">
               {subCategory.title?.charAt(0).toUpperCase() +
                 subCategory.title?.slice(1)}
             </h1>
             {subCategory.description && (
-              <p className="text-white/90 mt-4 max-w-2xl text-lg drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
+              <p className="text-white/90 mt-4 max-w-screen-3xl text-lg drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
                 {subCategory.description}
               </p>
             )}
@@ -509,7 +509,7 @@ const SubCategoryPage = ({ params }: { params: { id: string } }) => {
       </section>
 
       {/* Products Section */}
-      <div className="container mx-auto px-4 py-8">
+      <div className="max-w-screen-3xl mx-auto px-4 py-8">
         <h2 className="text-xl font-bold mt-6 mb-8 font-raleway">
           Available Products
         </h2>

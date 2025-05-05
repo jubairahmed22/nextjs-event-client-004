@@ -242,7 +242,7 @@ const HomeDiscountProduct = () => {
   }
 
   return (
-    <div className="mx-auto max-w-screen-4xl px-4 py-16 relative z-10">
+    <div className="mx-auto max-w-screen-3xl px-4 py-16 relative z-10">
       <h1 className="mb-10 text-center text-lg md:text-2xl lg:text-4xl font-playfairDisplay font-bold text-white leading-tight">
         <span className="relative inline-block">
           <span className="relative text-transparent bg-clip-text bg-gradient-to-r from-rose-800 to-rose-900">
@@ -273,7 +273,7 @@ const HomeDiscountProduct = () => {
           </>
         )}
 
-        {/* Slider Container */}
+        {/* Slider max-w-screen-3xl */}
         <motion.div
           className="flex"
           animate={{

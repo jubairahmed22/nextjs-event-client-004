@@ -209,7 +209,7 @@ const HomeTestimonial = () => {
   // Auto-advance slides
   useEffect(() => {
     if (groupedProducts.length <= 1) return;
-    
+
     const timer = setInterval(() => {
       nextSlide();
     }, 5000);
@@ -244,15 +244,15 @@ const HomeTestimonial = () => {
   }
 
   return (
-    <div className="mx-auto max-w-screen-4xl px-4 py-16 relative z-10 font-montserrat">
+    <div className="mx-auto max-w-screen-3xl px-4 py-16 relative z-10 font-montserrat">
       <h1 className="mb-10 text-center text-lg md:text-2xl lg:text-4xl font-playfairDisplay font-bold text-white leading-tight">
         <span className="relative inline-block">
           <span className="relative text-transparent bg-clip-text bg-gradient-to-r from-rose-800 to-rose-900">
-          TESTIMONIAL
+            TESTIMONIAL
           </span>
         </span>
       </h1>
-      {/* <div className="max-w-3xl mx-auto mb-16 text-center">
+      {/* <div className="max-w-screen-3xl mx-auto mb-16 text-center">
           <p className="text-md md:text-md text-rose-800 font-light leading-relaxed">
           What our happy customer says!
 
@@ -283,7 +283,7 @@ const HomeTestimonial = () => {
           </>
         )}
 
-        {/* Slider Container */}
+        {/* Slider max-w-screen-3xl */}
         <motion.div
           className="flex"
           animate={{
@@ -306,10 +306,7 @@ const HomeTestimonial = () => {
                   whileHover={{ y: -5, scale: 1.02 }}
                   transition={{ type: "spring", stiffness: 400, damping: 10 }}
                 >
-                 
-                  <TestimonialCard
-                    product={product}
-                  ></TestimonialCard>
+                  <TestimonialCard product={product}></TestimonialCard>
                 </motion.div>
               ))}
             </div>
@@ -331,8 +328,18 @@ const HomeTestimonial = () => {
             ))}
           </div>
         )}
+
+      
       </div>
 
+      <div className="flex justify-center items-center my-10">
+        <Link href="all-testimonial">
+          <button className="px-8 py-3 bg-gradient-to-r from-rose-700 to-rose-900 text-white rounded-full font-medium shadow-lg hover:shadow-xl hover:shadow-rose-400/20 transition-all duration-300 hover:scale-105">
+            View All Testimonials
+          </button>
+        </Link>
+         
+        </div>
     </div>
   );
 };

@@ -72,7 +72,7 @@ const HomeGalleryCompo = () => {
   const [selectedImage, setSelectedImage] = useState<Gallery | null>(null); // Use Gallery type
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  const modalRef = useRef(null); // Ref for the modal container
+  const modalRef = useRef(null); // Ref for the modal max-w-screen-3xl
 
   const openModal = (gallery: Gallery) => {
     setSelectedImage(gallery);
@@ -143,8 +143,8 @@ const HomeGalleryCompo = () => {
 
   return (
     <div>
-      <div className="pb-10 max-w-screen-4xl mx-auto px-4 font-montserrat">
-        <div className="py-10 mx-auto w-full max-w-screen-4xl p-4 ">
+      <div className="pb-10 max-w-screen-3xl mx-auto px-4 font-montserrat">
+        <div className="py-10 mx-auto w-full max-w-screen-3xl p-4 ">
           <div className="text-center mb-5">
             <h1 className="mb-4 text-lg md:text-2xl lg:text-4xl font-playfairDisplay font-bold text-rose-900">
               <span className="relative inline-block">
@@ -154,7 +154,7 @@ const HomeGalleryCompo = () => {
               </span>
             </h1>
             {/* <div className="w-24 h-1 bg-gradient-to-r from-rose-300 to-rose-500 mx-auto mb-6"></div> */}
-            <p className="max-w-2xl mx-auto text-md text-rose-800/90 font-light leading-relaxed">
+            <p className="max-w-screen-3xl mx-auto w-[60%] text-md text-rose-800/90 font-light leading-relaxed">
               Step into a world of unforgettable moments crafted with precision
               and passion. Our portfolio showcases breathtaking weddings,
               sophisticated corporate galas, and intimate celebrations—each

@@ -67,7 +67,7 @@ const TeamMember = () => {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="max-w-screen-3xl mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-8 text-start  text-rose-900">
         Our Team
       </h1>
@@ -77,7 +77,7 @@ const TeamMember = () => {
           <a
           key={member._id}
           href="#" // Replace with actual link if available
-          className="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow-sm md:flex-row md:max-w-2xl hover:bg-gray-50 transition-all duration-200 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 group overflow-hidden"
+          className="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow-sm md:flex-row md:max-w-screen-3xl hover:bg-gray-50 transition-all duration-200 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 group overflow-hidden"
         >
           {/* Image - responsive sizing with Next.js Image */}
           <div className="relative w-full h-64 md:h-48 md:w-48 flex-shrink-0">

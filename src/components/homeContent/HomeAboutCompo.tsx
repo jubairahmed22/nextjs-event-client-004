@@ -42,7 +42,7 @@ const HomeAboutCompo = () => {
       {/* <div className="absolute inset-0 opacity-10">
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNBRjQ4NDgiIGZpbGwtb3BhY2l0eT0iMC4yIj48cGF0aCBkPSJNMzYgMzRjMC0xLjEuOS0yIDItMmgxNmMxLjEgMCAyIC45IDIgMnYxNmMwIDEuMS0uOSAyLTIgMkgzOGMtMS4xIDAtMi0uOS0yLTJWMzR6TTIgMzRjMC0xLjEuOS0yIDItMmgxNmMxLjEgMCAyIC45IDIgMnYxNmMwIDEuMS0uOSAyLTIgMkg0Yy0xLjEgMC0yLS45LTItMlYzNHpNMzYgMmMwLTEuMS45LTIgMi0yaDE2YzEuMSAwIDIgLjkgMiAydjE2YzAgMS4xLS45IDItMiAySDM4Yy0xLjEgMC0yLS45LTItMlYyek0yIDJjMC0xLjEuOS0yIDItMmgxNmMxLjEgMCAyIC45IDIgMnYxNmMwIDEuMS0uOSAyLTIgMkg0Yy0xLjEgMC0yLS45LTItMlYyeiIvPjwvZz48L2c+PC9zdmc+')]"></div>
       </div> */}
-      <div className="mx-auto max-w-screen-4xl px-4 py-16 relative z-10">
+      <div className="mx-auto max-w-screen-3xl px-4 py-16 relative z-10">
         <h1 className="mb-6 text-center text-lg md:text-2xl lg:text-4xl font-playfairDisplay font-bold text-white leading-tight">
           <span className="relative inline-block">
             <span className="relative text-transparent bg-clip-text bg-gradient-to-r from-rose-800 to-rose-900">
@@ -52,7 +52,7 @@ const HomeAboutCompo = () => {
         </h1>
 
         {/* Mission Paragraph */}
-        <div className="max-w-3xl mx-auto mb-16 text-center">
+        <div className="max-w-screen-3xl w-[60%] mx-auto mb-16 text-center">
           <p className="text-md md:text-md text-rose-800 font-light leading-relaxed">
             We craft extraordinary events that tell your unique story. With passion and precision, 
             we transform dreams into reality through innovative planning, exquisite design, 
@@ -80,7 +80,7 @@ const HomeAboutCompo = () => {
             
             {/* Main content */}
             <div className="relative z-10 flex flex-col items-center text-center">
-              {/* Icon container with sophisticated design */}
+              {/* Icon max-w-screen-3xl with sophisticated design */}
               <div className="mb-6 p-5 rounded-full bg-gradient-to-br from-rose-100 to-rose-50 shadow-lg group-hover:shadow-rose-300/30 transition-all duration-500">
                 <div className="p-3 rounded-full bg-gradient-to-br from-rose-200 to-rose-100 text-rose-700 group-hover:text-rose-900 group-hover:scale-110 transition-all duration-300">
                   {service.icon}

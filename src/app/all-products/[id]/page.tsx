@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import toast from "react-hot-toast";
 import Image from "next/image";
+import { FilterParentsDetails } from "@/components/AllProductCopmonent/FilterParentsDetails";
 
 interface ProductDetails {
   _id: string;
@@ -22,6 +23,10 @@ interface ProductDetails {
   promotionType: string;
 }
 
+interface CartItem extends ProductDetails {
+  quantity: number;
+  selectedDate: Date;
+}
 
 export default function ProductDetailsPage() {
   const { id } = useParams();
@@ -33,7 +38,8 @@ export default function ProductDetailsPage() {
   const [selectedMinute, setSelectedMinute] = useState("00");
   const [selectedPeriod, setSelectedPeriod] = useState("AM");
   const [activeTab, setActiveTab] = useState(0);
-  const [wishlisted, setWishlisted] = useState(false);
+  const [isInCart, setIsInCart] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const allImages =
     product && product.singleImage
@@ -44,74 +50,56 @@ export default function ProductDetailsPage() {
     setActiveTab(index);
   };
 
-  const handleAddToCart = () => {
-    if (product) {
-      const [year, month, day] = selectedDate.split("-");
-      let hour = parseInt(selectedHour, 10);
-      const minute = parseInt(selectedMinute, 10);
+  const toggleCart = async () => {
+    if (!product || isProcessing) return;
 
-      if (selectedPeriod === "PM" && hour < 12) hour += 12;
-      if (selectedPeriod === "AM" && hour === 12) hour = 0;
-
-      const combinedDate = new Date(
-        Date.UTC(
-          parseInt(year),
-          parseInt(month) - 1,
-          parseInt(day),
-          hour,
-          minute
-        )
-      );
-
-      const cartItem = {
-        ...product,
-        quantity,
-        selectedDate: combinedDate,
-      };
-
-      let cart = JSON.parse(localStorage.getItem("cart") || "[]");
-      cart.push(cartItem);
-      localStorage.setItem("cart", JSON.stringify(cart));
-
-      toast.success("Product added to cart!", { position: "bottom-center" });
-    }
-  };
-
-  const toggleWishlist = () => {
-    if (!product) return;
-
+    setIsProcessing(true);
+    
     try {
-      const existingCart = JSON.parse(localStorage.getItem("cart") || "[]");
-      const productIndex = existingCart.findIndex(
-        (item: ProductDetails) => item._id === product._id
-      );
+      let cart: CartItem[] = JSON.parse(localStorage.getItem("cart") || "[]");
+      const existingIndex = cart.findIndex(item => item._id === product._id);
 
-      let updatedCart: ProductDetails[];
-      if (productIndex > -1) {
-        updatedCart = existingCart.filter(
-          (item: ProductDetails) => item._id !== product._id
-        );
-        toast.success(`${product.title} removed from wishlist!`, {
-          position: "bottom-center",
-        });
+      if (existingIndex > -1) {
+        // Remove from cart
+        cart = cart.filter(item => item._id !== product._id);
+        localStorage.setItem("cart", JSON.stringify(cart));
+        setIsInCart(false);
+        toast.success("Removed from Quote Request", { position: "bottom-center" });
       } else {
-        updatedCart = [
-          ...existingCart,
-          {
-            ...product,
-            quantity: 1,
-          },
-        ];
-        toast.success(`${product.title} added to wishlist!`, {
-          position: "bottom-center",
-        });
-      }
+        // Add to cart
+        const [year, month, day] = selectedDate.split("-");
+        let hour = parseInt(selectedHour, 10);
+        const minute = parseInt(selectedMinute, 10);
 
-      localStorage.setItem("cart", JSON.stringify(updatedCart));
-      setWishlisted(!wishlisted);
+        if (selectedPeriod === "PM" && hour < 12) hour += 12;
+        if (selectedPeriod === "AM" && hour === 12) hour = 0;
+
+        const combinedDate = new Date(
+          Date.UTC(
+            parseInt(year),
+            parseInt(month) - 1,
+            parseInt(day),
+            hour,
+            minute
+          )
+        );
+
+        const cartItem: CartItem = {
+          ...product,
+          quantity,
+          selectedDate: combinedDate,
+        };
+
+        cart.push(cartItem);
+        localStorage.setItem("cart", JSON.stringify(cart));
+        setIsInCart(true);
+        toast.success("Added to Quote Request!", { position: "bottom-center" });
+      }
     } catch (error) {
-      console.error("Error updating wishlist:", error);
-      toast.error("Failed to update wishlist");
+      console.error("Error updating cart:", error);
+      toast.error("Failed to update Quote Request");
+    } finally {
+      setIsProcessing(false);
     }
   };
 
@@ -128,11 +116,9 @@ export default function ProductDetailsPage() {
         const data: ProductDetails = await response.json();
         setProduct(data);
 
-        // Check if product is in wishlist
-        const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-        setWishlisted(
-          cart.some((item: ProductDetails) => item._id === data._id)
-        );
+        // Check if product is in cart
+        const cart: CartItem[] = JSON.parse(localStorage.getItem("cart") || "[]");
+        setIsInCart(cart.some(item => item._id === data._id));
       } catch (error) {
         console.error("Error fetching product:", error);
         toast.error("Failed to load product details");
@@ -145,6 +131,22 @@ export default function ProductDetailsPage() {
       fetchProduct();
     }
   }, [id]);
+
+  const calculateDiscountedPrice = () => {
+    if (!product) return 0;
+    
+    if (product.Promotion === "true") {
+      const perDayPricing = parseFloat(product.perDayPricing.toString());
+      const promotionValue = parseFloat(product.promotionValue.toString());
+
+      if (product.promotionType === "$") {
+        return perDayPricing - promotionValue;
+      } else if (product.promotionType === "%") {
+        return perDayPricing - (perDayPricing * promotionValue) / 100;
+      }
+    }
+    return parseFloat(product.perDayPricing.toString());
+  };
 
   if (loading) {
     return (
@@ -162,31 +164,21 @@ export default function ProductDetailsPage() {
     );
   }
 
-  const calculateDiscountedPrice = () => {
-    if (product.Promotion === "true") {
-      const perDayPricing = parseFloat(product.perDayPricing.toString());
-      const promotionValue = parseFloat(product.promotionValue.toString());
-
-      if (product.promotionType === "$") {
-        return perDayPricing - promotionValue;
-      } else if (product.promotionType === "%") {
-        return perDayPricing - (perDayPricing * promotionValue) / 100;
-      }
-    }
-    return parseFloat(product.perDayPricing.toString());
-  };
-
   const discountedPrice = calculateDiscountedPrice();
   const showOriginalPrice = product.Promotion === "true";
 
+  const productCategory = product.category
+  const productSubCategory = product.subCategory
+
   return (
-    <div className="min-h-screen max-w-screen-4xl mx-auto  py-12 px-4 sm:px-6  font-montserrat">
-      <div className="w-full mx-auto">
+    <div className="min-h-screen max-w-screen-3xl mx-auto py-12 px-4 sm:px-6 font-montserrat">
+      <FilterParentsDetails productCategory={productCategory} productSubCategory={productSubCategory}></FilterParentsDetails>
+      <div className="w-full max-w-screen-xl mx-auto">
         <div className="overflow-hidden">
           <div className="flex flex-col lg:flex-row gap-12 p-8">
             {/* Image Gallery */}
             <div className="w-full lg:w-[60%]">
-              <div className="relative h-[600px] rounded-2xl overflow-hidden mb-6 shadow-md">
+              <div className="relative h-[600px]  overflow-hidden mb-6 shadow-md">
                 <Image
                   src={allImages[activeTab]}
                   alt={`${product.title} - Image ${activeTab + 1}`}
@@ -195,15 +187,15 @@ export default function ProductDetailsPage() {
                   priority
                 />
               </div>
-              <div className="grid grid-cols-6 gap-4">
+              <div className="grid grid-cols-6 gap-4 rounded">
                 {allImages.map((image, index) => (
                   <button
                     key={index}
                     onClick={() => handleTabClick(index)}
-                    className={`relative h-24 rounded-lg overflow-hidden group ${
+                    className={`relative h-24  overflow-hidden rounded group ${
                       index === activeTab
-                        ? "ring-2 ring-rose-600 scale-105"
-                        : "hover:ring-2 hover:ring-rose-300"
+                        ? "ring-4 ring-rose-900 scale-105"
+                        : "hover:ring-4 hover:ring-rose-300"
                     } transition-all duration-300`}
                   >
                     <Image
@@ -219,45 +211,19 @@ export default function ProductDetailsPage() {
 
             {/* Product Details */}
             <div className="w-full lg:w-[40%] space-y-8">
-              {/* Title and Wishlist */}
-              <div className="flex justify-between items-start">
-                <h1 className="text-4xl font-bold text-gray-900 leading-tight">
-                  {product.title}
-                </h1>
-                <button
-                  onClick={toggleWishlist}
-                  className="p-2 rounded-full hover:bg-rose-100 transition-all"
-                  aria-label={
-                    wishlisted ? "Remove from wishlist" : "Add to wishlist"
-                  }
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className={`h-8 w-8 ${
-                      wishlisted
-                        ? "text-rose-600 fill-rose-600"
-                        : "text-gray-300"
-                    }`}
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                    />
-                  </svg>
-                </button>
-              </div>
+              {/* Title */}
+              <h1 className="text-2xl font-bold text-gray-900 leading-tight">
+                {product.title}
+              </h1>
+             
+            
 
               {/* Pricing */}
               <div className="space-y-2">
                 <div className="flex items-center space-x-2">
                   {showOriginalPrice && (
                     <span className="text-lg text-gray-400 line-through">
-                      ${product.perDayPricing}
+                      ${(Number(product.perDayPricing) || 0).toFixed(2)}
                     </span>
                   )}
                   <span className="text-3xl font-bold text-rose-700">
@@ -327,15 +293,82 @@ export default function ProductDetailsPage() {
                 </p>
               </div>
 
-              {/* Add to Cart */}
-              <div>
-                <button
-                  onClick={handleAddToCart}
-                  className="w-full py-4 bg-rose-700 hover:bg-rose-800 text-white text-lg font-semibold rounded-xl transition-all duration-300"
-                >
-                  Add to Quote Request
-                </button>
-              </div>
+              {/* Add/Remove from Cart Button */}
+              <button
+  onClick={toggleCart}
+  disabled={isProcessing}
+  className={`w-full py-4 text-lg font-semibold rounded transition-all duration-300 flex items-center justify-center gap-2
+    ${
+      isInCart
+        ? "bg-black hover:bg-rose-900 text-white"
+        : isProcessing
+          ? "bg-rose-600 hover:bg-rose-700 text-white cursor-not-allowed"
+          : "bg-rose-700 hover:bg-rose-800 text-white"
+    }`}
+>
+  {isProcessing ? (
+    <>
+      <svg
+        className="animate-spin -ml-1 mr-2 h-5 w-5 text-white"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+      >
+        <circle
+          className="opacity-25"
+          cx="12"
+          cy="12"
+          r="10"
+          stroke="currentColor"
+          strokeWidth="4"
+        ></circle>
+        <path
+          className="opacity-75"
+          fill="currentColor"
+          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+        ></path>
+      </svg>
+      {isInCart ? "Removing..." : "Adding..."}
+    </>
+  ) : isInCart ? (
+    <>
+    
+      In Quote Request
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className="h-5 w-5 ml-2"
+        fill="currentColor"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        strokeWidth={2}
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+        />
+      </svg>
+    </>
+  ) : (
+    <>
+      Add to Quote Request
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className="h-5 w-5 ml-2"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        strokeWidth={2}
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+        />
+      </svg>
+    </>
+  )}
+</button>
 
               {/* Description */}
               <div>

@@ -79,7 +79,7 @@ const HomeServiceCompo = () => {
         <div className="absolute bottom-10 right-10 w-80 h-80 rounded-full bg-rose-600/10 blur-xl"></div>
       </div>
       
-      <div className="mx-auto max-w-screen-4xl px-4 py-20 relative z-10">
+      <div className="mx-auto max-w-screen-3xl px-4 py-20 relative z-10">
         {/* Section Header */}
         <div className="text-center mb-16">
           <h1 className="mb-4 text-lg md:text-2xl lg:text-4xl font-playfairDisplay font-bold text-rose-900">
@@ -90,7 +90,7 @@ const HomeServiceCompo = () => {
             </span>
           </h1>
           {/* <div className="w-24 h-1 bg-gradient-to-r from-rose-300 to-rose-500 mx-auto mb-6"></div> */}
-          <p className="max-w-2xl mx-auto text-md text-rose-800/90 font-light leading-relaxed">
+          <p className="max-w-screen-3xl mx-auto w-[60%] text-md text-rose-800/90 font-light leading-relaxed">
             We offer comprehensive event solutions tailored to make your occasion unforgettable. 
             From intimate gatherings to grand celebrations, our services are designed to 
             bring your vision to life with elegance and precision.
@@ -152,11 +152,11 @@ const HomeServiceCompo = () => {
         </div>
 
         {/* CTA Section */}
-        <div className="mt-20 text-center">
+        {/* <div className="mt-20 text-center">
           <h3 className="text-2xl font-playfairDisplay text-rose-900 mb-4">
             Ready to create something extraordinary?
           </h3>
-          <p className="text-rose-800/90 max-w-2xl mx-auto mb-8">
+          <p className="text-rose-800/90 max-w-screen-3xl mx-auto mb-8">
             Lets discuss how we can bring your vision to life with our bespoke event services.
           </p>
           <Link href="/wishListForm">
@@ -165,7 +165,7 @@ const HomeServiceCompo = () => {
           </button>
           </Link>
           
-        </div>
+        </div> */}
       </div>
     </div>
   );

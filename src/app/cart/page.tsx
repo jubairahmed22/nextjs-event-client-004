@@ -3,6 +3,8 @@ import axios from "axios";
 import Link from "next/link";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import Swal from "sweetalert2";
+import { motion } from "framer-motion";
+
 
 interface CartItem {
   _id: string;
@@ -66,7 +68,7 @@ interface PaymentData {
   totalPrice: number;
 }
 
-const EventCart = ()  => {
+const EventCart = () => {
   const [activeTab, setActiveTab] = useState<string>("tabCart");
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [selectedDate, setSelectedDate] = useState<string>("");
@@ -354,7 +356,10 @@ const EventCart = ()  => {
         if (projectSelectedEndPeriod === "PM" && endHour < 12) endHour += 12;
         if (projectSelectedEndPeriod === "AM" && endHour === 12) endHour = 0;
 
-        const allProductPrice = cartItems.reduce((sum, item) => sum + (item.perDayPricing * item.quantity), 0)
+        const allProductPrice = cartItems.reduce(
+          (sum, item) => sum + item.perDayPricing * item.quantity,
+          0
+        );
 
         const combinedEndDate = new Date(
           Date.UTC(
@@ -410,8 +415,6 @@ const EventCart = ()  => {
             },
           ],
           totalPrice: allProductPrice,
-         
-          
         };
 
         // First, save the payment data
@@ -612,17 +615,38 @@ const EventCart = ()  => {
     };
   }, []);
 
+  
+  const text = "Wish List";
+  const letters = text.split("");
+
   return (
-    <div className="bg-rose-50 px-4">
+    <div className="px-4">
       <div>
-        <section className="bg-white py-8 antialiased dark:bg-gray-900 md:py-16 font-poppins ">
-          <div className="mx-auto max-w-screen-2xl px-4 2xl:px-0">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl font-playfairDisplay">
-              Wish List
-            </h2>
+        <section className="py-8 antialiased dark:bg-gray-900 md:py-16 font-poppins ">
+          <div className="mx-auto max-w-screen-3xl px-4 2xl:px-0">
+          <motion.div className="text-start px-4 mb-16">
+            <h1 className="mb-4 text-lg md:text-2xl lg:text-6xl uppercase font-playfairDisplay font-bold">
+              <span className="relative inline-block">
+                {letters.map((letter, i) => (
+                  <motion.span
+                    key={i}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{
+                      duration: 0.5,
+                      delay: i * 0.05,
+                    }}
+                    className="relative text-transparent bg-clip-text bg-gradient-to-r from-rose-700 to-rose-900"
+                  >
+                    {letter === " " ? "\u00A0" : letter}
+                  </motion.span>
+                ))}
+              </span>
+            </h1>
+          </motion.div>
 
             <div className="mt-6 sm:mt-8 md:gap-6 lg:flex lg:items-start xl:gap-8">
-              <div className="mx-auto w-full flex-none lg:max-w-2xl xl:max-w-4xl">
+              <div className="mx-auto w-full flex-none lg:max-w-screen-3xl xl:max-w-4xl">
                 <div className="space-y-6">
                   {/* cart start */}
                   {currentItems.length > 0 ? (
@@ -811,6 +835,9 @@ const EventCart = ()  => {
                 <h1 className="text-3xl">Quote request form</h1>
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div className="grid grid-cols-1 gap-4 w-full">
+                    <p className="text-xl font-semibold text-gray-900 mt-5">
+                    Your Contact Info
+                    </p>
                     <div className="flex flex-row gap-5 items-center w-full">
                       <div className="w-full">
                         <label className="block mb-2 text-sm font-medium text-gray-900">
@@ -860,18 +887,18 @@ const EventCart = ()  => {
                           onChange={handlePhoneChange}
                           type="tel"
                           className="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-rose-500 focus:border-rose-500"
-                          maxLength={13}
+                          maxLength={14}
                           required
                         />
                       </div>
                     </div>
                     <p className="text-xl font-semibold text-gray-900 mt-5">
-                      Event Information
+                      Date / Time
                     </p>
                     {/* Date and Time Selection */}
                     <div>
                       <label className="block mb-2 text-sm font-medium text-gray-900">
-                        Event Title
+                        Project Name
                       </label>
                       <input
                         type="text"
@@ -879,6 +906,7 @@ const EventCart = ()  => {
                         onChange={(e) => setVenueName(e.target.value)}
                         className="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-rose-500 focus:border-rose-500"
                         required
+                        placeholder="Alexs Wedding / Anas Sweets"
                       />
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -1022,7 +1050,7 @@ const EventCart = ()  => {
 
                     <div className="mt-8">
                       <h2 className="text-xl font-semibold text-gray-800 mb-4">
-                        Location Details
+                        Venue / Location Details
                       </h2>
                       <div className="w-full">
                         <input
@@ -1085,11 +1113,11 @@ const EventCart = ()  => {
                       <label className="block mb-2 text-sm font-medium text-gray-900">
                         Venue Notes
                       </label>
-                      <input
-                        type="text"
+                      <textarea
                         value={VenueNotes}
                         onChange={(e) => setVenueNotes(e.target.value)}
-                        className="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-rose-500 focus:border-rose-500"
+                        className="w-full p-2.5 border h-44 border-gray-300 rounded-lg focus:ring-rose-500 focus:border-rose-500"
+                        placeholder="Please type any info that will help us direction or other instruction for the event"
                       />
                     </div>
                   </div>

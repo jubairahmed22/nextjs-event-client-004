@@ -109,7 +109,7 @@ const WishListForm: React.FC = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get<{ taxValue: number }>(
-          "https://server-gs.vercel.app/event-company-tax-value"
+          "http://localhost:8000/event-company-tax-value"
         );
         setData(response.data);
         setError(null);
@@ -415,7 +415,7 @@ const WishListForm: React.FC = () => {
         // });
 
         const paymentResponse = await fetch(
-          "https://server-gs.vercel.app/save-payment",
+          "http://localhost:8000/save-payment",
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -433,7 +433,7 @@ const WishListForm: React.FC = () => {
         // });
 
         const emailResponse = await fetch(
-          "https://server-gs.vercel.app/api/sent-cart-details",
+          "http://localhost:8000/api/sent-cart-details",
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -611,7 +611,7 @@ const WishListForm: React.FC = () => {
     <div className="bg-rose-50 px-4">
       <div>
         <section className="bg-white py-8 antialiased dark:bg-gray-900 md:py-16 font-poppins ">
-          <div className="mx-auto max-w-screen-4xl px-4 2xl:px-0">
+          <div className="mx-auto max-w-screen-3xl px-4 2xl:px-0">
             <div className="mt-6 sm:mt-8 md:gap-6 lg:flex lg:items-start xl:gap-8">
               <div className="mx-auto mt-6 max-w-4xl flex-1 space-y-6 lg:mt-0 lg:w-full shadow-md border border-rose-50 rounded-xl p-5">
                 <h1 className="text-3xl">Quote request form</h1>

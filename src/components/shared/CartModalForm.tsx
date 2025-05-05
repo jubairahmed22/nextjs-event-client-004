@@ -629,7 +629,7 @@ const CartModalForm: React.FC = () => {
         </div>
 
         {/* Tab Content */}
-        <div className="p-2 border border-gray-200 rounded-xl bg-gray-50 shadow-sm h-[500px] overflow-y-scroll">
+        <div className="p-2 border border-gray-200 rounded-xl bg-gray-50 shadow-sm h-[560px] overflow-y-scroll">
           {activeTab === "tab1" && (
             <div>
               {currentItems.length > 0 ? (
@@ -808,292 +808,301 @@ const CartModalForm: React.FC = () => {
           )}
           {activeTab === "tab2" && (
             <div className="space-y-8">
-              <p className="text-2xl font-semibold text-gray-900">
-                Your Contact Info
-              </p>
+              <form onSubmit={handleSubmit} className="space-y-4">
+                  <div className="grid grid-cols-1 gap-4 w-full">
+                    <p className="text-xl font-semibold text-gray-900 mt-5">
+                    Your Contact Info
+                    </p>
+                    <div className="flex flex-row gap-5 items-center w-full">
+                      <div className="w-full">
+                        <label className="block mb-2 text-sm font-medium text-gray-900">
+                          First Name
+                        </label>
+                        <input
+                          type="text"
+                          value={firstName}
+                          onChange={(e) => setFirstName(e.target.value)}
+                          className="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-rose-500 focus:border-rose-500"
+                          required
+                        />
+                      </div>
 
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid grid-cols-1 gap-6">
-                  <div>
-                    <label className="block mb-3 text-sm font-medium text-gray-900">
-                      First Name
-                    </label>
-                    <input
-                      type="text"
-                      value={firstName}
-                      onChange={(e) => setFirstName(e.target.value)}
-                      className="w-full p-3 border border-gray-300 rounded-xl focus:ring-rose-500 focus:border-rose-500"
-                      placeholder="Enter first name"
-                      required
-                    />
-                  </div>
-                  <div>
-                    <label className="block mb-3 text-sm font-medium text-gray-900">
-                      Last Name
-                    </label>
-                    <input
-                      type="text"
-                      value={lastName}
-                      onChange={(e) => setLastName(e.target.value)}
-                      className="w-full p-3 border border-gray-300 rounded-xl focus:ring-rose-500 focus:border-rose-500"
-                      placeholder="Enter last name"
-                      required
-                    />
-                  </div>
-                  <div>
-                    <label className="block mb-3 text-sm font-medium text-gray-900">
-                      Email
-                    </label>
-                    <input
-                      type="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      className="w-full p-3 border border-gray-300 rounded-xl focus:ring-rose-500 focus:border-rose-500"
-                      placeholder="Enter email address"
-                      required
-                    />
-                  </div>
-                  <div>
-                    <label className="block mb-3 text-sm font-medium text-gray-900">
-                      Phone number
-                    </label>
-                    <input
-                      value={phoneNumber}
-                      onChange={handlePhoneChange}
-                      type="tel"
-                      className="w-full p-3 border border-gray-300 rounded-xl focus:ring-rose-500 focus:border-rose-500"
-                      placeholder="Enter phone number"
-                      maxLength={13}
-                      required
-                    />
-                  </div>
-                  <p className="text-2xl font-semibold text-gray-900">
-                    Venue / Delivery Location
-                  </p>
-                  {/* Date and Time Selection */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="w-full">
+                        <label className="block mb-2 text-sm font-medium text-gray-900">
+                          Last Name
+                        </label>
+                        <input
+                          type="text"
+                          value={lastName}
+                          onChange={(e) => setLastName(e.target.value)}
+                          className="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-rose-500 focus:border-rose-500"
+                          required
+                        />
+                      </div>
+                    </div>
+                    <div className="flex flex-row gap-5 items-center w-full">
+                      <div className="w-full">
+                        <label className="block mb-2 text-sm font-medium text-gray-900">
+                          Email
+                        </label>
+                        <input
+                          type="email"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          className="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-rose-500 focus:border-rose-500"
+                          required
+                        />
+                      </div>
+                      <div className="w-full">
+                        <label className="block mb-2 text-sm font-medium text-gray-900">
+                          Phone number (US)
+                        </label>
+                        <input
+                          value={phoneNumber}
+                          onChange={handlePhoneChange}
+                          type="tel"
+                          className="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-rose-500 focus:border-rose-500"
+                          maxLength={14}
+                          required
+                        />
+                      </div>
+                    </div>
+                    <p className="text-xl font-semibold text-gray-900 mt-5">
+                      Date / Time
+                    </p>
+                    {/* Date and Time Selection */}
                     <div>
-                      <label className="block mb-3 text-sm font-medium text-gray-900">
-                        Select booking start date:
+                      <label className="block mb-2 text-sm font-medium text-gray-900">
+                        Project Name
                       </label>
                       <input
-                        type="date"
-                        value={projectSelectDate}
-                        onChange={(e) => setProjectSelectedDate(e.target.value)}
-                        className="w-full p-3 border border-gray-300 rounded-xl focus:ring-rose-500 focus:border-rose-500"
-                        min={new Date().toISOString().split("T")[0]} // Sets the minimum date to today
+                        type="text"
+                        value={VenueName}
+                        onChange={(e) => setVenueName(e.target.value)}
+                        className="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-rose-500 focus:border-rose-500"
+                        required
+                        placeholder="Alexs Wedding / Anas Sweets"
                       />
                     </div>
-                    <div>
-                      <label className="block mb-3 text-sm font-medium text-gray-900">
-                        Select Start Time:
-                      </label>
-                      <div className="flex gap-3">
-                        <select
-                          value={projectSelectedHour}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label className="block mb-2 text-sm font-medium text-gray-900">
+                          Select booking start date:
+                        </label>
+                        <input
+                          type="date"
+                          value={projectSelectDate}
                           onChange={(e) =>
-                            setProjectSelectedHour(e.target.value)
+                            setProjectSelectedDate(e.target.value)
                           }
-                          className="w-full p-3 border border-gray-300 rounded-xl focus:ring-rose-500 focus:border-rose-500"
-                        >
-                          {Array.from({ length: 12 }, (_, i) => i + 1).map(
-                            (hour) => (
-                              <option
-                                key={hour}
-                                value={hour < 10 ? `0${hour}` : hour}
-                              >
-                                {hour < 10 ? `0${hour}` : hour}
-                              </option>
-                            )
-                          )}
-                        </select>
-                        <select
-                          value={projectSelectedMinute}
-                          onChange={(e) =>
-                            setProjectSelectedMinute(e.target.value)
-                          }
-                          className="w-full p-3 border border-gray-300 rounded-xl focus:ring-rose-500 focus:border-rose-500"
-                        >
-                          {Array.from({ length: 12 }, (_, i) => i * 5).map(
-                            (minute) => (
-                              <option
-                                key={minute}
-                                value={minute < 10 ? `0${minute}` : minute}
-                              >
-                                {minute < 10 ? `0${minute}` : minute}
-                              </option>
-                            )
-                          )}
-                        </select>
-                        <select
-                          value={projectSelectedPeriod}
-                          onChange={(e) =>
-                            setProjectSelectedPeriod(e.target.value)
-                          }
-                          className="w-full p-3 border border-gray-300 rounded-xl focus:ring-rose-500 focus:border-rose-500"
-                        >
-                          <option value="AM">AM</option>
-                          <option value="PM">PM</option>
-                        </select>
+                          className="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-rose-500 focus:border-rose-500"
+                          min={new Date().toISOString().split("T")[0]} // Sets the minimum date to today
+                        />
+                      </div>
+                      <div>
+                        <label className="block mb-2 text-sm font-medium text-gray-900">
+                          Select Time:
+                        </label>
+                        <div className="flex gap-2">
+                          <select
+                            value={projectSelectedHour}
+                            onChange={(e) =>
+                              setProjectSelectedHour(e.target.value)
+                            }
+                            className="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-rose-500 focus:border-rose-500"
+                          >
+                            {Array.from({ length: 12 }, (_, i) => i + 1).map(
+                              (hour) => (
+                                <option
+                                  key={hour}
+                                  value={hour < 10 ? `0${hour}` : hour}
+                                >
+                                  {hour < 10 ? `0${hour}` : hour}
+                                </option>
+                              )
+                            )}
+                          </select>
+                          <select
+                            value={projectSelectedMinute}
+                            onChange={(e) =>
+                              setProjectSelectedMinute(e.target.value)
+                            }
+                            className="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-rose-500 focus:border-rose-500"
+                          >
+                            {Array.from({ length: 12 }, (_, i) => i * 5).map(
+                              (minute) => (
+                                <option
+                                  key={minute}
+                                  value={minute < 10 ? `0${minute}` : minute}
+                                >
+                                  {minute < 10 ? `0${minute}` : minute}
+                                </option>
+                              )
+                            )}
+                          </select>
+                          <select
+                            value={projectSelectedPeriod}
+                            onChange={(e) =>
+                              setProjectSelectedPeriod(e.target.value)
+                            }
+                            className="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-rose-500 focus:border-rose-500"
+                          >
+                            <option value="AM">AM</option>
+                            <option value="PM">PM</option>
+                          </select>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label className="block mb-2 text-sm font-medium text-gray-900">
+                          Select booking end date:
+                        </label>
+                        <input
+                          type="date"
+                          value={projectSelectEndDate}
+                          onChange={(e) =>
+                            setProjectSelectedEndDate(e.target.value)
+                          }
+                          min={projectSelectDate}
+                          className="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-rose-500 focus:border-rose-500"
+                        />
+                      </div>
+                      <div>
+                        <label className="block mb-2 text-sm font-medium text-gray-900">
+                          Select Time:
+                        </label>
+                        <div className="flex gap-2">
+                          <select
+                            value={projectSelectedEndHour}
+                            onChange={(e) =>
+                              setProjectSelectedEndHour(e.target.value)
+                            }
+                            className="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-rose-500 focus:border-rose-500"
+                          >
+                            {Array.from({ length: 12 }, (_, i) => i + 1).map(
+                              (hour) => (
+                                <option
+                                  key={hour}
+                                  value={hour < 10 ? `0${hour}` : hour}
+                                >
+                                  {hour < 10 ? `0${hour}` : hour}
+                                </option>
+                              )
+                            )}
+                          </select>
+                          <select
+                            value={projectSelectedEndMinute}
+                            onChange={(e) =>
+                              setProjectSelectedEndMinute(e.target.value)
+                            }
+                            className="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-rose-500 focus:border-rose-500"
+                          >
+                            {Array.from({ length: 12 }, (_, i) => i * 5).map(
+                              (minute) => (
+                                <option
+                                  key={minute}
+                                  value={minute < 10 ? `0${minute}` : minute}
+                                >
+                                  {minute < 10 ? `0${minute}` : minute}
+                                </option>
+                              )
+                            )}
+                          </select>
+                          <select
+                            value={projectSelectedEndPeriod}
+                            onChange={(e) =>
+                              setProjectSelectedEndPeriod(e.target.value)
+                            }
+                            className="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-rose-500 focus:border-rose-500"
+                          >
+                            <option value="AM">AM</option>
+                            <option value="PM">PM</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="mt-8">
+                      <h2 className="text-xl font-semibold text-gray-800 mb-4">
+                        Venue / Location Details
+                      </h2>
+                      <div className="w-full">
+                        <input
+                          ref={inputRef}
+                          className="p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all w-full"
+                        />
+                      </div>
+                      <div className="grid grid-cols-2 gap-5 mt-5">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Address
+                          </label>
+                          <input
+                            type="text"
+                            value={address}
+                            onChange={(e) => setAddress(e.target.value)}
+                            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                            required
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            City
+                          </label>
+                          <input
+                            type="text"
+                            value={city}
+                            onChange={(e) => setCity(e.target.value)}
+                            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                            required
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            State
+                          </label>
+                          <input
+                            type="text"
+                            value={state}
+                            onChange={(e) => setState(e.target.value)}
+                            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                            required
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Post Code
+                          </label>
+                          <input
+                            type="text"
+                            value={postCode}
+                            onChange={(e) => setPostCode(e.target.value)}
+                            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                            required
+                          />
+                        </div>
+                      </div>
+                    </div>
                     <div>
-                      <label className="block mb-3 text-sm font-medium text-gray-900">
-                        Select booking end date:
+                      <label className="block mb-2 text-sm font-medium text-gray-900">
+                        Venue Notes
                       </label>
-                      <input
-                        type="date"
-                        value={projectSelectEndDate}
-                        onChange={(e) =>
-                          setProjectSelectedEndDate(e.target.value)
-                        }
-                        min={projectSelectDate}
-                        className="w-full p-3 border border-gray-300 rounded-xl focus:ring-rose-500 focus:border-rose-500"
+                      <textarea
+                        value={VenueNotes}
+                        onChange={(e) => setVenueNotes(e.target.value)}
+                        className="w-full p-2.5 border h-44 border-gray-300 rounded-lg focus:ring-rose-500 focus:border-rose-500"
+                        placeholder="Please type any info that will help us direction or other instruction for the event"
                       />
                     </div>
-                    <div>
-                      <label className="block mb-3 text-sm font-medium text-gray-900">
-                        Select End Time:
-                      </label>
-                      <div className="flex gap-3">
-                        <select
-                          value={projectSelectedEndHour}
-                          onChange={(e) =>
-                            setProjectSelectedEndHour(e.target.value)
-                          }
-                          className="w-full p-3 border border-gray-300 rounded-xl focus:ring-rose-500 focus:border-rose-500"
-                        >
-                          {Array.from({ length: 12 }, (_, i) => i + 1).map(
-                            (hour) => (
-                              <option
-                                key={hour}
-                                value={hour < 10 ? `0${hour}` : hour}
-                              >
-                                {hour < 10 ? `0${hour}` : hour}
-                              </option>
-                            )
-                          )}
-                        </select>
-                        <select
-                          value={projectSelectedEndMinute}
-                          onChange={(e) =>
-                            setProjectSelectedEndMinute(e.target.value)
-                          }
-                          className="w-full p-3 border border-gray-300 rounded-xl focus:ring-rose-500 focus:border-rose-500"
-                        >
-                          {Array.from({ length: 12 }, (_, i) => i * 5).map(
-                            (minute) => (
-                              <option
-                                key={minute}
-                                value={minute < 10 ? `0${minute}` : minute}
-                              >
-                                {minute < 10 ? `0${minute}` : minute}
-                              </option>
-                            )
-                          )}
-                        </select>
-                        <select
-                          value={projectSelectedEndPeriod}
-                          onChange={(e) =>
-                            setProjectSelectedEndPeriod(e.target.value)
-                          }
-                          className="w-full p-3 border border-gray-300 rounded-xl focus:ring-rose-500 focus:border-rose-500"
-                        >
-                          <option value="AM">AM</option>
-                          <option value="PM">PM</option>
-                        </select>
-                      </div>
-                    </div>
                   </div>
-                  {/* Venue Details */}
-                  <div className="mt-8 z-50">
-                    <h2 className="text-xl font-semibold text-gray-800 mb-4">
-                      Location Details
-                    </h2>
-                    <div className="w-full ">
-                      <input
-                        ref={inputRef}
-                        className="p-3 border z-50 border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all w-full"
-                        placeholder="Enter a location"
-                      />
-                    </div>
-                    <div className="grid grid-cols-2 gap-5 mt-5">
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Address
-                        </label>
-                        <input
-                          type="text"
-                          value={address}
-                          onChange={(e) => setAddress(e.target.value)}
-                          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
-                          placeholder="Enter address"
-                          required
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          City
-                        </label>
-                        <input
-                          type="text"
-                          value={city}
-                          onChange={(e) => setCity(e.target.value)}
-                          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
-                          placeholder="Enter city"
-                          required
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          State
-                        </label>
-                        <input
-                          type="text"
-                          value={state}
-                          onChange={(e) => setState(e.target.value)}
-                          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
-                          placeholder="Enter state"
-                          required
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Post Code
-                        </label>
-                        <input
-                          type="text"
-                          value={postCode}
-                          onChange={(e) => setPostCode(e.target.value)}
-                          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
-                          placeholder="Enter post code"
-                          required
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <div>
-                    <label className="block mb-3 text-sm font-medium text-gray-900">
-                      Venue Notes
-                    </label>
-                    <input
-                      type="text"
-                      value={VenueNotes}
-                      onChange={(e) => setVenueNotes(e.target.value)}
-                      className="w-full p-3 border border-gray-300 rounded-xl focus:ring-rose-500 focus:border-rose-500"
-                      placeholder="Type..."
-                    />
-                  </div>
-                </div>
-                <button
-                  type="submit"
-                  className="w-full py-4 bg-gradient-to-r from-rose-700 to-rose-800 hover:from-rose-800 hover:to-rose-900 text-white font-semibold rounded-xl focus:ring-4 focus:outline-none focus:ring-rose-300 transition-all duration-300"
-                >
-                  Submit
-                </button>
-              </form>
+                  <button
+                    type="submit"
+                    className="w-full py-3 bg-rose-700 hover:bg-rose-800 text-white font-medium rounded-lg focus:ring-4 focus:outline-none focus:ring-rose-300"
+                  >
+                    Submit
+                  </button>
+                </form>
             </div>
           )}
         </div>

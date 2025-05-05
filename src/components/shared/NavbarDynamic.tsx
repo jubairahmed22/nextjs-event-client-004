@@ -128,7 +128,7 @@ const NavbarDynamic: React.FC = () => {
 
   return (
     <header className="sticky top-0 z-50 bg-white shadow-sm dark:bg-neutral-900 font-poppins">
-      <div className="max-w-screen-4xl mx-auto px-4 sm:px-6 ">
+      <div className="max-w-screen-3xl mx-auto px-4 sm:px-6 ">
         {/* Row 1: Logo, Search, Static Links */}
         <div className="flex flex-col md:flex-row justify-between items-center py-4 md:py-6 gap-4 md:gap-0">
           {/* Logo */}

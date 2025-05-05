@@ -32,7 +32,7 @@ const EventHeroSection = () => {
               </span>
             </h1>
 
-            <p className="text-xl md:text-2xl font-playfairDisplay font-medium text-white/90 mb-8 max-w-2xl mx-auto">
+            <p className="text-xl md:text-2xl font-playfairDisplay font-medium text-white/90 mb-8 max-w-screen-3xl mx-auto">
               Bring your vision to life with flawless event planning and
               unforgettable experiences.
             </p>

@@ -85,10 +85,10 @@ export default function ExpoPage() {
       const payload = {
         ...formData,
         expoStartDate: combinedStartDate.toISOString(), // Convert to ISO string for JSON
-        expoEndDate: combinedEndDate.toISOString(),
+        // expoEndDate: combinedEndDate.toISOString(),
       };
 
-      const response = await fetch("https://server-gs.vercel.app/web/post-expo", {
+      const response = await fetch("http://localhost:8000/web/post-expo", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -104,7 +104,7 @@ export default function ExpoPage() {
 
       // Second POST after successful first one
       const secondaryResponse = await fetch(
-        "https://server-gs.vercel.app/api/sent-expo-registration",
+        "http://localhost:8000/api/sent-expo-registration",
         {
           method: "POST",
           headers: {
@@ -113,7 +113,7 @@ export default function ExpoPage() {
           body: JSON.stringify({
             expoId: data.expoId,
             expoStartDate: combinedStartDate,
-            expoEndDate: combinedEndDate,
+            // expoEndDate: combinedEndDate,
             ...formData,
           }),
         }
@@ -157,7 +157,7 @@ export default function ExpoPage() {
         />
       </div>
       {/* <div className="absolute inset-0 bg-gradient-to-br from-rose-10 to-rose-800 opacity-90"></div> */}
-      <div className="relative z-10 max-w-md mx-auto bg-white rounded-2xl shadow-xl overflow-hidden md:max-w-2xl transition-all duration-300 hover:shadow-2xl">
+      <div className="relative z-10 max-w-2xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden md:max-w-screen-3xl transition-all duration-300 hover:shadow-2xl">
         <Head>
           <title>Expo Registration</title>
           <meta name="description" content="Register for our upcoming expo" />
@@ -169,7 +169,7 @@ export default function ExpoPage() {
           />
         </Head>
 
-        <div className="max-w-md mx-auto bg-white rounded-2xl shadow-xl overflow-hidden md:max-w-2xl transition-all duration-300 hover:shadow-2xl">
+        <div className="max-w-2xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden md:max-w-screen-3xl transition-all duration-300 hover:shadow-2xl">
           <div className="bg-gradient-to-r from-rose-600 to-rose-700 p-6 text-center">
             <h1 className="text-3xl font-bold text-white font-sans">
               Join Our Exclusive Expo
@@ -386,7 +386,7 @@ export default function ExpoPage() {
                     </div>
                   </div>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label className="block mb-2 text-sm font-medium text-gray-900">
                       Select booking end date:
@@ -454,7 +454,7 @@ export default function ExpoPage() {
                       </select>
                     </div>
                   </div>
-                </div>
+                </div> */}
 
                 <div className="relative">
                   <label

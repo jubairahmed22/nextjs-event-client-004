@@ -1,4 +1,3 @@
-// context/FilterContext.tsx
 "use client";
 
 import {
@@ -10,7 +9,6 @@ import {
 } from "react";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 
-// Define your types
 export interface Category {
   _id: string;
   title: string;
@@ -41,6 +39,8 @@ interface FilterContextType {
   subCategories: Record<string, SubCategory[]>;
   loading: boolean;
   isSidebarOpen: boolean;
+  currentPage: number;
+  totalPages: number;
 
   setIsSidebarOpen: (isOpen: boolean) => void;
   handleFilterChange: (
@@ -50,9 +50,10 @@ interface FilterContextType {
   handlePromotionToggle: () => void;
   handleCategoryChange: (categoryId: string) => void;
   handleSubCategoryChange: (subCategoryId: string) => void;
+  handlePageChange: (page: number) => void;
   clearFilters: () => void;
   fetchSubCategories: (categoryId: string) => Promise<void>;
-  applyFilters: (newFilters: Partial<Filters>) => void;
+  applyFilters: (newFilters: Partial<Filters>, pageReset?: boolean) => void;
 }
 
 const FilterContext = createContext<FilterContextType | undefined>(undefined);
@@ -80,8 +81,10 @@ export const FilterProvider = ({ children }: { children: ReactNode }) => {
   >({});
   const [loading, setLoading] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
-  // Initialize state from URL params
+  // Initialize from URL
   useEffect(() => {
     const qParam = searchParams.get("q");
     const categoryParam = searchParams.get("category");
@@ -89,9 +92,9 @@ export const FilterProvider = ({ children }: { children: ReactNode }) => {
     const minPriceParam = searchParams.get("minPrice");
     const maxPriceParam = searchParams.get("maxPrice");
     const promotionParam = searchParams.get("promotion");
+    const pageParam = searchParams.get("page");
 
     const newFilters = { ...filters };
-
     if (qParam) newFilters.title = qParam;
     if (categoryParam) newFilters.category = categoryParam;
     if (subCategoryParam) newFilters.subCategory = subCategoryParam;
@@ -102,20 +105,26 @@ export const FilterProvider = ({ children }: { children: ReactNode }) => {
     }
 
     setFilters(newFilters);
+    setCurrentPage(pageParam ? parseInt(pageParam, 10) : 1);
   }, [searchParams]);
 
-  // Fetch categories and subcategories
+  // Fetch categories with pagination
   useEffect(() => {
     const fetchCategories = async () => {
       try {
         setLoading(true);
-        const res = await fetch("https://server-gs.vercel.app/web/main-category");
+        const res = await fetch(
+          `https://server-gs.vercel.app/web/main-category?page=${currentPage}`
+        );
         const data = await res.json();
+
         const formatted = (data.products || []).map((cat: Category) => ({
           ...cat,
           hasSubcategories: undefined,
         }));
         setCategories(formatted);
+        setTotalPages(data.totalPages || 1);
+
         formatted.forEach((cat: Category) => fetchSubCategories(cat._id));
       } catch (error) {
         console.error("Failed to fetch categories:", error);
@@ -125,7 +134,7 @@ export const FilterProvider = ({ children }: { children: ReactNode }) => {
     };
 
     fetchCategories();
-  }, []);
+  }, [currentPage]);
 
   const fetchSubCategories = async (categoryId: string) => {
     if (subCategories[categoryId]) return;
@@ -156,19 +165,24 @@ export const FilterProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const applyFilters = (newFilters: Partial<Filters>) => {
+  const applyFilters = (newFilters: Partial<Filters>, pageReset = true) => {
     const updatedFilters = { ...filters, ...newFilters };
     setFilters(updatedFilters);
 
-    // If we're not already on the products page, navigate there
+    const pageToSet = pageReset ? 1 : currentPage;
+
     if (pathname !== "/all-products") {
-      updateUrlParams(updatedFilters, "/all-products");
+      updateUrlParams(updatedFilters, pageToSet, "/all-products");
     } else {
-      updateUrlParams(updatedFilters);
+      updateUrlParams(updatedFilters, pageToSet);
     }
   };
 
-  const updateUrlParams = (updatedFilters: Filters, newPath?: string) => {
+  const updateUrlParams = (
+    updatedFilters: Filters,
+    page: number,
+    newPath?: string
+  ) => {
     const urlParams = new URLSearchParams();
 
     if (updatedFilters.title) urlParams.set("q", updatedFilters.title);
@@ -183,9 +197,11 @@ export const FilterProvider = ({ children }: { children: ReactNode }) => {
     if (updatedFilters.promotionFilter === "true") {
       urlParams.set("promotion", '"true"');
     }
+    urlParams.set("page", page.toString());
 
     const url = `${newPath || pathname}?${urlParams.toString()}`;
     router.push(url, undefined, { shallow: true });
+    setCurrentPage(page);
   };
 
   const handleFilterChange = (
@@ -207,16 +223,36 @@ export const FilterProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const handleCategoryChange = (categoryId: string) => {
-    applyFilters({
-      category: categoryId === filters.category ? "" : categoryId,
-      subCategory: "",
-    });
+    applyFilters(
+      {
+        category: categoryId === filters.category ? "" : categoryId,
+        subCategory: "",
+        promotionFilter: "", // Reset promotion filter when category changes
+      },
+      false // KEEP current page
+    );
+  };
+  
+  const handleSubCategoryChange = (subCategoryId: string) => {
+    // Find which category this subcategory belongs to
+    const parentCategory = Object.entries(subCategories).find(([catId, subs]) => 
+      subs.some(sub => sub._id === subCategoryId)
+    )?.[0] || "";
+  
+    applyFilters(
+      {
+        category: parentCategory, // Only include the correct parent category
+        subCategory: subCategoryId === filters.subCategory ? "" : subCategoryId,
+        promotionFilter: "", // Reset promotion filter when subcategory changes
+      },
+      false // KEEP current page
+    );
   };
 
-  const handleSubCategoryChange = (subCategoryId: string) => {
-    applyFilters({
-      subCategory: subCategoryId === filters.subCategory ? "" : subCategoryId,
-    });
+  const handlePageChange = (page: number) => {
+    if (page >= 1 && page <= totalPages) {
+      updateUrlParams(filters, page);
+    }
   };
 
   const clearFilters = () => {
@@ -232,7 +268,8 @@ export const FilterProvider = ({ children }: { children: ReactNode }) => {
       maxPrice: "",
     };
     setFilters(resetFilters);
-    router.push("/all-products", undefined, { shallow: true });
+    setCurrentPage(1);
+    router.push("/all-products?page=1", undefined, { shallow: true });
   };
 
   return (
@@ -243,12 +280,15 @@ export const FilterProvider = ({ children }: { children: ReactNode }) => {
         subCategories,
         loading,
         isSidebarOpen,
+        currentPage,
+        totalPages,
         setIsSidebarOpen,
         handleFilterChange,
         handlePriceChange,
         handlePromotionToggle,
         handleCategoryChange,
         handleSubCategoryChange,
+        handlePageChange,
         clearFilters,
         fetchSubCategories,
         applyFilters,

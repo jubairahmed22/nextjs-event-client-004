@@ -35,7 +35,7 @@ const HomeEvents: React.FC = () => {
   }, []);
 
   return (
-    <div className="mx-auto max-w-screen-4xl pb-10">
+    <div className="mx-auto max-w-screen-3xl pb-10">
       {loading ? (
         <EventPageLoading></EventPageLoading>
       ) : (

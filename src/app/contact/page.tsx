@@ -3,6 +3,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import Swal from "sweetalert2";
+import { motion } from "framer-motion";
 
 const Page = () => {
   const [formData, setFormData] = useState({
@@ -57,26 +58,49 @@ const Page = () => {
     }
   };
 
-  return (
-    <div>
+  
+  const text = "Contact Us";
+  const letters = text.split("");
 
-      <section className="relative z-10 overflow-hidden bg-white dark:bg-dark py-20 lg:py-[120px] font-playfairDisplay">
-        <div className="container mx-auto">
+  return (
+    <div className="px-4 sm:px-6 lg:px-8 my-20">
+     <motion.div className="text-start  mb-16">
+            <h1 className="mb-4 text-lg md:text-2xl lg:text-6xl uppercase font-playfairDisplay font-bold">
+              <span className="relative inline-block">
+                {letters.map((letter, i) => (
+                  <motion.span
+                    key={i}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{
+                      duration: 0.5,
+                      delay: i * 0.05,
+                    }}
+                    className="relative text-transparent bg-clip-text bg-gradient-to-r from-rose-700 to-rose-900"
+                  >
+                    {letter === " " ? "\u00A0" : letter}
+                  </motion.span>
+                ))}
+              </span>
+            </h1>
+          </motion.div>
+      <section className="relative z-10 overflow-hidden bg-white dark:bg-dark  font-playfairDisplay">
+        <div className="max-w-screen-2xl mx-auto">
           <div className="flex flex-wrap -mx-4 lg:justify-between">
             <div className="w-full px-4 lg:w-1/2 xl:w-6/12">
               <div className="mb-12 max-w-[570px] lg:mb-0">
-                <span className="block mb-4 text-2xl font-semibold text-rose-900 ">
+                {/* <span className="block mb-4 text-2xl font-semibold text-rose-900 ">
                   Contact Us
-                </span>
+                </span> */}
                 <h2 className="text-dark dark:text-white mb-6 text-[32px] font-bold uppercase sm:text-[40px] lg:text-[36px] xl:text-[40px]">
-                   My Color Events
+                  My Color Events
                 </h2>
                 {/* <p className="text-base leading-relaxed text-body-color dark:text-dark-6 mb-9">
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
                   do eius tempor incididunt ut labore et dolore magna aliqua. Ut
                   enim adiqua minim veniam quis nostrud exercitation ullamco
                 </p> */}
-               
+
                 <div className="mb-8 flex w-full max-w-[370px]">
                   <div className="bg-primary/5 text-rose-900 mr-6 flex h-[60px] w-full max-w-[60px] items-center justify-center overflow-hidden rounded sm:h-[70px] sm:max-w-[70px]">
                     <svg
@@ -136,7 +160,7 @@ const Page = () => {
                       Email message
                     </h4>
                     <p className="text-base text-body-color dark:text-dark-6">
-                    info@mycolorevents.com
+                      info@mycolorevents.com
                     </p>
                   </div>
                 </div>
@@ -203,15 +227,15 @@ const Page = () => {
                     />
                   </div>
                   <div className="mb-6">
-                  <textarea
-  rows={6}
-  placeholder="Your Message"
-  name="message"
-  value={formData.message}
-  onChange={handleChange}
-  required
-  className="w-full p-2  border-stroke dark:border-dark-3 dark:text-dark-6 dark:bg-dark text-body-color focus:border-primary resize-none rounded border py-3 px-[14px] text-base outline-none"
-></textarea>
+                    <textarea
+                      rows={6}
+                      placeholder="Your Message"
+                      name="message"
+                      value={formData.message}
+                      onChange={handleChange}
+                      required
+                      className="w-full p-2  border-stroke dark:border-dark-3 dark:text-dark-6 dark:bg-dark text-body-color focus:border-primary resize-none rounded border py-3 px-[14px] text-base outline-none"
+                    ></textarea>
                   </div>
                   <div>
                     <button
@@ -1034,36 +1058,40 @@ const Page = () => {
             </div>
           </div>
           <div className="w-full h-96 mt-10 relative group rounded-xl overflow-hidden shadow-2xl border-2 border-white/20 hover:border-blue-400 transition-all duration-300">
-  {/* Gradient overlay for a premium look */}
-  <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-purple-500/10 z-10 pointer-events-none"></div>
-  
-  {/* Custom marker pulse animation (floating) */}
-  <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20">
-    <div className="w-6 h-6 bg-red-500 rounded-full animate-pulse"></div>
-    <div className="w-6 h-6 bg-red-500/30 rounded-full absolute inset-0 animate-ping"></div>
-  </div>
+            {/* Gradient overlay for a premium look */}
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-purple-500/10 z-10 pointer-events-none"></div>
 
-  {/* Google Maps iframe with smoother loading */}
-  <iframe
-    width="100%"
-    height="100%"
-    frameBorder="0"
-    scrolling="no"
-    marginHeight="0"
-    marginWidth="0"
-    src="https://maps.google.com/maps?q=My%20Color%20Events%20%26%20Design%20LLC,%20Monroe%20Turnpike,%20Monroe,%20CT,%20USA&t=m&z=16&output=embed&iwloc=near"
-    className="group-hover:scale-105 transition-transform duration-500 ease-in-out"
-    allowFullScreen
-    loading="lazy"
-    title="My Color Events & Design LLC Location"
-  ></iframe>
+            {/* Custom marker pulse animation (floating) */}
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20">
+              <div className="w-6 h-6 bg-red-500 rounded-full animate-pulse"></div>
+              <div className="w-6 h-6 bg-red-500/30 rounded-full absolute inset-0 animate-ping"></div>
+            </div>
 
-  {/* Floating info box */}
-  <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-lg shadow-md z-20">
-    <h3 className="font-bold text-gray-800">My Color Events & Design LLC</h3>
-    <p className="text-sm text-gray-600">Monroe Turnpike, Monroe, CT</p>
-  </div>
-</div>
+            {/* Google Maps iframe with smoother loading */}
+            <iframe
+              width="100%"
+              height="100%"
+              frameBorder="0"
+              scrolling="no"
+              marginHeight="0"
+              marginWidth="0"
+              src="https://maps.google.com/maps?q=My%20Color%20Events%20%26%20Design%20LLC,%20Monroe%20Turnpike,%20Monroe,%20CT,%20USA&t=m&z=16&output=embed&iwloc=near"
+              className="group-hover:scale-105 transition-transform duration-500 ease-in-out"
+              allowFullScreen
+              loading="lazy"
+              title="My Color Events & Design LLC Location"
+            ></iframe>
+
+            {/* Floating info box */}
+            <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-lg shadow-md z-20">
+              <h3 className="font-bold text-gray-800">
+                My Color Events & Design LLC
+              </h3>
+              <p className="text-sm text-gray-600">
+                Monroe Turnpike, Monroe, CT
+              </p>
+            </div>
+          </div>
         </div>
       </section>
     </div>
