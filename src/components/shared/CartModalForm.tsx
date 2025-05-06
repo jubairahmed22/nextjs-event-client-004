@@ -288,194 +288,234 @@ const CartModalForm: React.FC = () => {
   };
 
   const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
-
-    const result = await Swal.fire({
-      title: "Are you sure?",
-      text: "Do you want to send a quote request?",
-      icon: "question",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, send it!",
-      cancelButtonText: "No, cancel!",
-    });
-
-    if (result.isConfirmed) {
-      // Show loading indicator
-      Swal.fire({
-        title:
-          "<span style='font-family: Poppins, sans-serif'>Processing...</span>",
-        html: "<div style='font-family: Poppins, sans-serif'>Please wait while we process your request</div>",
-        allowOutsideClick: false,
-        didOpen: () => {
-          Swal.showLoading();
-          // Apply to all text in the modal
-          const popup = Swal.getPopup();
-          if (popup) {
-            popup.style.fontFamily = "'Poppins', sans-serif";
-          }
+      event.preventDefault();
+  
+      const result = await Swal.fire({
+        title: "Are you sure?",
+        text: "Do you want to send a quote request?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, send it!",
+        cancelButtonText: "No, cancel!",
+        customClass: {
+          container: 'p-4 ',
+          popup: 'rounded-lg shadow-xl',
+          title: 'text-2xl font-bold font-montserrat text-gray-800',
+          htmlContainer: 'text-gray-600 font-montserrat mb-4',
+          confirmButton: 'bg-black hover:bg-gray-800 text-white font-montserrat font-medium py-2 px-4 rounded-lg mx-1 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50',
+          cancelButton: 'bg-red-500 hover:bg-red-600 text-white font-medium font-montserrat py-2 px-4 rounded-lg mx-1 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50',
+          actions: 'flex justify-end mt-4'
         },
+        buttonsStyling: false
       });
-
-      try {
-        const generateSetCode = () => {
-          return Math.random().toString(36).substr(2, 8).toUpperCase();
-        };
-
-        const setCode = generateSetCode();
-
-        const [startYear, startMonth, startDay] = projectSelectDate.split("-");
-        let startHour = parseInt(projectSelectedHour, 10);
-        const startMinute = parseInt(projectSelectedMinute, 10);
-
-        if (projectSelectedPeriod === "PM" && startHour < 12) startHour += 12;
-        if (projectSelectedPeriod === "AM" && startHour === 12) startHour = 0;
-
-        const combinedStartDate = new Date(
-          Date.UTC(
-            parseInt(startYear),
-            parseInt(startMonth) - 1,
-            parseInt(startDay),
-            startHour,
-            startMinute
-          )
-        );
-
-        const [endYear, endMonth, endDay] = projectSelectEndDate.split("-");
-        let endHour = parseInt(projectSelectedEndHour, 10);
-        const endMinute = parseInt(projectSelectedEndMinute, 10);
-
-        if (projectSelectedEndPeriod === "PM" && endHour < 12) endHour += 12;
-        if (projectSelectedEndPeriod === "AM" && endHour === 12) endHour = 0;
-
-        const combinedEndDate = new Date(
-          Date.UTC(
-            parseInt(endYear),
-            parseInt(endMonth) - 1,
-            parseInt(endDay),
-            endHour,
-            endMinute
-          )
-        );
-
-        const paymentData: PaymentData = {
-          firstName,
-          lastName,
-          phoneNumber,
-          email,
-          address,
-          city,
-          state,
-          postCode,
-          VenueNotes,
-          projectSelectDate: combinedStartDate,
-          projectSelectEndDate: combinedEndDate,
-          set: [
+  
+      if (result.isConfirmed) {
+        // Show the warning note before proceeding
+        await Swal.fire({
+          title: "⚠ Please Note:",
+          html: `
+            <div class="text-left  font-montserrat">
+              <p class="mb-3">This is only a quote request, not a confirmed reservation.</p>
+              <p class="mb-3">To check availability, receive final pricing, and secure your reservation, please speak directly with an associate.</p>
+              <ul class="list-disc pl-5 mb-3 space-y-1">
+                <li>Delivery and additional fees are not included in this estimate.</li>
+                <li>A deposit is required for most reservations.</li>
+              </ul>
+              <p class="mt-3">Thank you for your understanding!</p>
+            </div>
+          `,
+          icon: "warning",
+          confirmButtonText: "I understood",
+          confirmButtonColor: "#000000",
+          customClass: {
+            popup: 'font-[Poppins]', // Ensures Poppins is applied to the entire modal
+          },
+        });
+  
+        // Show loading indicator
+        Swal.fire({
+          title: "<span class='font-montserrat mt-5'>Processing...</span>",
+          html: "<div class='font-montserrat'>Please wait while we process your request</div>",
+          allowOutsideClick: false,
+          didOpen: () => {
+            Swal.showLoading();
+            const popup = Swal.getPopup();
+            if (popup) {
+              popup.classList.add('font-montserrat'); // Apply Montserrat to the entire modal
+            }
+          },
+          customClass: {
+            popup: 'font-montserrat', // Ensures Montserrat is applied to the entire modal
+            title: 'text-lg font-medium', // Optional: Adjust title styling
+            htmlContainer: 'text-gray-800', // Optional: Adjust text color
+          },
+          background: 'white', // Optional: Set background
+          backdrop: 'rgba(0,0,0,0.5)', // Optional: Adjust backdrop opacity
+        });
+  
+        // Rest of your existing code...
+        try {
+          const generateSetCode = () => {
+            return Math.random().toString(36).substr(2, 8).toUpperCase();
+          };
+  
+          const setCode = generateSetCode();
+  
+          const [startYear, startMonth, startDay] = projectSelectDate.split("-");
+          let startHour = parseInt(projectSelectedHour, 10);
+          const startMinute = parseInt(projectSelectedMinute, 10);
+  
+          if (projectSelectedPeriod === "PM" && startHour < 12) startHour += 12;
+          if (projectSelectedPeriod === "AM" && startHour === 12) startHour = 0;
+  
+          const combinedStartDate = new Date(
+            Date.UTC(
+              parseInt(startYear),
+              parseInt(startMonth) - 1,
+              parseInt(startDay),
+              startHour,
+              startMinute
+            )
+          );
+  
+          const [endYear, endMonth, endDay] = projectSelectEndDate.split("-");
+          let endHour = parseInt(projectSelectedEndHour, 10);
+          const endMinute = parseInt(projectSelectedEndMinute, 10);
+  
+          if (projectSelectedEndPeriod === "PM" && endHour < 12) endHour += 12;
+          if (projectSelectedEndPeriod === "AM" && endHour === 12) endHour = 0;
+  
+          const allProductPrice = cartItems.reduce(
+            (sum, item) => sum + item.perDayPricing * item.quantity,
+            0
+          );
+  
+          const combinedEndDate = new Date(
+            Date.UTC(
+              parseInt(endYear),
+              parseInt(endMonth) - 1,
+              parseInt(endDay),
+              endHour,
+              endMinute
+            )
+          );
+  
+          const paymentData: PaymentData = {
+            firstName,
+            lastName,
+            phoneNumber,
+            email,
+            address,
+            city,
+            state,
+            postCode,
+            VenueNotes,
+            projectSelectDate: combinedStartDate,
+            projectSelectEndDate: combinedEndDate,
+            set: [
+              {
+                setCode,
+                setTitle: VenueName,
+                startDate: combinedStartDate,
+                endDate: combinedEndDate,
+                products: cartItems.map((item) => {
+                  const priceValue = item.perDayPricing;
+                  const productTotal = item.perDayPricing * item.quantity;
+  
+                  return {
+                    singleImage: item.singleImage,
+                    title: item.title,
+                    productId: item.productId,
+                    quantity: item.quantity,
+                    selectedDate: item.selectedDate || "",
+                    contractDescription: item.contractDescription,
+                    productDescription: item.productDescription,
+                    internalNotes: item.internalNotes,
+                    length: item.length,
+                    height: item.height,
+                    shape: item.shape,
+                    width: item.width,
+                    productCode: item.productCode,
+                    selectedPricingValue: priceValue,
+                    tax: data?.taxValue || 0,
+                    productTotal,
+                  };
+                }),
+              },
+            ],
+            totalPrice: allProductPrice,
+          };
+  
+          const paymentResponse = await fetch(
+            "https://server-gs.vercel.app/save-payment",
             {
-              setCode,
-              setTitle: VenueName,
-              startDate: combinedStartDate,
-              endDate: combinedEndDate,
-              products: cartItems.map((item) => {
-                const priceValue = item.perDayPricing;
-                const productTotal = item.perDayPricing * item.quantity;
-
-                return {
-                  singleImage: item.singleImage,
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(paymentData),
+            }
+          );
+  
+          if (!paymentResponse.ok) {
+            throw new Error("Failed to save payment details");
+          }
+  
+          const emailResponse = await fetch(
+            "https://server-gs.vercel.app/api/sent-cart-details",
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                firstName,
+                lastName,
+                email,
+                phone: phoneNumber,
+                message: `Quote request for ${VenueName}. Total price: $${allProductPrice}`,
+                cartItems: cartItems.map((item) => ({
                   title: item.title,
-                  productId: item.productId,
                   quantity: item.quantity,
-                  selectedDate: item.selectedDate || "",
-                  contractDescription: item.contractDescription,
-                  productDescription: item.productDescription,
-                  internalNotes: item.internalNotes,
-                  length: item.length,
-                  height: item.height,
-                  shape: item.shape,
-                  width: item.width,
-                  productCode: item.productCode,
-                  selectedPricingValue: priceValue,
-                  tax: data?.taxValue || 0,
-                  productTotal,
-                };
+                  price: item.perDayPricing,
+                  total: item.perDayPricing * item.quantity,
+                })),
+                totalPrice: allProductPrice,
+                startDate: combinedStartDate,
+                endDate: combinedEndDate,
+                venueNotes: VenueNotes,
               }),
+            }
+          );
+  
+          if (!emailResponse.ok) {
+            throw new Error("Failed to send email notification");
+          }
+  
+          Swal.fire({
+            title: "<span class='font-montserrat font-semibold'>Success!</span>",
+            html: "<div class='font-montserrat'>Quote request sent successfully!</div>",
+            icon: "success",
+            confirmButtonText: "OK",
+            confirmButtonColor: "#000000", // Black background
+            customClass: {
+              popup: 'font-montserrat bg-white',
+              title: 'text-2xl',
+              htmlContainer: 'text-gray-700',
+              confirmButton: 'px-4 py-2 rounded-md bg-black text-white hover:bg-gray-800',
             },
-          ],
-          totalPrice: totalCartPrice,
-        };
-
-        // First, save the payment data
-        // Swal.update({
-        //   title: "Saving payment details...",
-        // });
-
-        const paymentResponse = await fetch(
-          "https://server-gs.vercel.app/save-payment",
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(paymentData),
-          }
-        );
-
-        if (!paymentResponse.ok) {
-          throw new Error("Failed to save payment details");
+            buttonsStyling: false,
+          });
+          resetForm();
+        } catch (error) {
+          console.error("Error:", error);
+          Swal.fire({
+            title: "Error!",
+            text: "An error occurred while processing your request.",
+            icon: "error",
+            confirmButtonText: "OK",
+          });
         }
-
-        // Then send the email notification
-        // Swal.update({
-        //   title: "Sending confirmation email...",
-        // });
-
-        const emailResponse = await fetch(
-          "https://server-gs.vercel.app/api/sent-cart-details",
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              firstName,
-              lastName,
-              email,
-              phone: phoneNumber,
-              message: `Quote request for ${VenueName}. Total price: $${totalCartPrice}`,
-              cartItems: cartItems.map((item) => ({
-                title: item.title,
-                quantity: item.quantity,
-                price: item.perDayPricing,
-                total: item.perDayPricing * item.quantity,
-              })),
-              totalPrice: totalCartPrice,
-              startDate: combinedStartDate,
-              endDate: combinedEndDate,
-              venueNotes: VenueNotes,
-            }),
-          }
-        );
-
-        if (!emailResponse.ok) {
-          throw new Error("Failed to send email notification");
-        }
-
-        // Success - close loading and show success message
-        Swal.fire({
-          title: "Success!",
-          text: "Quote request sent successfully!",
-          icon: "success",
-          confirmButtonText: "OK",
-        });
-        resetForm();
-      } catch (error) {
-        console.error("Error:", error);
-        Swal.fire({
-          title: "Error!",
-          text: "An error occurred while processing your request.",
-          icon: "error",
-          confirmButtonText: "OK",
-        });
       }
-    }
-  };
+    };
 
   const toggleDropdown = (index: number) => {
     setDropdownVisible((prev) => ({

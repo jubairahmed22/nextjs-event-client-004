@@ -59,7 +59,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
   return (
     
-      <div className="group relative bg-white p-4 font-lora  shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 hover:border-rose-100 flex flex-col h-full">
+      <div className="group relative bg-white p-4  font-montserrat  shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 hover:border-rose-100 flex flex-col h-full">
   {/* Ribbon/Badge for Featured */}
   {product.isFeatured && (
     <div className="absolute top-2 left-2 bg-rose-600 text-white text-xs font-bold px-2 py-1  shadow-sm z-10">
