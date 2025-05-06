@@ -5,7 +5,12 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import ProductSearch from "./ProductSearch";
 import { FilterCategorySidebar } from "../AllProductCopmonent/FilterCategorySidebar";
-import { ChevronRightIcon, SearchIcon, SparkleIcon, StarIcon } from "lucide-react";
+import {
+  ChevronRightIcon,
+  SearchIcon,
+  SparkleIcon,
+  StarIcon,
+} from "lucide-react";
 
 interface Category {
   _id: string;
@@ -271,52 +276,53 @@ const NavbarMenu: React.FC = () => {
       </div> */}
 
             <div className="flex flex-row items-center gap-6">
-              <Link
-                href="/cart"
+              <div
                 className="relative group outline-none"
                 aria-label={`${cart.length} items in cart`}
               >
                 <div className="relative">
                   {/* Heart button with pulse animation */}
-                  <button
-                    className={`
-            w-12 h-12 bg-gray-900 rounded-full flex justify-center items-center
-            transition-all duration-300
-            hover:bg-black hover:scale-110
-            focus:ring-2 focus:ring-red-400 focus:ring-opacity-75
-            shadow-lg hover:shadow-xl
-            ${isAnimating ? "animate-pulse" : ""}
-          `}
-                    onClick={(e) => e.preventDefault()} // Let Link handle navigation
-                  >
-                    {/* Heart with subtle beat animation */}
-                    <span
+                  <Link href="/cart" passHref>
+                    <button
                       className={`
+          w-12 h-12 bg-gray-900 rounded-full flex justify-center items-center
+          transition-all duration-300
+          hover:bg-black hover:scale-110
+          focus:ring-2 focus:ring-red-400 focus:ring-opacity-75
+          shadow-lg hover:shadow-xl
+          ${isAnimating ? "animate-pulse" : ""}
+        `}
+                      // Remove the onClick handler that was preventing navigation
+                    >
+                      {/* Heart with subtle beat animation */}
+                      <span
+                        className={`
             text-white text-2xl
             transition-transform duration-300
             group-hover:scale-125
             ${isAnimating ? "animate-beat" : ""}
           `}
-                    >
-                      ♥
-                    </span>
+                      >
+                        ♥
+                      </span>
 
-                    {/* Gradient background for extra depth */}
-                    <div className="absolute inset-0 rounded-full bg-gradient-to-br from-transparent to-black opacity-30" />
-                  </button>
+                      {/* Gradient background for extra depth */}
+                      <div className="absolute inset-0 rounded-full bg-gradient-to-br from-transparent to-black opacity-30" />
+                    </button>
+                  </Link>
 
                   {/* Premium badge with count */}
                   <span
                     className={`
-          absolute -top-2 -right-2 
-          bg-gradient-to-br from-red-500 to-pink-500 
-          text-white rounded-full w-7 h-7 
-          flex items-center justify-center text-xs font-bold
-          shadow-md
-          transition-all duration-300
-          ${isAnimating ? "scale-150" : ""}
-          ${cart.length === 0 ? "opacity-0 scale-0" : "opacity-100 scale-100"}
-        `}
+        absolute -top-2 -right-2 
+        bg-gradient-to-br from-red-500 to-pink-500 
+        text-white rounded-full w-7 h-7 
+        flex items-center justify-center text-xs font-bold
+        shadow-md
+        transition-all duration-300
+        ${isAnimating ? "scale-150" : ""}
+        ${cart.length === 0 ? "opacity-0 scale-0" : "opacity-100 scale-100"}
+      `}
                   >
                     {cart.length > 9 ? "9+" : cart.length}
                   </span>
@@ -325,18 +331,19 @@ const NavbarMenu: React.FC = () => {
                 {/* Tooltip on hover */}
                 <div
                   className="
-        absolute top-full right-0 mt-2 px-3 py-1 
-        bg-black text-white text-sm rounded
-        opacity-0 group-hover:opacity-100
-        transition-opacity duration-200
-        pointer-events-none
-        whitespace-nowrap
-      "
+      absolute top-full right-0 mt-2 px-3 py-1 
+      bg-black text-white text-sm rounded
+      opacity-0 group-hover:opacity-100
+      transition-opacity duration-200
+      pointer-events-none
+      whitespace-nowrap
+    "
                 >
                   View your cart
                   <div className="absolute -top-1 right-3 w-3 h-3 bg-black transform rotate-45" />
                 </div>
-              </Link>
+              </div>
+
               <button
                 onClick={toggleSidebar}
                 aria-label="Toggle categories"
@@ -355,76 +362,76 @@ const NavbarMenu: React.FC = () => {
       </header>
 
       <aside
-  className={`fixed z-50 font-montserrat top-0 right-0 h-full w-full sm:w-96 bg-black shadow-2xl transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] ${
-    isSidebarOpen ? "translate-x-0" : "translate-x-full"
-  }`}
-  onClick={(e) => e.stopPropagation()}
->
-  <div className="flex flex-col h-full overflow-hidden border-l border-gray-800">
-    {/* Premium Header */}
-    <div className="flex justify-between items-center p-6 bg-gradient-to-b from-black to-gray-900 relative border-b border-gray-800">
-      <h2 className="text-white text-xl font-bold flex items-center">
-        <SparkleIcon className="mr-2 text-yellow-400" />
-        MENU
-      </h2>
-      <button
-        onClick={closeSidebar}
-        className="p-2 rounded-full hover:bg-gray-800 transition-all duration-200 group"
-        aria-label="Close sidebar"
+        className={`fixed z-50 font-montserrat top-0 right-0 h-full w-full sm:w-96 bg-black shadow-2xl transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] ${
+          isSidebarOpen ? "translate-x-0" : "translate-x-full"
+        }`}
+        onClick={(e) => e.stopPropagation()}
       >
-        <div className="text-gray-400 group-hover:text-white rotate-0 group-hover:rotate-90 transition-transform duration-300">
-          <XIcon size={24} />
-        </div>
-      </button>
-    </div>
+        <div className="flex flex-col h-full overflow-hidden border-l border-gray-800">
+          {/* Premium Header */}
+          <div className="flex justify-between items-center p-6 bg-gradient-to-b from-black to-gray-900 relative border-b border-gray-800">
+            <h2 className="text-white text-xl font-montserrat font-bold flex items-center">
+              <SparkleIcon className="mr-2 text-yellow-400" />
+              MENU
+            </h2>
+            <button
+              onClick={closeSidebar}
+              className="p-2 rounded-full hover:bg-gray-800 transition-all duration-200 group"
+              aria-label="Close sidebar"
+            >
+              <div className="text-gray-400 group-hover:text-white rotate-0 group-hover:rotate-90 transition-transform duration-300">
+                <XIcon size={24} />
+              </div>
+            </button>
+          </div>
 
-    {/* Mobile Search with glow effect */}
-    <div className="px-6 py-5 bg-black">
-      <div className="relative">
-        <ProductSearch className="bg-gray-900 text-white placeholder-gray-500 focus:ring-2 focus:ring-purple-500 focus:border-transparent" />
-        <SearchIcon className="absolute right-3 top-3 text-gray-500" />
-      </div>
-    </div>
+          {/* Mobile Search with glow effect */}
+          <div className="px-6 py-5 bg-black">
+            <div className="relative">
+              <ProductSearch className="bg-gray-900 text-white placeholder-gray-500 focus:ring-2 focus:ring-purple-500 focus:border-transparent" />
+              <SearchIcon className="absolute right-3 top-3 text-gray-500" />
+            </div>
+          </div>
 
-    {/* Animated Navigation with subtle hover effects */}
-    <div className="px-4 pt-2 pb-8 overflow-y-auto flex-1">
-      <nav className="space-y-1">
-        {staticLinks.map((item, index) => (
-          <Link
-            key={item.href}
-            href={item.href}
-            onClick={handleLinkClick}
-            className={`flex items-center px-4 py-3 rounded-xl transition-all duration-300 ${
-              isActive(item.href)
-                ? "bg-gradient-to-r from-purple-900/50 to-pink-900/50 text-white"
-                : "text-gray-300 hover:text-white hover:bg-gray-800/50"
-            } transform ${
-              isSidebarOpen
-                ? "translate-x-0 opacity-100"
-                : "translate-x-10 opacity-0"
-            }`}
-            style={{
-              transitionDelay: isSidebarOpen
-                ? `${index * 50 + 200}ms`
-                : "0ms",
-            }}
-          >
-            <span className="mr-3 text-xl text-white/80 group-hover:text-white">
-              {item.icon}
-            </span>
-            <span className="text-base font-medium">{item.title}</span>
-            {item.href === "/cart" && cart.length > 0 && (
-              <span className="ml-auto px-2.5 py-1 text-xs font-bold rounded-full bg-gradient-to-r from-pink-600 to-purple-600 text-white">
-                {cart.length}
-              </span>
-            )}
-            <ChevronRightIcon className="ml-auto text-gray-500 text-opacity-50" />
-          </Link>
-        ))}
-      </nav>
+          {/* Animated Navigation with subtle hover effects */}
+          <div className="px-4 pt-2 pb-8 overflow-y-auto flex-1">
+            <nav className="space-y-1">
+              {staticLinks.map((item, index) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={handleLinkClick}
+                  className={`flex items-center px-4 py-5 rounded-xl text-2xl transition-all duration-200 ${
+                    isActive(item.href)
+                      ? "bg-gradient-to-r from-purple-900/50 to-pink-900/50 text-white "
+                      : "text-gray-300 hover:text-white hover:bg-gray-800/50"
+                  } transform ${
+                    isSidebarOpen
+                      ? "translate-x-0 opacity-100"
+                      : "translate-x-10 opacity-0"
+                  }`}
+                  style={{
+                    transitionDelay: isSidebarOpen
+                      ? `${index * 20 + 170}ms`
+                      : "0ms",
+                  }}
+                >
+                  <span className="mr-3 text-xl text-white/80 group-hover:text-white">
+                    {item.icon}
+                  </span>
+                  <span className="text-base font-medium">{item.title}</span>
+                  {item.href === "/cart" && cart.length > 0 && (
+                    <span className="ml-auto px-2.5 py-1 text-xs font-bold rounded-full bg-gradient-to-r from-pink-600 to-purple-600 text-white">
+                      {cart.length}
+                    </span>
+                  )}
+                  <ChevronRightIcon className="ml-auto text-gray-500 text-opacity-50" />
+                </Link>
+              ))}
+            </nav>
 
-      {/* Premium Footer Section */}
-      {/* <div className="mt-12 px-4">
+            {/* Premium Footer Section */}
+            {/* <div className="mt-12 px-4">
         <div className="p-4 bg-gray-900/50 rounded-xl border border-gray-800">
           <div className="flex items-center mb-2">
             <StarIcon className="text-yellow-400 mr-2" />
@@ -438,21 +445,22 @@ const NavbarMenu: React.FC = () => {
           </button>
         </div>
       </div> */}
-    </div>
-  </div>
-</aside>
+          </div>
+        </div>
+      </aside>
 
-{/* Enhanced Overlay with gradient */}
-{isSidebarOpen && (
-  <div
-    className="fixed inset-0 z-30 transition-opacity duration-500 ease-in-out opacity-0 animate-fadeIn"
-    onClick={closeSidebar}
-    style={{
-      background: 'radial-gradient(ellipse at center, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.9) 100%)',
-      backdropFilter: 'blur(8px)'
-    }}
-  />
-)}
+      {/* Enhanced Overlay with gradient */}
+      {isSidebarOpen && (
+        <div
+          className="fixed inset-0 z-30 transition-opacity duration-500 ease-in-out opacity-0 animate-fadeIn"
+          onClick={closeSidebar}
+          style={{
+            background:
+              "radial-gradient(ellipse at center, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.9) 100%)",
+            backdropFilter: "blur(8px)",
+          }}
+        />
+      )}
     </>
   );
 };

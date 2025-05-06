@@ -2,9 +2,9 @@ import React, { useState, useEffect, useRef } from 'react';
 
 const HomeCounter = () => {
     const [counters, setCounters] = useState([
-        { id: 1, name: 'Events', target: 119, current: 0, suffix: '+' },
-        { id: 2, name: 'Wedding', target: 75, current: 0, suffix: '+' },
-        { id: 3, name: 'Real Estate', target: 25, current: 0, suffix: '+' }
+        { id: 1, name: 'Weddings', target: 219, current: 0, suffix: '+' },
+        { id: 2, name: 'Private Parties', target: 175, current: 0, suffix: '+' },
+        { id: 3, name: 'Corporate Events', target: 125, current: 0, suffix: '+' }
     ]);
     
     const counterRef = useRef(null);
@@ -66,7 +66,7 @@ const HomeCounter = () => {
       className="group p-8 rounded-xl bg-white border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1"
     >
       {/* Animated number with gradient text */}
-      <h3 className="text-5xl md:text-6xl font-extrabold mb-3 bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+      <h3 className="text-5xl md:text-6xl font-extrabold mb-3 bg-gradient-to-r from-blue-900 to-black bg-clip-text text-transparent">
         {Math.round(counter.current)}{counter.suffix}
       </h3>
       

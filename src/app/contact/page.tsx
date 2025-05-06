@@ -34,12 +34,20 @@ const Page = () => {
       );
 
       if (response.status === 200) {
-        // Show SweetAlert2 success message
+       
         Swal.fire({
-          title: "Success!",
-          text: "Message sent successfully!",
+          title: "<span class='font-montserrat font-semibold'>Success!</span>",
+          html: "<div class='font-montserrat'>Message sent successfully!</div>",
           icon: "success",
           confirmButtonText: "OK",
+          confirmButtonColor: "#000000", // Black background
+          customClass: {
+            popup: 'font-montserrat bg-white',
+            title: 'text-2xl',
+            htmlContainer: 'text-gray-700',
+            confirmButton: 'px-4 py-2 rounded-md bg-black text-white hover:bg-gray-800 ',
+          },
+          buttonsStyling: false,
         });
 
         // Reset form data
@@ -65,7 +73,7 @@ const Page = () => {
   return (
     <div className="px-4 sm:px-6 lg:px-8 my-20">
      <motion.div className="text-start  mb-16">
-            <h1 className="mb-4 text-lg md:text-2xl lg:text-6xl uppercase font-playfairDisplay font-bold">
+            <h1 className="mb-4 text-lg md:text-2xl lg:text-6xl uppercase font-montserrat font-bold">
               <span className="relative inline-block">
                 {letters.map((letter, i) => (
                   <motion.span
@@ -84,7 +92,7 @@ const Page = () => {
               </span>
             </h1>
           </motion.div>
-      <section className="relative z-10 overflow-hidden bg-white dark:bg-dark  font-playfairDisplay">
+      <section className="relative z-10 overflow-hidden bg-white dark:bg-dark  font-montserrat">
         <div className="max-w-screen-2xl mx-auto">
           <div className="flex flex-wrap -mx-4 lg:justify-between">
             <div className="w-full px-4 lg:w-1/2 xl:w-6/12">

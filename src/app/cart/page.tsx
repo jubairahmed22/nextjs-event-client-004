@@ -306,25 +306,63 @@ const EventCart = () => {
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes, send it!",
       cancelButtonText: "No, cancel!",
+      customClass: {
+        container: 'p-4 ',
+        popup: 'rounded-lg shadow-xl',
+        title: 'text-2xl font-bold font-montserrat text-gray-800',
+        htmlContainer: 'text-gray-600 font-montserrat mb-4',
+        confirmButton: 'bg-black hover:bg-gray-800 text-white font-montserrat font-medium py-2 px-4 rounded-lg mx-1 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50',
+        cancelButton: 'bg-red-500 hover:bg-red-600 text-white font-medium font-montserrat py-2 px-4 rounded-lg mx-1 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50',
+        actions: 'flex justify-end mt-4'
+      },
+      buttonsStyling: false
     });
 
     if (result.isConfirmed) {
-      // Show loading indicator
-      Swal.fire({
-        title:
-          "<span style='font-family: Poppins, sans-serif'>Processing...</span>",
-        html: "<div style='font-family: Poppins, sans-serif'>Please wait while we process your request</div>",
-        allowOutsideClick: false,
-        didOpen: () => {
-          Swal.showLoading();
-          // Apply to all text in the modal
-          const popup = Swal.getPopup();
-          if (popup) {
-            popup.style.fontFamily = "'Poppins', sans-serif";
-          }
+      // Show the warning note before proceeding
+      await Swal.fire({
+        title: "⚠ Please Note:",
+        html: `
+          <div class="text-left  font-montserrat">
+            <p class="mb-3">This is only a quote request, not a confirmed reservation.</p>
+            <p class="mb-3">To check availability, receive final pricing, and secure your reservation, please speak directly with an associate.</p>
+            <ul class="list-disc pl-5 mb-3 space-y-1">
+              <li>Delivery and additional fees are not included in this estimate.</li>
+              <li>A deposit is required for most reservations.</li>
+            </ul>
+            <p class="mt-3">Thank you for your understanding!</p>
+          </div>
+        `,
+        icon: "warning",
+        confirmButtonText: "I understood",
+        confirmButtonColor: "#000000",
+        customClass: {
+          popup: 'font-[Poppins]', // Ensures Poppins is applied to the entire modal
         },
       });
 
+      // Show loading indicator
+      Swal.fire({
+        title: "<span class='font-montserrat mt-5'>Processing...</span>",
+        html: "<div class='font-montserrat'>Please wait while we process your request</div>",
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+          const popup = Swal.getPopup();
+          if (popup) {
+            popup.classList.add('font-montserrat'); // Apply Montserrat to the entire modal
+          }
+        },
+        customClass: {
+          popup: 'font-montserrat', // Ensures Montserrat is applied to the entire modal
+          title: 'text-lg font-medium', // Optional: Adjust title styling
+          htmlContainer: 'text-gray-800', // Optional: Adjust text color
+        },
+        background: 'white', // Optional: Set background
+        backdrop: 'rgba(0,0,0,0.5)', // Optional: Adjust backdrop opacity
+      });
+
+      // Rest of your existing code...
       try {
         const generateSetCode = () => {
           return Math.random().toString(36).substr(2, 8).toUpperCase();
@@ -417,11 +455,6 @@ const EventCart = () => {
           totalPrice: allProductPrice,
         };
 
-        // First, save the payment data
-        // Swal.update({
-        //   title: "Saving payment details...",
-        // });
-
         const paymentResponse = await fetch(
           "https://server-gs.vercel.app/save-payment",
           {
@@ -434,11 +467,6 @@ const EventCart = () => {
         if (!paymentResponse.ok) {
           throw new Error("Failed to save payment details");
         }
-
-        // Then send the email notification
-        // Swal.update({
-        //   title: "Sending confirmation email...",
-        // });
 
         const emailResponse = await fetch(
           "https://server-gs.vercel.app/api/sent-cart-details",
@@ -469,12 +497,19 @@ const EventCart = () => {
           throw new Error("Failed to send email notification");
         }
 
-        // Success - close loading and show success message
         Swal.fire({
-          title: "Success!",
-          text: "Quote request sent successfully!",
+          title: "<span class='font-montserrat font-semibold'>Success!</span>",
+          html: "<div class='font-montserrat'>Quote request sent successfully!</div>",
           icon: "success",
           confirmButtonText: "OK",
+          confirmButtonColor: "#000000", // Black background
+          customClass: {
+            popup: 'font-montserrat bg-white',
+            title: 'text-2xl',
+            htmlContainer: 'text-gray-700',
+            confirmButton: 'px-4 py-2 rounded-md bg-black text-white hover:bg-gray-800',
+          },
+          buttonsStyling: false,
         });
         resetForm();
       } catch (error) {
@@ -488,6 +523,8 @@ const EventCart = () => {
       }
     }
   };
+
+  
   const toggleDropdown = (index: number) => {
     setDropdownVisible((prev) => ({
       ...prev,
@@ -646,7 +683,7 @@ const EventCart = () => {
           </motion.div>
 
             <div className="mt-6 sm:mt-8 md:gap-6 lg:flex lg:items-start xl:gap-8">
-              <div className="mx-auto w-full flex-none lg:max-w-screen-3xl xl:max-w-4xl">
+              <div className="mx-auto w-full flex-none lg:max-w-screen-4xl xl:max-w-5xl">
                 <div className="space-y-6">
                   {/* cart start */}
                   {currentItems.length > 0 ? (
@@ -831,7 +868,7 @@ const EventCart = () => {
                 </div>
               </div>
 
-              <div className="mx-auto mt-6 max-w-4xl flex-1 space-y-6 lg:mt-0 lg:w-full shadow-md border border-rose-50 rounded-xl p-5">
+              <div className="mx-auto mt-6 max-w-2xl flex-1 space-y-6 lg:mt-0 lg:w-full shadow-md border border-rose-50 rounded-xl p-5">
                 <h1 className="text-3xl">Quote request form</h1>
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div className="grid grid-cols-1 gap-4 w-full">

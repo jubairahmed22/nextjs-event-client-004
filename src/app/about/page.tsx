@@ -12,7 +12,7 @@ const Page = () => {
   return (
     <div className="max-w-screen-3xl mx-auto px-4 sm:px-6 lg:px-8 my-20">
       <motion.div className="text-start  mb-16">
-            <h1 className="mb-4 text-lg md:text-2xl lg:text-6xl uppercase font-playfairDisplay font-bold">
+            <h1 className="mb-4 text-lg md:text-2xl lg:text-6xl uppercase font-montserrat font-bold">
               <span className="relative inline-block">
                 {letters.map((letter, i) => (
                   <motion.span
@@ -30,89 +30,144 @@ const Page = () => {
                 ))}
               </span>
             </h1>
-          </motion.div>
-      <div className="max-w-screen-2xl mx-auto font-playfairDisplay">
-        <section className=" relative xl:mr-0 lg:mr-5 mr-0 max-w-screen-2xl ">
-          <div className=" max-w-screen-2xl px-4 md:px-5 lg:px-5 mx-auto">
-            <div className="w-full justify-start items-center xl:gap-12 gap-10 grid lg:grid-cols-2 grid-cols-1">
-              <div className="w-full flex-col justify-center lg:items-start items-center gap-10 inline-flex">
-                <div className="w-full flex-col justify-center items-start gap-8 flex">
-                  <div className="flex-col justify-start lg:items-start items-center gap-4 flex">
-                    {/* <h6 className="text-rose-900 text-2xl  font-normal leading-relaxed">
-                    About Us
-                  </h6> */}
-                    <div className="w-full flex-col justify-start lg:items-start items-center gap-3 flex">
-                      <h2 className="text-rose-700 text-4xl font-bold font-manrope leading-normal lg:text-start text-center">
-                        Turning a Vision into Reality
-                      </h2>
-                      <p className="text-gray-500 text-base font-normal leading-relaxed lg:text-start text-center">
-                        Yousuf is Lead Planner & Designer of My Color Events
-                        LLC.
-                      </p>
-                    </div>
-                  </div>
-                  <div className="w-full flex-col justify-center items-start gap-6 flex">
-                    <h2 className="text-rose-700 text-4xl font-bold font-manrope leading-normal lg:text-start text-center">
-                      Yousuf
-                    </h2>
-                    <p className="text-gray-500 text-xl font-semibold leading-relaxed lg:text-start text-center">
-                      Founder & Creative Director Certified Wedding & Event
-                      Planner (CWEP™)
-                    </p>
-                    <p className="text-gray-500 text-xl font-semibold leading-relaxed lg:text-start text-center">
-                      Accredited Event Designer (AED™)
-                    </p>
-                  </div>
+      </motion.div>
+      <div className="max-w-screen-2xl mx-auto font-montserrat">
+  {/* Hero Section */}
+  <section className="py-16 px-4 md:px-8 lg:px-12 bg-gradient-to-b from-rose-50 to-white">
+    <div className="max-w-4xl mx-auto text-center">
+      <h1 className="text-5xl md:text-6xl font-bold text-rose-800 mb-6">
+        Our Creative Visionaries
+      </h1>
+      <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+        Meet the passionate team behind My Color Events LLC, turning dreams into unforgettable experiences.
+      </p>
+    </div>
+  </section>
+
+  {/* Yousuf Section */}
+  <section className="py-20 px-4 md:px-8 lg:px-12">
+    <div className="max-w-screen-xl mx-auto">
+      <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
+        <div className="lg:w-1/2 w-full order-2 lg:order-1">
+          <div className="space-y-8">
+            <div>
+              <span className="text-rose-600 font-semibold tracking-wider">FOUNDER & CREATIVE DIRECTOR</span>
+              <h2 className="text-4xl md:text-5xl font-bold text-rose-800 mt-4">
+                Turning Vision into Reality
+              </h2>
+              <p className="text-gray-600 text-lg mt-4">
+                Yousuf is the lead planner and designer who brings innovative concepts to life with precision and creativity.
+              </p>
+            </div>
+            
+            <div className="space-y-6">
+              <h3 className="text-3xl font-bold text-rose-700">Yousuf Mia</h3>
+              <div className="space-y-2">
+                <div className="flex items-center gap-3">
+                  <div className="w-2 h-2 rounded-full bg-rose-600"></div>
+                  <p className="text-gray-700 font-medium">Certified Wedding & Event Planner (CWEP™)</p>
                 </div>
-              </div>
-              <div className="w-full lg:justify-end justify-center items-start flex ">
-                <div className="sm:w-[564px] w-full sm:h-[646px] h-full sm:bg-gray-100 rounded-3xl sm:border border-gray-200 relative">
-                  <img
-                    className="sm:mt-5 sm:ml-5 w-full h-full rounded-3xl object-cover"
-                    src={yousufmia.src}
-                    alt="about Us image"
-                  />
+                <div className="flex items-center gap-3">
+                  <div className="w-2 h-2 rounded-full bg-rose-600"></div>
+                  <p className="text-gray-700 font-medium">Accredited Event Designer (AED™)</p>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-2 h-2 rounded-full bg-rose-600"></div>
+                  <p className="text-gray-700 font-medium">15+ Years of Industry Experience</p>
                 </div>
               </div>
             </div>
+
           </div>
-        </section>
-
-        <section className=" relative xl:mr-0 lg:mr-5 mr-0 max-w-screen-2xl ">
-          <div className=" max-w-screen-2xl px-4 md:px-5 lg:px-5 mx-auto">
-            <div className="w-full justify-start items-center xl:gap-12 gap-10 grid lg:grid-cols-2 grid-cols-1">
-              <div className="w-full lg:justify-start justify-center items-start flex ">
-                <div className="sm:w-[564px] w-full sm:h-[646px] h-full sm:bg-gray-100 rounded-3xl sm:border border-gray-200 relative">
-                  <img
-                    className="sm:mt-5 sm:ml-5 w-full h-full rounded-3xl object-cover"
-                    src={khadija.src}
-                    alt="about Us image"
-                  />
-                </div>
-              </div>
-
-              <div className="w-full flex-col justify-center lg:items-start items-center gap-10 inline-flex">
-                <div className="w-full flex-col justify-center items-start gap-8 flex">
-                  <div className="flex-col justify-start lg:items-start items-center gap-4 flex"></div>
-                  <div className="w-full flex-col justify-center items-start gap-6 flex">
-                    <h2 className="text-rose-700 text-4xl font-bold font-manrope leading-normal lg:text-start text-center">
-                      Khadiza Akhtar (Mila)
-                    </h2>
-                    <p className="text-gray-500 text-xl font-semibold leading-relaxed lg:text-start text-center">
-                      CEO, Founder & Creative Director Certified Wedding & Event
-                      Planner (CWEP™)
-                    </p>
-                  </div>
-                </div>
-              </div>
+        </div>
+        
+        <div className="lg:w-1/2 w-full order-1 lg:order-2">
+          <div className="relative group">
+            <div className="absolute -inset-2 bg-rose-200 rounded-3xl blur opacity-75 group-hover:opacity-100 transition duration-300"></div>
+            <div className="relative overflow-hidden rounded-2xl border-4 border-white shadow-2xl">
+              <img
+                className="w-full h-auto object-cover transform group-hover:scale-105 transition duration-500"
+                src={yousufmia.src}
+                alt="Yousuf Mia - Founder & Creative Director"
+              />
             </div>
           </div>
-        </section>
-
-        <div className="mt-10">
-          <TeamMember></TeamMember>
         </div>
       </div>
+    </div>
+  </section>
+
+  {/* Khadiza Section */}
+  <section className="py-20 px-4 md:px-8 lg:px-12 bg-gray-50">
+    <div className="max-w-screen-xl mx-auto">
+      <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
+        <div className="lg:w-1/2 w-full">
+          <div className="relative group">
+            <div className="absolute -inset-2 bg-rose-200 rounded-3xl blur opacity-75 group-hover:opacity-100 transition duration-300"></div>
+            <div className="relative overflow-hidden rounded-2xl border-4 border-white shadow-2xl">
+              <img
+                className="w-full h-auto object-cover transform group-hover:scale-105 transition duration-500"
+                src={khadija.src}
+                alt="Khadiza Akhtar - CEO & Founder"
+              />
+            </div>
+          </div>
+        </div>
+        
+        <div className="lg:w-1/2 w-full">
+          <div className="space-y-8">
+            <div>
+              <span className="text-rose-600 font-semibold tracking-wider">CEO & FOUNDER</span>
+              <h2 className="text-4xl md:text-5xl font-bold text-rose-800 mt-4">
+                Excellence in Event Leadership
+              </h2>
+              <p className="text-gray-600 text-lg mt-4">
+                Khadiza brings strategic vision and operational excellence to create seamless, memorable events.
+              </p>
+            </div>
+            
+            <div className="space-y-6">
+              <h3 className="text-3xl font-bold text-rose-700">Khadiza Akhtar (Mila)</h3>
+              <div className="space-y-2">
+                <div className="flex items-center gap-3">
+                  <div className="w-2 h-2 rounded-full bg-rose-600"></div>
+                  <p className="text-gray-700 font-medium">Certified Wedding & Event Planner (CWEP™)</p>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-2 h-2 rounded-full bg-rose-600"></div>
+                  <p className="text-gray-700 font-medium">10+ Years of Luxury Event Experience</p>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="w-2 h-2 rounded-full bg-rose-600"></div>
+                  <p className="text-gray-700 font-medium">Operations & Client Relations Specialist</p>
+                </div>
+              </div>
+            </div>
+            
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* Team Section */}
+  <section className="py-20 px-4 md:px-8 lg:px-12 bg-white">
+    <div className="max-w-screen-xl mx-auto">
+      <div className="text-center mb-16">
+        <h2 className="text-4xl md:text-5xl font-bold text-rose-800 mb-4">
+          Our Dream Team
+        </h2>
+        <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+          Talented professionals dedicated to making your event extraordinary
+        </p>
+      </div>
+      <TeamMember />
+    </div>
+  </section>
+
+
+</div>
     </div>
   );
 };

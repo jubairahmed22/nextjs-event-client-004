@@ -4,62 +4,147 @@ import love from "../../assets/love.jpeg"; // Import the image
 import aed from "../../assets/aed.jpeg"; // Import the image
 import iwed from "../../assets/iwed.jpeg"; // Import the image
 import lwpi from "../../assets/lwpi.jpeg"; // Import the image
-
+import Link from "next/link";
 
 const Footer = () => {
   return (
-   
-
-<footer className="bg-rose-900 dark:bg-gray-900">
-    <div className="mx-auto w-full max-w-screen-3xl p-4 py-6 lg:py-8">
-        <div className="md:flex md:justify-between">
-          <div className="mb-6 md:mb-0">
-              <a href="https://flowbite.com/" className="flex items-center">                  {/* <img src="https://flowbite.com/docs/images/logo.svg" className="h-8 me-3" alt="FlowBite Logo" /> */}
-                  <span className="self-center text-4xl font-pacifico font-semibold  whitespace-nowrap text-white">My Color Events</span>
-              </a>
-              <div className="flex flex-col gap-2 mt-5">
-              <h1 className="text-md font-semibold font-playfairDisplay text-white">Based in CT. We Serve CT, NY, NJ, MA & RI</h1>
-              <h1 className="text-md font-semibold font-playfairDisplay text-white">Business : 203-548-7769</h1>
-              <h1 className="text-md font-semibold font-playfairDisplay text-white">Mobile : 203-559-9680</h1>
-              <h1 className="text-md font-semibold font-playfairDisplay text-white">Email : info@mycolorevents.com</h1>
-              </div>
-          </div>
-          <div >
-          <div className="flex justify-start items-center pb-6">
-                 <h1 className="text-4xl font-playfairDisplay font-semibold text-white">Certified by</h1>
-              </div>
-          <div className="grid lg:grid-cols-4 md:grid-cols-2  place-items-end sm:grid-cols-2 gap-5 font-poppins text-white">
-              
-              <img alt="" className="w-20 h-20 object-cover" src={love.src}></img>
-              <img alt="" className="w-20 h-20 object-cover" src={aed.src}></img>
-              <img alt="" className="w-20 h-20 object-cover" src={iwed.src}></img>
-              <img alt="" className="w-20 h-20 object-cover" src={lwpi.src}></img>
-          </div>
-          </div>
+    <footer className="bg-black text-gray-300">
+  <div className="mx-auto w-full max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+    <div className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-3">
+      {/* Brand Info */}
+      <div className="space-y-4">
+        <Link
+          href="/"
+          className="text-3xl font-pacifico hover:text-rose-500 transition-all duration-300"
+          aria-label="Home"
+        >
+          <span className="bg-gradient-to-r from-rose-500 via-pink-500 to-purple-500 bg-clip-text text-transparent">
+            MY COLOR EVENTS
+          </span>
+        </Link>
+        <div className="space-y-2">
+          <p className="font-montserrat text-white">
+            Based in CT. We Serve CT, NY, NJ, MA & RI
+          </p>
+          <p className="font-montserrat">Business: 203-548-7769</p>
+          <p className="font-montserrat">Mobile: 203-559-9680</p>
+          <p className="font-montserrat hover:text-white transition-colors">
+            <a href="mailto:info@mycolorevents.com">Email: info@mycolorevents.com</a>
+          </p>
+        </div>
       </div>
-      <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
-      <div className="sm:flex sm:items-center sm:justify-between">
-          <span className="text-sm text-white sm:text-center font-raleway dark:text-gray-400">Copyright © 2025  My Color Events  All rights reserved.</span>
-          <div className="flex mt-4 sm:justify-center sm:mt-0">
-              <a href="#" className="text-white hover:text-white dark:hover:text-white">
-                  <svg className="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 8 19">
-                        <path fill-rule="evenodd" d="M6.135 3H8V0H6.135a4.147 4.147 0 0 0-4.142 4.142V6H0v3h2v9.938h3V9h2.021l.592-3H5V3.591A.6.6 0 0 1 5.592 3h.543Z" clip-rule="evenodd"/>
-                    </svg>
-                  <span className="sr-only">Facebook page</span>
-              </a>
-        
-              <a href="#" className="text-white hover:text-white dark:hover:text-white ms-5">
-                  <svg className="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 17">
-                    <path fill-rule="evenodd" d="M20 1.892a8.178 8.178 0 0 1-2.355.635 4.074 4.074 0 0 0 1.8-2.235 8.344 8.344 0 0 1-2.605.98A4.13 4.13 0 0 0 13.85 0a4.068 4.068 0 0 0-4.1 4.038 4 4 0 0 0 .105.919A11.705 11.705 0 0 1 1.4.734a4.006 4.006 0 0 0 1.268 5.392 4.165 4.165 0 0 1-1.859-.5v.05A4.057 4.057 0 0 0 4.1 9.635a4.19 4.19 0 0 1-1.856.07 4.108 4.108 0 0 0 3.831 2.807A8.36 8.36 0 0 1 0 14.184 11.732 11.732 0 0 0 6.291 16 11.502 11.502 0 0 0 17.964 4.5c0-.177 0-.35-.012-.523A8.143 8.143 0 0 0 20 1.892Z" clip-rule="evenodd"/>
-                </svg>
-                  <span className="sr-only">Twitter page</span>
-              </a>
- 
+
+      {/* Quick Links - Example Section */}
+      <div className="space-y-4">
+        <h3 className="text-xl font-montserrat font-semibold text-white">
+          Quick Links
+        </h3>
+        <ul className="space-y-2 font-montserrat">
+          <li>
+            <a href="/" className="hover:text-white transition-colors">Home</a>
+          </li>
+          <li>
+            <a href="/gallery" className="hover:text-white transition-colors">Gallery</a>
+          </li>
+          <li>
+            <a href="/about" className="hover:text-white transition-colors">About</a>
+          </li>
+          <li>
+            <a href="/contact" className="hover:text-white transition-colors">Contact</a>
+          </li>
+        </ul>
+      </div>
+
+      {/* Certifications */}
+      <div className="space-y-4">
+        <h3 className="text-xl font-montserrat font-semibold text-white">
+          Certified by
+        </h3>
+        <div className="grid grid-cols-2 gap-4">
+          <div className="flex items-center justify-center p-2 bg-gray-900 rounded-lg">
+            <img alt="" className="h-16 w-auto object-contain" src={love.src} />
           </div>
+          <div className="flex items-center justify-center p-2 bg-gray-900 rounded-lg">
+            <img alt="" className="h-16 w-auto object-contain" src={aed.src} />
+          </div>
+          <div className="flex items-center justify-center p-2 bg-gray-900 rounded-lg">
+            <img alt="" className="h-16 w-auto object-contain" src={iwed.src} />
+          </div>
+          <div className="flex items-center justify-center p-2 bg-gray-900 rounded-lg">
+            <img alt="" className="h-16 w-auto object-contain" src={lwpi.src} />
+          </div>
+        </div>
       </div>
     </div>
-</footer>
 
+    {/* Divider */}
+    <div className="mt-12 border-t border-gray-800 pt-8">
+      <div className="flex flex-col items-center justify-between md:flex-row">
+        <p className="text-sm font-raleway">
+          © {new Date().getFullYear()} My Color Events. All rights reserved.
+        </p>
+        
+        {/* Social Links */}
+        <div className="mt-4 flex space-x-6 md:mt-0">
+  <a
+    href="https://www.facebook.com/MyColorEvent/?ref=bookmarks"
+    target="_blank"
+    className="text-gray-400 hover:text-white transition-colors"
+    aria-label="Facebook"
+  >
+    <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+      <path
+        fillRule="evenodd"
+        d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"
+        clipRule="evenodd"
+      />
+    </svg>
+  </a>
+ 
+  <a
+    href="https://www.instagram.com/mycolorevents/"
+    target="_blank"
+    className="text-gray-400 hover:text-white transition-colors"
+    aria-label="Instagram"
+  >
+    <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+      <path
+        fillRule="evenodd"
+        d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z"
+        clipRule="evenodd"
+      />
+    </svg>
+  </a>
+  <a
+    href="https://www.youtube.com/channel/UC8FGSiiN652ulTRuacBlzEA"
+    target="_blank"
+    className="text-gray-400 hover:text-white transition-colors"
+    aria-label="YouTube"
+  >
+    <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+      <path
+        fillRule="evenodd"
+        d="M19.812 5.418c.861.23 1.538.907 1.768 1.768C21.998 8.746 22 12 22 12s0 3.255-.418 4.814a2.504 2.504 0 0 1-1.768 1.768c-1.56.419-7.814.419-7.814.419s-6.255 0-7.814-.419a2.505 2.505 0 0 1-1.768-1.768C2 15.255 2 12 2 12s0-3.255.417-4.814a2.507 2.507 0 0 1 1.768-1.768C5.744 5 11.998 5 11.998 5s6.255 0 7.814.418ZM15.194 12 10 15V9l5.194 3Z"
+        clipRule="evenodd"
+      />
+    </svg>
+  </a>
+  {/* <a
+    href="#"
+    target="_blank"
+    className="text-gray-400 hover:text-white transition-colors"
+    aria-label="Pinterest"
+  >
+    <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+      <path d="M12 2.04c-5.52 0-9.96 4.44-9.96 9.96 0 4.18 2.59 7.74 6.26 9.12-.09-.77-.17-1.95.04-2.79.19-.82 1.24-5.22 1.24-5.22s-.32-.64-.32-1.58c0-1.48.86-2.58 1.93-2.58.91 0 1.35.68 1.35 1.5 0 .91-.58 2.27-.88 3.54-.25 1.07.53 1.93 1.57 1.93 1.88 0 3.32-1.98 3.32-4.83 0-2.52-1.81-4.29-4.39-4.29-2.99 0-4.74 2.24-4.74 4.56 0 .9.34 1.86.77 2.38.08.1.09.19.07.29-.07.31-.24.98-.27 1.12-.04.18-.14.22-.32.13-1.19-.55-1.93-2.29-1.93-3.68 0-3 2.18-5.76 6.3-5.76 3.3 0 5.86 2.35 5.86 5.5 0 3.27-2.06 5.91-4.92 5.91-1.04 0-2.02-.54-2.36-1.18l-.64 2.42c-.23.9-.86 2.03-1.29 2.72.97.3 1.99.47 3.06.47 5.52 0 9.96-4.44 9.96-9.96s-4.44-9.96-9.96-9.96z" />
+    </svg>
+  </a> */}
+</div>
+
+      </div>
+    </div>
+  </div>
+</footer>
   );
 };
 

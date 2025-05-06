@@ -291,8 +291,8 @@ const HomeTestimonial = () => {
           }}
           transition={{
             type: "spring",
-            stiffness: 300,
-            damping: 30,
+            stiffness: 400,
+            damping: 40,
           }}
         >
           {groupedProducts.map((group, index) => (
@@ -303,8 +303,8 @@ const HomeTestimonial = () => {
               {group.map((product) => (
                 <motion.div
                   key={product._id}
-                  whileHover={{ y: -5, scale: 1.02 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                  whileHover={{ y: -5, scale: 1.03 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 20 }}
                 >
                   <TestimonialCard product={product}></TestimonialCard>
                 </motion.div>

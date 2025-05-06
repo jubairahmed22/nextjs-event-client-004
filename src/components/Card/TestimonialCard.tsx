@@ -62,8 +62,8 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({ product }) => {
           ))}
         </div>
         <p className="text-lg text-black leading-8 h-28 transition-all duration-500 mb-9 group-hover:text-black overflow-hidden">
-  {product.description.length > 200 
-    ? `${product.description.slice(0, 200)}...` 
+  {product.description.length > 100 
+    ? `${product.description.slice(0, 100)}...` 
     : product.description}
 </p>
         <div className="flex items-center gap-5">
