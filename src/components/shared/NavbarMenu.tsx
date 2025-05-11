@@ -109,8 +109,8 @@ const staticLinks = [
     ),
   },
   {
-    href: "/rental-events",
-    title: "Rental Events",
+    href: "/Decor-Rental",
+    title: "Décor Rental",
     icon: (
       <svg
         className="w-6 h-6 mr-2"

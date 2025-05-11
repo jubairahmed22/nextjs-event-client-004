@@ -21,7 +21,7 @@ export const FilterRentalEvents = () => {
     clearFilters,
   } = useFilters();
 
-  const text = "Rental Events";
+  const text = "Décor Rental";
 const letters = text.split("");
 
   return (
