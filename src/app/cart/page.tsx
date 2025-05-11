@@ -814,7 +814,7 @@ const EventCart = () => {
                                   className="inine-flex items-center gap-2 text-xl font-medium text-rose-900 hover:text-gray-900 hover:underline dark:text-gray-400 dark:hover:text-white"
                                 >
                                   <strong>product price </strong>
-                                  {item.perDayPricing}
+                                  {item.perDayPricing.toFixed(2)}
                                 </button>
 
                                 <button

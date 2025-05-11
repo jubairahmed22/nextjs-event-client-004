@@ -39,7 +39,7 @@ export default async function RootLayout({
       <NavCart />
       <div className="min-h-screen">{children}</div>
       <Footer></Footer>
-        </FilterProvider>
+      </FilterProvider>
       
     </body>
   </html>

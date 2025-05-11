@@ -11,6 +11,7 @@ import toast from "react-hot-toast";
 import ProductCard from "@/components/Card/ProductCard";
 import { ProductGridSkeleton } from "@/components/AllProductCopmonent/ProductSkeleton";
 import { FilterSearchAllProducts } from "@/components/AllProductCopmonent/FilterSearchAllProducts";
+import { motion, AnimatePresence } from "framer-motion";
 
 export const ProductsPage = () => {
   const router = useRouter();
@@ -20,7 +21,7 @@ export const ProductsPage = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   const [showFilterDropdown, setShowFilterDropdown] = useState(false);
-  const [totalProducts, setTotalProducts] = useState(0)
+  const [totalProducts, setTotalProducts] = useState(0);
   const { filters, isSidebarOpen, setIsSidebarOpen } = useFilters();
 
   // Initialize page from URL params
@@ -46,7 +47,7 @@ export const ProductsPage = () => {
         const endpoint =
           filters.promotionFilter === "true"
             ? "/web/products/discount"
-            : "/web/all-products";
+            : "/web/main/all-products";
 
         // Prepare API params
         const apiParams: Record<string, string> = {
@@ -90,10 +91,17 @@ export const ProductsPage = () => {
   }, [currentPage, filters]);
 
   // In ProductsPage.tsx
-useEffect(() => {
-  // Reset to page 1 when filters change (except for page changes)
-  setCurrentPage(1);
-}, [filters.category, filters.subCategory, filters.promotionFilter, filters.title, filters.minPrice, filters.maxPrice]);
+  useEffect(() => {
+    // Reset to page 1 when filters change (except for page changes)
+    setCurrentPage(1);
+  }, [
+    filters.category,
+    filters.subCategory,
+    filters.promotionFilter,
+    filters.title,
+    filters.minPrice,
+    filters.maxPrice,
+  ]);
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
@@ -202,115 +210,195 @@ useEffect(() => {
     }
   }, []);
 
-  return (
-    <div className="flex min-h-screen max-w-screen-3xl mx-auto px-4">
-      {/* Main content area */}
-      <div className="flex-1 p-4 md:p-5 relative">
-        {/* Filter button and dropdown */}
-        <div className="relative mb-4 flex">
-          {/* Sidebar Toggle Button */}
-          <div className="flex flex-row items-center gap-5">
-          <button
-            onClick={() => setShowFilterDropdown(!showFilterDropdown)}
-            className="flex text-xl font-semibold font-montserrat items-center gap-2 px-4 py-2 bg-transparent text-gray-700 hover:text-blue-600 rounded-md hover:bg-gray-50 transition-colors"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-            >
-              <path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6" />
-            </svg>
-            <span>Filters</span>
-          </button>
-          <div className="mt-3">
-          <FilterSearchAllProducts></FilterSearchAllProducts>
-          </div>
-          </div>
+  const [lastScrollY, setLastScrollY] = useState(0);
+  const [headerVisible, setHeaderVisible] = useState(true);
 
-          {/* Sidebar */}
-          <div
-            className={`fixed inset-0 z-40 flex transition-opacity duration-300 ease-in-out ${
-              showFilterDropdown
-                ? "opacity-100"
-                : "opacity-0 pointer-events-none"
-            }`}
-         
-            onClick={() => setShowFilterDropdown(false)}
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        // Scrolling down and past 100px
+        setHeaderVisible(false);
+      } else if (currentScrollY < lastScrollY) {
+        // Scrolling up
+        setHeaderVisible(true);
+      }
+
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [lastScrollY]);
+
+  return (
+    <div className="flex flex-col  max-w-screen-3xl mx-auto ">
+      {/* Sticky Header */}
+      <header className="sticky top-0 z-10 h-20 px-4 w-full bg-white border-b border-gray-100 flex gap-5 items-center">
+        <button
+          onClick={() => setShowFilterDropdown(!showFilterDropdown)}
+          className="flex text-xl font-semibold font-montserrat items-center gap-2 px-4 py-2 bg-transparent text-gray-700 hover:text-rose-600 rounded-md hover:bg-gray-50 transition-colors"
+          aria-expanded={showFilterDropdown}
+        >
+          <AnimatePresence mode="wait" initial={false}>
+            {showFilterDropdown ? (
+              <motion.svg
+                key="close"
+                initial={{ rotate: -90, opacity: 0 }}
+                animate={{ rotate: 0, opacity: 1 }}
+                exit={{ rotate: 90, opacity: 0 }}
+                transition={{ duration: 0.2 }}
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </motion.svg>
+            ) : (
+              <motion.svg
+                key="categories"
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.8, opacity: 0 }}
+                transition={{ duration: 0.2 }}
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <rect x="3" y="3" width="7" height="7"></rect>
+                <rect x="14" y="3" width="7" height="7"></rect>
+                <rect x="14" y="14" width="7" height="7"></rect>
+                <rect x="3" y="14" width="7" height="7"></rect>
+              </motion.svg>
+            )}
+          </AnimatePresence>
+
+          <motion.span
+            animate={{ color: showFilterDropdown ? "#e11d48" : "#374151" }}
+            transition={{ duration: 0.2 }}
           >
-            <div
-              className={`absolute left-0 top-0 h-full w-96 bg-white shadow-xl transform transition-all duration-300 ease-in-out ${
-                showFilterDropdown ? "translate-x-0" : "-translate-x-full"
-              }`}
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className="h-full  p-6">
-                {/* <div className="flex justify-between items-center mb-6">
-                  <button
-                    onClick={() => setShowFilterDropdown(false)}
-                    className="text-gray-500 hover:text-gray-700"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-6 w-6"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M6 18L18 6M6 6l12 12"
-                      />
-                    </svg>
-                  </button>
-                </div> */}
-                <FilterSidebar />
-              </div>
-            </div>
+            Categories
+          </motion.span>
+        </button>
+        <FilterSearchAllProducts></FilterSearchAllProducts>
+      </header>
+
+      {/* Main Content Area - Flex container */}
+      <div className="flex  flex-1 w-full relative overflow-hidden">
+        {/* Sidebar - Fixed position */}
+        <div
+          className={`bottom-0  bg-white shadow-xl transform transition-all duration-300 ease-in-out ${
+            showFilterDropdown
+              ? `w-full lg:w-[25%] md:w-[30%] sm:w-[50%]  opacity-100 ${
+                  headerVisible ? "top-44" : "top-10"
+                }`
+              : "w-0 opacity-0 overflow-hidden"
+          }`}
+        >
+          <div className=" p-6">
+            <FilterSidebar
+              onClose={() => setShowFilterDropdown(false)}
+            ></FilterSidebar>
           </div>
         </div>
 
-        {/* Content */}
-        {loading ? (
-          <div
-            className={`transition-all duration-200 ${
-              isSidebarOpen ? "md:blur-0 blur-sm" : "blur-0"
-            }`}
-          >
-            <ProductGridSkeleton count={10} />
-          </div>
-        ) : (
-          <>
-            <div
-              className={`transition-all duration-200 ${
-                isSidebarOpen ? "md:blur-0 blur-sm" : "blur-0"
-              }`}
-            >
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4">
-                {products.map((product) => (
-                  <ProductCard
-                    key={product._id}
-                    product={product}
-                    isWishlisted={wishlistedProducts.has(product._id)}
-                    onToggleWishlist={toggleWishlist}
-                  />
-                ))}
-              </div>
+        {/* Product Layout - Scrollable area */}
+        <div
+          className={`h-[700px]  right-0 overflow-y-auto transition-all duration-300 ease-in-out ${
+            showFilterDropdown ? "lg:w-[75%] md:w-[60%] sm:w-[50%]" : "w-full"
+          } `}
+        >
+          {/* Your product content goes here */}
+          <div className="p-6">
+            {showFilterDropdown ? (
+              <div>
+                {/* Content */}
+                {loading ? (
+                  <div
+                    className={`transition-all duration-200 ${
+                      isSidebarOpen ? "md:blur-0 blur-sm" : "blur-0"
+                    }`}
+                  >
+                    <ProductGridSkeleton count={10} />
+                  </div>
+                ) : (
+                  <>
+                    <div
+                      className={`transition-all duration-200 ${
+                        isSidebarOpen ? "md:blur-0 blur-sm" : "blur-0"
+                      }`}
+                    >
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4">
+                        {products.map((product) => (
+                          <ProductCard
+                            key={product._id}
+                            product={product}
+                            isWishlisted={wishlistedProducts.has(product._id)}
+                            onToggleWishlist={toggleWishlist}
+                          />
+                        ))}
+                      </div>
 
-              <Pagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                totalProducts={totalProducts}
-                onPageChange={handlePageChange}
-              />
-            </div>
-          </>
-        )}
+                      <Pagination
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                        totalProducts={totalProducts}
+                        onPageChange={handlePageChange}
+                      />
+                    </div>
+                  </>
+                )}
+              </div>
+            ) : (
+              <div>
+                {/* Content */}
+                {loading ? (
+                  <div
+                    className={`transition-all duration-200 ${
+                      isSidebarOpen ? "md:blur-0 blur-sm" : "blur-0"
+                    }`}
+                  >
+                    <ProductGridSkeleton count={10} />
+                  </div>
+                ) : (
+                  <>
+                    <div
+                      className={`transition-all duration-200 ${
+                        isSidebarOpen ? "md:blur-0 blur-sm" : "blur-0"
+                      }`}
+                    >
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4">
+                        {products.map((product) => (
+                          <ProductCard
+                            key={product._id}
+                            product={product}
+                            isWishlisted={wishlistedProducts.has(product._id)}
+                            onToggleWishlist={toggleWishlist}
+                          />
+                        ))}
+                      </div>
+
+                      <Pagination
+                        currentPage={currentPage}
+                        totalPages={totalPages}
+                        totalProducts={totalProducts}
+                        onPageChange={handlePageChange}
+                      />
+                    </div>
+                  </>
+                )}
+              </div>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );

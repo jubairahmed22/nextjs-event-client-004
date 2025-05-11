@@ -109,53 +109,63 @@ export const FilterProvider = ({ children }: { children: ReactNode }) => {
   }, [searchParams]);
 
   // Fetch categories with pagination
+  const fetchCategories = async () => {
+    try {
+      setLoading(true);
+      const res = await fetch(
+        `https://server-gs.vercel.app/web/main-category?page=${currentPage}`
+      );
+      const data = await res.json();
+
+      const formatted = (data.products || []).map((cat: Category) => ({
+        ...cat,
+        hasSubcategories: subCategories[cat._id] ? true : undefined,
+      }));
+      
+      setCategories(formatted);
+      setTotalPages(data.totalPages || 1);
+
+      // Only fetch subcategories for categories that don't have them already
+      formatted.forEach((cat: Category) => {
+        if (!subCategories[cat._id]) {
+          fetchSubCategories(cat._id);
+        }
+      });
+    } catch (error) {
+      console.error("Failed to fetch categories:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        setLoading(true);
-        const res = await fetch(
-          `https://server-gs.vercel.app/web/main-category?page=${currentPage}`
-        );
-        const data = await res.json();
-
-        const formatted = (data.products || []).map((cat: Category) => ({
-          ...cat,
-          hasSubcategories: undefined,
-        }));
-        setCategories(formatted);
-        setTotalPages(data.totalPages || 1);
-
-        formatted.forEach((cat: Category) => fetchSubCategories(cat._id));
-      } catch (error) {
-        console.error("Failed to fetch categories:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchCategories();
   }, [currentPage]);
 
   const fetchSubCategories = async (categoryId: string) => {
-    if (subCategories[categoryId]) return;
     try {
       const res = await fetch(
         `https://server-gs.vercel.app/admin/web/sub-category/${categoryId}`
       );
       const data = await res.json();
+      
       if (data.subCategories?.length > 0) {
         setSubCategories((prev) => ({
           ...prev,
           [categoryId]: data.subCategories,
         }));
-        setCategories((prev) =>
-          prev.map((cat) =>
-            cat._id === categoryId ? { ...cat, hasSubcategories: true } : cat
+        
+        // Update the hasSubcategories flag for this category
+        setCategories(prev => 
+          prev.map(cat => 
+            cat._id === categoryId 
+              ? { ...cat, hasSubcategories: true } 
+              : cat
           )
         );
       } else {
-        setCategories((prev) =>
-          prev.map((cat) =>
+        setCategories(prev =>
+          prev.map(cat =>
             cat._id === categoryId ? { ...cat, hasSubcategories: false } : cat
           )
         );
@@ -227,25 +237,25 @@ export const FilterProvider = ({ children }: { children: ReactNode }) => {
       {
         category: categoryId === filters.category ? "" : categoryId,
         subCategory: "",
-        promotionFilter: "", // Reset promotion filter when category changes
+        promotionFilter: "",
       },
-      false // KEEP current page
+      false
     );
   };
-  
+
   const handleSubCategoryChange = (subCategoryId: string) => {
-    // Find which category this subcategory belongs to
-    const parentCategory = Object.entries(subCategories).find(([catId, subs]) => 
-      subs.some(sub => sub._id === subCategoryId)
-    )?.[0] || "";
-  
+    const parentCategory =
+      Object.entries(subCategories).find(([catId, subs]) =>
+        subs.some((sub) => sub._id === subCategoryId)
+      )?.[0] || "";
+
     applyFilters(
       {
-        category: parentCategory, // Only include the correct parent category
+        category: parentCategory,
         subCategory: subCategoryId === filters.subCategory ? "" : subCategoryId,
-        promotionFilter: "", // Reset promotion filter when subcategory changes
+        promotionFilter: "",
       },
-      false // KEEP current page
+      false
     );
   };
 
