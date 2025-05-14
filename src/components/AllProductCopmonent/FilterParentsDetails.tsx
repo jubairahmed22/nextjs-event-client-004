@@ -70,9 +70,7 @@ export const FilterParentsDetails = ({
 
   return (
     <div
-      className={`${
-        isSidebarOpen ? "block" : "hidden"
-      } md:block w-full font-montserrat p-5 bg-white fixed md:static h-full z-40 overflow-y-auto`}
+ 
     >
    
 
