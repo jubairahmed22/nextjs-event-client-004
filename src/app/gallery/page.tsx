@@ -148,8 +148,8 @@ const Page = () => {
   return (
     <div>
       <div className="relative overflow-hidden font-montserrat">
-        <div className="mx-auto max-w-screen-3xl px-4 pt-20 relative z-10">
-          <motion.div className="text-start px-4 mb-16">
+        <div className="mx-auto max-w-screen-3xl px-0 lg:px-4 pt:5 lg:pt-20 relative z-10">
+          <motion.div className="text-start px-4 mb-5 lg:mb-16">
             <h1 className="mb-4 text-lg md:text-2xl lg:text-6xl uppercase font-playfairDisplay font-bold">
               <span className="relative inline-block">
                 {letters.map((letter, i) => (
@@ -192,12 +192,12 @@ const Page = () => {
           <EventPageLoading></EventPageLoading>
         ) : (
           <>
-            <div className="grid lg:grid-cols-3 md:grid-cols-1 gap-5 px-10">
+            <div className="grid lg:grid-cols-3 md:grid-cols-3 grid-cols-2 lg:gap-5 gap-2 px-4 lg:px-10">
               {galleryData.users.map((gallery) => (
                 <div
                   key={gallery.singleImage}
                   onClick={() => openModal(gallery)}
-                  className="relative h-[460px] rounded-xl "
+                  className="relative lg:h-[460px] h-[300px] rounded-xl "
                 >
                   <img
                     className="absolute inset-0 w-full h-full object-cover rounded-xl"

@@ -19,7 +19,7 @@ export const ProductSkeleton = () => {
 
 export const ProductGridSkeleton = ({ count = 10 }: { count?: number }) => {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+    <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-4 lg:gap-6">
       {Array.from({ length: count }).map((_, index) => (
         <ProductSkeleton key={index} />
       ))}

@@ -1,6 +1,7 @@
 import React from "react";
 import { FilterSidebar } from "../AllProductCopmonent/FilterSidebar";
 import { FilterCategorySidebar } from "../AllProductCopmonent/FilterCategorySidebar";
+import Link from "next/link";
 
 const HomeAboutCompo = () => {
   const services = [
@@ -52,7 +53,7 @@ const HomeAboutCompo = () => {
         </h1>
 
         {/* Mission Paragraph */}
-        <div className="max-w-screen-3xl w-[60%] mx-auto mb-16 text-center">
+        <div className="max-w-screen-3xl lg:w-[60%] md:w-[90%] mx-auto mb-16 text-center">
           <p className="text-md md:text-md text-rose-800 font-light leading-relaxed">
             We craft extraordinary events that tell your unique story. With passion and precision, 
             we transform dreams into reality through innovative planning, exquisite design, 
@@ -103,6 +104,14 @@ const HomeAboutCompo = () => {
             </div>
           </div>
           ))}
+        </div>
+        <div className="flex justify-center items-center my-10">
+        <Link href="book-consultation">
+          <button className="px-8 py-3 bg-gradient-to-r from-rose-700 to-rose-900 text-white rounded-full font-medium shadow-lg hover:shadow-xl hover:shadow-rose-400/20 transition-all duration-300 hover:scale-105">
+            Book a consultation
+          </button>
+        </Link>
+         
         </div>
       </div>
     </div>

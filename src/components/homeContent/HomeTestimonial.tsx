@@ -12,6 +12,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { FilterPromotionButton } from "../AllProductCopmonent/FilterPromotionButton";
 import TestimonialCard from "../Card/TestimonialCard";
 import HomeCounter from "./HomeCounter";
+import LoadingTestimonial from "./LoadingTestimonial";
 
 interface Product {
   _id: string;
@@ -187,9 +188,17 @@ const HomeTestimonial = () => {
   // Group products into chunks of 4 for each slide
   const groupedProducts = React.useMemo(() => {
     if (!productsData?.products) return [];
+
+    // Determine the group size based on screen width
+    let groupSize = 1; // default for mobile
+    if (window.innerWidth >= 1024) {
+      // lg breakpoint (typically 1024px)
+      groupSize = 4;
+    }
+
     const groups = [];
-    for (let i = 0; i < productsData.products.length; i += 4) {
-      groups.push(productsData.products.slice(i, i + 4));
+    for (let i = 0; i < productsData.products.length; i += groupSize) {
+      groups.push(productsData.products.slice(i, i + groupSize));
     }
     return groups;
   }, [productsData]);
@@ -219,8 +228,8 @@ const HomeTestimonial = () => {
 
   if (loading && !productsData) {
     return (
-      <div className="flex justify-center items-center min-h-screen">
-        <LoadingSkeleton />
+      <div className="flex justify-center items-center min-h-screen w-full">
+        <LoadingTestimonial />
       </div>
     );
   }
@@ -244,7 +253,7 @@ const HomeTestimonial = () => {
   }
 
   return (
-    <div className="mx-auto max-w-screen-3xl px-4 py-16 relative z-10 font-montserrat">
+    <div className="mx-auto max-w-screen-3xl px-4 py-5 lg:py-16 relative z-10 font-montserrat">
       <h1 className="mb-10 text-center text-lg md:text-2xl lg:text-4xl font-playfairDisplay font-bold text-white leading-tight">
         <span className="relative inline-block">
           <span className="relative text-transparent bg-clip-text bg-gradient-to-r from-rose-800 to-rose-900">
@@ -261,7 +270,7 @@ const HomeTestimonial = () => {
 
       <HomeCounter></HomeCounter>
 
-      <div className="relative overflow-hidden mt-16">
+      <div className="relative overflow-hidden mt-5 lg:mt-16">
         {/* Navigation Arrows - Only show if there are multiple slides */}
         {groupedProducts.length > 1 && (
           <>
@@ -298,7 +307,7 @@ const HomeTestimonial = () => {
           {groupedProducts.map((group, index) => (
             <div
               key={index}
-              className="w-full flex-shrink-0 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 px-4 "
+              className="w-full flex-shrink-0 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-4 gap-4 px-4 "
             >
               {group.map((product) => (
                 <motion.div
@@ -328,8 +337,6 @@ const HomeTestimonial = () => {
             ))}
           </div>
         )}
-
-      
       </div>
 
       <div className="flex justify-center items-center my-10">
@@ -338,8 +345,7 @@ const HomeTestimonial = () => {
             View All Testimonials
           </button>
         </Link>
-         
-        </div>
+      </div>
     </div>
   );
 };

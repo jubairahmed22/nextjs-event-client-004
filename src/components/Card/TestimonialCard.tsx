@@ -40,65 +40,94 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({ product }) => {
 
   return (
     <section className="py-16 font-montserrat">
-      <div className="swiper-slide group bg-white border border-solid h-auto border-rose-300 rounded-2xl p-6 transition-all duration-500 w-full hover:border-rose-600 slide-active:border-rose-600">
-         <p className="text-lg mb-4 text-black leading-8 transition-all duration-500  group-hover:text-black">
-          {product.source}
-        </p>
-        <div className="flex items-center mb-9 gap-2 text-black transition-all duration-500 group-hover:text-rose-600 swiper-slide-active:text-rose-600">
-          {[1, 2, 3, 4, 5].map((star) => (
+  <div className="group relative bg-white rounded-2xl p-8 transition-all duration-500 hover:shadow-2xl hover:-translate-y-1 border border-rose-100 hover:border-transparent overflow-hidden">
+    {/* Glow Effect */}
+    <div className="absolute inset-0 bg-gradient-to-br from-rose-50/30 to-rose-100/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl"></div>
+    
+    {/* Event Source Badge */}
+    <div className="relative z-10">
+      <span className="inline-block px-3 py-1 mb-4 text-sm font-semibold text-rose-700 bg-rose-100/50 rounded-full backdrop-blur-sm border border-rose-200/50">
+        {product.source}
+      </span>
+    </div>
+
+    {/* Rating Stars */}
+    <div className="flex items-center mb-6 gap-1">
+      {[1, 2, 3, 4, 5].map((star) => (
+        <svg
+          key={star}
+          className={`w-6 h-6 transition-all duration-300 ${star <= product.rating ? 'text-amber-400 drop-shadow-[0_2px_4px_rgba(251,191,36,0.3)]' : 'text-gray-300'}`}
+          viewBox="0 0 20 20"
+          fill="currentColor"
+        >
+          <path
+            d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+          />
+        </svg>
+      ))}
+      <span className="ml-2 text-sm font-medium text-gray-500 group-hover:text-rose-600">
+        {product.rating}.0 Rating
+      </span>
+    </div>
+
+    {/* Event Description */}
+    <div className="relative mb-8">
+      <p className="text-gray-600 leading-relaxed h-28 overflow-hidden transition-all duration-500 group-hover:text-gray-800">
+        {product.description.length > 120
+          ? `${product.description.slice(0, 120)}...`
+          : product.description}
+      </p>
+      {/* Read More Gradient Fade */}
+      <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-white to-transparent group-hover:from-rose-50/50"></div>
+    </div>
+
+    {/* Speaker/Organizer Profile */}
+    <div className="flex items-center gap-4 pt-4 border-t border-rose-100/50 group-hover:border-rose-200 transition-colors duration-500">
+      <div className="relative">
+        {product.singleImage ? (
+          <img
+            className="rounded-full object-cover w-14 h-14 border-2 border-white shadow-md group-hover:border-rose-200 transition-all duration-300"
+            src={product.singleImage}
+            alt={product.title}
+          />
+        ) : (
+          <div className="rounded-full bg-gradient-to-br from-rose-100 to-rose-200 w-14 h-14 flex items-center justify-center shadow-md">
             <svg
-              key={star}
-              className="w-5 h-5"
-              viewBox="0 0 18 17"
-              fill="none"
               xmlns="http://www.w3.org/2000/svg"
+              className="h-7 w-7 text-rose-600"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
             >
               <path
-                d="M8.10326 1.31699C8.47008 0.57374 9.52992 0.57374 9.89674 1.31699L11.7063 4.98347C11.8519 5.27862 12.1335 5.48319 12.4592 5.53051L16.5054 6.11846C17.3256 6.23765 17.6531 7.24562 17.0596 7.82416L14.1318 10.6781C13.8961 10.9079 13.7885 11.2389 13.8442 11.5632L14.5353 15.5931C14.6754 16.41 13.818 17.033 13.0844 16.6473L9.46534 14.7446C9.17402 14.5915 8.82598 14.5915 8.53466 14.7446L4.91562 16.6473C4.18199 17.033 3.32456 16.41 3.46467 15.5931L4.15585 11.5632C4.21148 11.2389 4.10393 10.9079 3.86825 10.6781L0.940384 7.82416C0.346867 7.24562 0.674378 6.23765 1.4946 6.11846L5.54081 5.53051C5.86652 5.48319 6.14808 5.27862 6.29374 4.98347L8.10326 1.31699Z"
-                fill={star <= product.rating ? "currentColor" : "none"}
-                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={1.5}
+                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
               />
             </svg>
-          ))}
-        </div>
-        <p className="text-lg text-black leading-8 h-28 transition-all duration-500 mb-9 group-hover:text-black overflow-hidden">
-  {product.description.length > 100 
-    ? `${product.description.slice(0, 100)}...` 
-    : product.description}
-</p>
-        <div className="flex items-center gap-5">
-          {product.singleImage ? (
-            <img
-              className="rounded-full object-cover w-12 h-12"
-              src={product.singleImage}
-              alt="avatar"
-            />
-          ) : (
-            <div className="rounded-full bg-gray-200 w-12 h-12 flex items-center justify-center">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-8 w-8 text-gray-500"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                />
-              </svg>
-            </div>
-          )}
-          <div className="grid gap-1">
-            <h5 className="text-rose-900 font-medium transition-all duration-500  group-hover:text-rose-600 swiper-slide-active:text-rose-600">
-              {product.title}
-            </h5>
           </div>
-        </div>
+        )}
+        {/* Online Status Indicator */}
+        <span className="absolute bottom-0 right-0 w-3.5 h-3.5 bg-green-400 border-2 border-white rounded-full"></span>
       </div>
-    </section>
+
+      <div className="flex-1 min-w-0">
+        <h5 className="text-lg font-semibold text-gray-800 truncate transition-colors duration-500 group-hover:text-rose-600">
+          {product.title}
+        </h5>
+        <p className="text-sm text-gray-500 truncate">Event Organizer</p>
+      </div>
+
+
+    </div>
+
+    {/* Corner Decoration */}
+    <div className="absolute top-0 right-0 w-16 h-16 overflow-hidden">
+      <div className="absolute -top-8 -right-8 w-16 h-16 bg-rose-500/10 group-hover:bg-rose-500/20 transition-all duration-500 rotate-45"></div>
+    </div>
+  </div>
+</section>
   );
 };
 

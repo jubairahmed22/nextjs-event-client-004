@@ -58,33 +58,31 @@ const ProductCard: React.FC<ProductCardProps> = ({
   };
 
   return (
-    
-      <div className="group relative bg-white p-4  font-montserrat  shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 hover:border-rose-100 flex flex-col h-full">
+    <div className="group relative bg-white p-2 sm:p-1 md:p-4 font-montserrat shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 hover:border-rose-100 flex flex-col h-full">
   {/* Ribbon/Badge for Featured */}
   {product.isFeatured && (
-    <div className="absolute top-2 left-2 bg-rose-600 text-white text-xs font-bold px-2 py-1  shadow-sm z-10">
+    <div className="absolute top-1 left-1 sm:top-2 sm:left-2 bg-rose-600 text-white text-xs font-bold px-1.5 py-0.5 sm:px-2 sm:py-1 shadow-sm z-10">
       Featured
     </div>
   )}
 
-  {/* Promotional Ribbon - More prominent and animated */}
+  {/* Promotional Ribbon - Responsive size and positioning */}
   {product?.Promotion === "true" && (
-    <div className="absolute top-2 right-2 z-10 animate-bounce hover:animate-none">
-      <div className="relative bg-gradient-to-r from-rose-600 to-pink-500 text-white text-md font-bold px-3 py-3  shadow-lg transform rotate-3 hover:rotate-0 transition-transform duration-300">
+    <div className="absolute top-1 right-1 sm:top-2 sm:right-2 z-10 animate-bounce hover:animate-none">
+      <div className="relative bg-gradient-to-r from-rose-600 to-pink-500 text-white text-xs sm:text-sm md:text-md font-bold px-2 py-1.5 sm:px-3 sm:py-3 shadow-lg transform rotate-3 hover:rotate-0 transition-transform duration-300">
         <span className="block transform -rotate-3 hover:rotate-0 transition-transform duration-300">
-        Discount {product.promotionType === "%" 
-            ? `-${product.promotionValue}%` 
+          Discount{" "}
+          {product.promotionType === "%"
+            ? `-${product.promotionValue}%`
             : `-$${product.promotionValue}`}
         </span>
-        
       </div>
     </div>
   )}
 
-  {/* Image max-w-screen-3xl with Hover Effects */}
+  {/* Image container with responsive sizing */}
   <div
-    
-    className="relative overflow-hidden  aspect-square mb-4 flex-grow cursor-pointer"
+    className="relative overflow-hidden aspect-square mb-2 sm:mb-3 md:mb-4 flex-grow cursor-pointer"
     role="button"
     tabIndex={0}
     aria-label={`View details for ${product.title}`}
@@ -96,16 +94,16 @@ const ProductCard: React.FC<ProductCardProps> = ({
           alt={product.title}
           fill
           className="object-cover transition-transform duration-500 group-hover:scale-105"
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
           priority={false}
         />
-        {/* Quick View Overlay */}
+        {/* Quick View Overlay - Responsive text size */}
         <Link href={`/all-products/${product._id}`} passHref>
-        <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-          <span className="bg-white/90 text-rose-700 px-4 py-2 rounded-full font-medium text-sm shadow-md hover:shadow-lg transition-shadow">
-            View Details
-          </span>
-        </div>
+          <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+            <span className="bg-white/90 text-rose-700 px-2 py-1 sm:px-3 sm:py-1.5 md:px-4 md:py-2 rounded-full font-medium text-xs sm:text-sm shadow-md hover:shadow-lg transition-shadow">
+              View Details
+            </span>
+          </div>
         </Link>
       </>
     ) : (
@@ -116,7 +114,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
           viewBox="0 0 24 24"
           strokeWidth="1.5"
           stroke="currentColor"
-          className="w-16 h-16 text-gray-300"
+          className="w-10 h-10 sm:w-12 sm:h-12 md:w-16 md:h-16 text-gray-300"
           aria-hidden="true"
         >
           <path
@@ -129,11 +127,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
     )}
   </div>
 
-  {/* Product Info */}
+  {/* Product Info - Responsive text sizes */}
   <div className="flex flex-col flex-grow">
     <h3
-      
-      className="text-lg font-semibold text-gray-800 hover:text-rose-600 transition-colors cursor-pointer line-clamp-2 mb-2"
+      className="text-sm sm:text-base md:text-lg font-semibold text-gray-800 hover:text-rose-600 transition-colors cursor-pointer line-clamp-2 mb-1 sm:mb-2"
       role="button"
       tabIndex={0}
       aria-label={`View details for ${product.title}`}
@@ -141,43 +138,50 @@ const ProductCard: React.FC<ProductCardProps> = ({
       {product.title}
     </h3>
 
-    {/* Price Section - More Visual Impact */}
-    <div className="mb-4">
+    {/* Price Section - Responsive sizing */}
+    <div className="mb-2 sm:mb-3 md:mb-4">
       {product?.Promotion === "true" ? (
-        <div className="space-y-1">
-          <div className="flex items-end gap-2">
-            <span className="text-2xl font-bold text-rose-700">
+        <div className="space-y-0.5 sm:space-y-1">
+          <div className="flex items-end gap-1 sm:gap-2">
+            <span className="text-lg sm:text-xl md:text-2xl font-bold text-rose-700">
               ${getDiscountedPrice(product).toFixed(2)}
             </span>
-            <span className="text-sm font-medium text-gray-500 mb-1">/day</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="text-xl font-medium text-gray-700 line-through">
-            ${(Number(product.perDayPricing) || 0).toFixed(2)}
+            <span className="text-xs sm:text-sm font-medium text-gray-500 mb-0.5 sm:mb-1">
+              /day
             </span>
-            <span className="text-xs font-medium bg-rose-100 text-rose-800 px-1.5 py-0.5 rounded">
-              Save ${(product.perDayPricing - getDiscountedPrice(product)).toFixed(2)}
+          </div>
+          <div className="flex items-center gap-1 sm:gap-2">
+            <span className="text-sm sm:text-base md:text-xl font-medium text-gray-700 line-through">
+              ${(Number(product.perDayPricing) || 0).toFixed(2)}
+            </span>
+            <span className="text-sm sm:text-sm font-medium bg-rose-100 text-rose-800 px-1 py-0.5 sm:px-0.1 sm:py-0.5 rounded">
+              Save $
+              {(
+                product.perDayPricing - getDiscountedPrice(product)
+              ).toFixed(2)}
             </span>
           </div>
         </div>
       ) : (
-        <div className="flex items-end gap-2">
-          <span className="text-2xl font-bold text-rose-700">
+        <div className="flex items-end gap-1 sm:gap-2">
+          <span className="text-lg sm:text-xl md:text-2xl font-bold text-rose-700">
             ${product.perDayPricing}
           </span>
-          <span className="text-sm font-medium text-gray-500 mb-1">/day</span>
+          <span className="text-xs sm:text-sm font-medium text-gray-500 mb-0.5 sm:mb-1">
+            /day
+          </span>
         </div>
       )}
     </div>
 
-    {/* Wishlist Button with Enhanced Animation */}
+    {/* Wishlist Button - Responsive sizing */}
     <button
       onClick={handleToggleWishlist}
-      className={`mt-auto w-full py-3 px-4 font-medium transition-all duration-300 flex items-center justify-center space-x-2 ${
+      className={`mt-auto w-full py-1.5 px-2 sm:py-2 sm:px-3 md:py-3 md:px-4 font-medium transition-all duration-300 flex items-center justify-center space-x-1 sm:space-x-2 ${
         isWishlisted
           ? "bg-rose-700 text-white shadow-md hover:shadow-lg"
           : "bg-rose-50 text-rose-700 hover:bg-rose-100 border border-rose-200 hover:border-rose-300"
-      } transform hover:scale-[1.02] active:scale-95`}
+      } transform hover:scale-[1.02] active:scale-95 text-xs sm:text-sm md:text-base`}
       aria-label={isWishlisted ? "Remove from wishlist" : "Add to wishlist"}
     >
       <svg
@@ -186,8 +190,10 @@ const ProductCard: React.FC<ProductCardProps> = ({
         viewBox="0 0 24 24"
         strokeWidth="2"
         stroke="currentColor"
-        className={`w-5 h-5 transition-all duration-300 ${
-          isWishlisted ? "text-white" : "text-rose-600 group-hover:scale-110"
+        className={`w-4 h-4 sm:w-5 sm:h-5 transition-all duration-300 ${
+          isWishlisted
+            ? "text-white"
+            : "text-rose-600 group-hover:scale-110"
         }`}
         aria-hidden="true"
       >
@@ -200,12 +206,12 @@ const ProductCard: React.FC<ProductCardProps> = ({
       <span className="transition-all duration-300">
         {isWishlisted ? (
           <span className="flex items-center">
-            <span className="mr-1">Saved</span>
+            <span className="mr-0.5 sm:mr-1">Saved</span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20"
               fill="currentColor"
-              className="w-4 h-4"
+              className="w-3 h-3 sm:w-4 sm:h-4"
             >
               <path
                 fillRule="evenodd"
@@ -220,8 +226,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
       </span>
     </button>
   </div>
-    </div>
-
+</div>
   );
 };
 

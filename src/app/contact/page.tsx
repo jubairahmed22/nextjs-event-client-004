@@ -71,8 +71,8 @@ const Page = () => {
   const letters = text.split("");
 
   return (
-    <div className="px-4 sm:px-6 lg:px-8 my-20">
-     <motion.div className="text-start  mb-16">
+    <div className="px-4 sm:px-6 lg:px-8 lg:my-20 my-5">
+     <motion.div className="text-start  lg:mb-16 mb-8">
             <h1 className="mb-4 text-lg md:text-2xl lg:text-6xl uppercase font-montserrat font-bold">
               <span className="relative inline-block">
                 {letters.map((letter, i) => (

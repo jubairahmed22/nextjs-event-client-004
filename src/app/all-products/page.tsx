@@ -233,174 +233,150 @@ export const ProductsPage = () => {
   }, [lastScrollY]);
 
   return (
-    <div className="flex flex-col  max-w-screen-3xl mx-auto ">
-      {/* Sticky Header */}
-      <header className="sticky top-0 z-10 h-20 px-4 w-full bg-white border-b border-gray-100 flex gap-5 items-center">
-        <button
-          onClick={() => setShowFilterDropdown(!showFilterDropdown)}
-          className="flex text-xl font-semibold font-montserrat items-center gap-2 px-4 py-2 bg-transparent text-gray-700 hover:text-rose-600 rounded-md hover:bg-gray-50 transition-colors"
-          aria-expanded={showFilterDropdown}
-        >
-          <AnimatePresence mode="wait" initial={false}>
-            {showFilterDropdown ? (
-              <motion.svg
-                key="close"
-                initial={{ rotate: -90, opacity: 0 }}
-                animate={{ rotate: 0, opacity: 1 }}
-                exit={{ rotate: 90, opacity: 0 }}
-                transition={{ duration: 0.2 }}
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-              >
-                <line x1="18" y1="6" x2="6" y2="18"></line>
-                <line x1="6" y1="6" x2="18" y2="18"></line>
-              </motion.svg>
-            ) : (
-              <motion.svg
-                key="categories"
-                initial={{ scale: 0.8, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0.8, opacity: 0 }}
-                transition={{ duration: 0.2 }}
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-              >
-                <rect x="3" y="3" width="7" height="7"></rect>
-                <rect x="14" y="3" width="7" height="7"></rect>
-                <rect x="14" y="14" width="7" height="7"></rect>
-                <rect x="3" y="14" width="7" height="7"></rect>
-              </motion.svg>
-            )}
-          </AnimatePresence>
-
-          <motion.span
-            animate={{ color: showFilterDropdown ? "#e11d48" : "#374151" }}
+    <div className="flex flex-col max-w-screen-3xl mx-auto min-h-screen">
+ 
+ <header className={`sticky ${
+    headerVisible ? 'top-24 ' : 'top-0'
+  }  z-30 h-20 px-4 w-full bg-white border-b border-gray-100 flex items-center`}>
+  <div className="flex items-center w-full gap-2 sm:gap-5">
+    {/* Categories Button - Always shows text */}
+    <button
+      onClick={() => setShowFilterDropdown(!showFilterDropdown)}
+      className="flex text-lg sm:text-xl font-semibold font-montserrat items-center gap-2 px-3 sm:px-4 py-2 bg-transparent text-gray-700 hover:text-rose-600 rounded-md hover:bg-gray-50 transition-colors"
+      aria-expanded={showFilterDropdown}
+    >
+      <AnimatePresence mode="wait" initial={false}>
+        {showFilterDropdown ? (
+          <motion.svg
+            key="close"
+            initial={{ rotate: -90, opacity: 0 }}
+            animate={{ rotate: 0, opacity: 1 }}
+            exit={{ rotate: 90, opacity: 0 }}
             transition={{ duration: 0.2 }}
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-5 w-5"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
           >
-            Categories
-          </motion.span>
-        </button>
-        <FilterSearchAllProducts></FilterSearchAllProducts>
-      </header>
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </motion.svg>
+        ) : (
+          <motion.svg
+            key="categories"
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.8, opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-5 w-5"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+          >
+            <rect x="3" y="3" width="7" height="7"></rect>
+            <rect x="14" y="3" width="7" height="7"></rect>
+            <rect x="14" y="14" width="7" height="7"></rect>
+            <rect x="3" y="14" width="7" height="7"></rect>
+          </motion.svg>
+        )}
+      </AnimatePresence>
+      <motion.span
+        animate={{ color: showFilterDropdown ? "#e11d48" : "#374151" }}
+        transition={{ duration: 0.2 }}
+        className="whitespace-nowrap" // Ensures text stays in one line
+      >
+        Categories
+      </motion.span>
+    </button>
 
-      {/* Main Content Area - Flex container */}
-      <div className="flex  flex-1 w-full relative overflow-hidden">
-        {/* Sidebar - Fixed position */}
-        <div
-          className={`bottom-0  bg-white shadow-xl transform transition-all duration-300 ease-in-out ${
-            showFilterDropdown
-              ? `w-full lg:w-[25%] md:w-[30%] sm:w-[50%]  opacity-100 ${
-                  headerVisible ? "top-44" : "top-10"
-                }`
-              : "w-0 opacity-0 overflow-hidden"
-          }`}
-        >
-          <div className=" p-6">
-            <FilterSidebar
-              onClose={() => setShowFilterDropdown(false)}
-            ></FilterSidebar>
-          </div>
-        </div>
-
-        {/* Product Layout - Scrollable area */}
-        <div
-          className={`h-[700px]  right-0 overflow-y-auto transition-all duration-300 ease-in-out ${
-            showFilterDropdown ? "lg:w-[75%] md:w-[60%] sm:w-[50%]" : "w-full"
-          } `}
-        >
-          {/* Your product content goes here */}
-          <div className="p-6">
-            {showFilterDropdown ? (
-              <div>
-                {/* Content */}
-                {loading ? (
-                  <div
-                    className={`transition-all duration-200 ${
-                      isSidebarOpen ? "md:blur-0 blur-sm" : "blur-0"
-                    }`}
-                  >
-                    <ProductGridSkeleton count={10} />
-                  </div>
-                ) : (
-                  <>
-                    <div
-                      className={`transition-all duration-200 ${
-                        isSidebarOpen ? "md:blur-0 blur-sm" : "blur-0"
-                      }`}
-                    >
-                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4">
-                        {products.map((product) => (
-                          <ProductCard
-                            key={product._id}
-                            product={product}
-                            isWishlisted={wishlistedProducts.has(product._id)}
-                            onToggleWishlist={toggleWishlist}
-                          />
-                        ))}
-                      </div>
-
-                      <Pagination
-                        currentPage={currentPage}
-                        totalPages={totalPages}
-                        totalProducts={totalProducts}
-                        onPageChange={handlePageChange}
-                      />
-                    </div>
-                  </>
-                )}
-              </div>
-            ) : (
-              <div>
-                {/* Content */}
-                {loading ? (
-                  <div
-                    className={`transition-all duration-200 ${
-                      isSidebarOpen ? "md:blur-0 blur-sm" : "blur-0"
-                    }`}
-                  >
-                    <ProductGridSkeleton count={10} />
-                  </div>
-                ) : (
-                  <>
-                    <div
-                      className={`transition-all duration-200 ${
-                        isSidebarOpen ? "md:blur-0 blur-sm" : "blur-0"
-                      }`}
-                    >
-                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4">
-                        {products.map((product) => (
-                          <ProductCard
-                            key={product._id}
-                            product={product}
-                            isWishlisted={wishlistedProducts.has(product._id)}
-                            onToggleWishlist={toggleWishlist}
-                          />
-                        ))}
-                      </div>
-
-                      <Pagination
-                        currentPage={currentPage}
-                        totalPages={totalPages}
-                        totalProducts={totalProducts}
-                        onPageChange={handlePageChange}
-                      />
-                    </div>
-                  </>
-                )}
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
+    {/* Search Component - Takes remaining space */}
+    <div className="flex-1 min-w-0">
+      <FilterSearchAllProducts />
     </div>
+  </div>
+</header>
+  {/* Main Content Area */}
+  <div className="flex flex-1 w-full relative">
+    {/* Mobile Overlay Sidebar */}
+    <div className="md:hidden">
+      {showFilterDropdown && (
+        <div 
+          className="fixed inset-0 z-20  transition-opacity"
+          onClick={() => setShowFilterDropdown(false)}
+        />
+      )}
+      <aside
+        className={`fixed 
+          ${
+    headerVisible ? 'top-44 h-[calc(100vh-5rem)]' : 'top-20 h-[calc(100vh-2.75rem)]'
+  } 
+          left-0 bottom-0 w-3/4  max-w-sm z-20 overflow-y-auto bg-white border-r border-gray-200 transition-all duration-300 ease-in-out transform ${
+          showFilterDropdown ? "translate-x-0" : "-translate-x-full"
+        }`}
+      >
+        <div className="p-6">
+          <FilterSidebar onClose={() => setShowFilterDropdown(false)} />
+        </div>
+      </aside>
+    </div>
+
+    {/* Desktop Sidebar */}
+<aside
+  className={`hidden md:block sticky ${
+    headerVisible ? 'top-20 h-[calc(100vh-5rem)]' : 'top-20 h-[calc(100vh-2.75rem)]'
+  } overflow-y-auto bg-white border-r border-gray-200 transition-all duration-300 ease-in-out ${
+    showFilterDropdown
+      ? "w-[25%] opacity-100"
+      : "w-0 opacity-0 overflow-hidden"
+  }`}
+>
+  <div className="p-6">
+    <FilterSidebar onClose={() => setShowFilterDropdown(false)} />
+  </div>
+</aside>
+
+    {/* Product Grid - Scrollable area */}
+    <main
+      className={`flex-1 overflow-y-auto transition-all duration-300 ${
+        showFilterDropdown ? "md:w-[75%]" : "w-full"
+      }`}
+    >
+      <div className="p-6">
+        {loading ? (
+          <ProductGridSkeleton count={12} />
+        ) : (
+          <>
+            {/* Product Grid */}
+            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 lg:gap-6 sm:gap-2">
+              {products.map((product) => (
+                <ProductCard
+                  key={product._id}
+                  product={product}
+                  isWishlisted={wishlistedProducts.has(product._id)}
+                  onToggleWishlist={toggleWishlist}
+                />
+              ))}
+            </div>
+
+            {/* Pagination */}
+            <div className="mt-8">
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                totalProducts={totalProducts}
+                onPageChange={handlePageChange}
+              />
+            </div>
+          </>
+        )}
+      </div>
+    </main>
+  </div>
+</div>
   );
 };
 

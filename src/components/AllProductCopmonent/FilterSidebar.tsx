@@ -63,21 +63,18 @@ export const FilterSidebar = ({ onClose }: FilterSidebarProps) => {
   };
 
   return (
-    <div
-      className="h-[700px] overflow-auto font-montserrat"
-    >
+    <div className="font-montserrat">
       {/* Header */}
-      <div className="flex  justify-between items-center mb-8">
-        
+      <div className="flex justify-between items-center mb-6 sm:mb-6">
         <button
           onClick={handleResetFilters}
-          className="text-sm text-rose-600 hover:text-rose-800 font-medium 
-        flex items-center gap-1.5 transition-colors px-2 py-1 rounded-md hover:bg-rose-50"
+          className="text-xs sm:text-sm text-rose-600 hover:text-rose-800 font-medium 
+      flex items-center gap-1 transition-colors px-2 py-1 rounded-md hover:bg-rose-50"
           aria-label="Reset all filters"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="h-4 w-4"
+            className="h-3.5 sm:h-4 w-3.5 sm:w-4"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -94,11 +91,11 @@ export const FilterSidebar = ({ onClose }: FilterSidebarProps) => {
       </div>
 
       {/* Promotions Section */}
-      <div className="mb-8">
-        <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3 flex items-center">
+      <div className="mb-6 sm:mb-8">
+        <h3 className="text-[0.65rem] sm:text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2 sm:mb-3 flex items-center">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="h-4 w-4 mr-2 text-gray-400"
+            className="h-3.5 sm:h-4 w-3.5 sm:w-4 mr-1.5 sm:mr-2 text-gray-400"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -114,18 +111,18 @@ export const FilterSidebar = ({ onClose }: FilterSidebarProps) => {
         </h3>
         <button
           onClick={handlePromotionClick}
-          className={`w-full py-3 px-4 rounded-lg transition-all duration-200 flex items-center justify-between
-        ${
-          filters.promotionFilter === "true"
-            ? "bg-gradient-to-r from-rose-50 to-pink-50 text-rose-700 border-2 border-rose-200 shadow-sm"
-            : "bg-white text-gray-700 border border-gray-200 hover:border-gray-300 hover:shadow-sm"
-        }`}
+          className={`w-full py-2.5 sm:py-3 px-3 sm:px-4 rounded-lg transition-all duration-200 flex items-center justify-between
+      ${
+        filters.promotionFilter === "true"
+          ? "bg-gradient-to-r from-rose-50 to-pink-50 text-rose-700 border-2 border-rose-200 shadow-sm"
+          : "bg-white text-gray-700 border border-gray-200 hover:border-gray-300 hover:shadow-sm"
+      }`}
           aria-pressed={filters.promotionFilter === "true"}
         >
-          <span className="font-medium flex items-center">
+          <span className="font-medium flex items-center text-sm sm:text-base">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className={`h-5 w-5 mr-2 ${
+              className={`h-4 sm:h-5 w-4 sm:w-5 mr-1.5 sm:mr-2 ${
                 filters.promotionFilter === "true"
                   ? "text-rose-500"
                   : "text-gray-400"
@@ -142,17 +139,17 @@ export const FilterSidebar = ({ onClose }: FilterSidebarProps) => {
             Promotions Only
           </span>
           <div
-            className={`w-5 h-5 rounded flex items-center justify-center transition-colors
-          ${
-            filters.promotionFilter === "true"
-              ? "bg-rose-500 text-white"
-              : "border-2 border-gray-300 group-hover:border-gray-400"
-          }`}
+            className={`w-4 sm:w-5 h-4 sm:h-5 rounded flex items-center justify-center transition-colors
+        ${
+          filters.promotionFilter === "true"
+            ? "bg-rose-500 text-white"
+            : "border-2 border-gray-300 group-hover:border-gray-400"
+        }`}
           >
             {filters.promotionFilter === "true" && (
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-3 w-3"
+                className="h-2.5 sm:h-3 w-2.5 sm:w-3"
                 viewBox="0 0 20 20"
                 fill="currentColor"
               >
@@ -168,11 +165,11 @@ export const FilterSidebar = ({ onClose }: FilterSidebarProps) => {
       </div>
 
       {/* Categories Section */}
-      <div className="mb-8">
-        <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3 flex items-center">
+      <div className="mb-6 sm:mb-8">
+        <h3 className="text-[0.65rem] sm:text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2 sm:mb-3 flex items-center">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="h-4 w-4 mr-2 text-gray-400"
+            className="h-3.5 sm:h-4 w-3.5 sm:w-4 mr-1.5 sm:mr-2 text-gray-400"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -186,26 +183,26 @@ export const FilterSidebar = ({ onClose }: FilterSidebarProps) => {
           </svg>
           Categories
         </h3>
-        <div className="space-y-2">
+        <div className="space-y-1.5 sm:space-y-2">
           {categories.map((category) => (
             <div key={category._id} className="group">
-              <div className="flex items-center  bg-gray-50 rounded-lg overflow-hidden transition-all duration-200 hover:bg-gray-100">
+              <div className="flex items-center bg-gray-50 rounded-lg overflow-hidden transition-all duration-200 hover:bg-gray-100">
                 <button
                   onClick={() => handleCategoryClick(category._id)}
-                  className={`flex-grow text-left font-semibold px-4 py-3 transition-all duration-200 flex items-center justify-between
-                ${
-                  filters.category === category._id
-                    ? "bg-rose-500 text-white"
-                    : "text-gray-700 hover:text-gray-900"
-                }`}
+                  className={`flex-grow text-left font-medium text-sm sm:text-base px-3 sm:px-4 py-2 sm:py-3 transition-all duration-200 flex items-center justify-between
+              ${
+                filters.category === category._id
+                  ? "bg-rose-500 text-white"
+                  : "text-gray-700 hover:text-gray-900"
+              }`}
                   aria-expanded={expandedCategories.includes(category._id)}
                 >
-                  <span className="truncate font-medium">{category.title}</span>
+                  <span className="truncate">{category.title}</span>
                   <div className="flex items-center">
                     {filters.category === category._id && (
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        className="h-4 w-4 ml-2"
+                        className="h-3.5 sm:h-4 w-3.5 sm:w-4 ml-1.5 sm:ml-2"
                         viewBox="0 0 20 20"
                         fill="currentColor"
                       >
@@ -225,12 +222,12 @@ export const FilterSidebar = ({ onClose }: FilterSidebarProps) => {
                       e.stopPropagation();
                       toggleCategoryExpansion(category._id);
                     }}
-                    className={`p-2 mr-1 rounded-md transition-colors
-                  ${
-                    filters.category === category._id
-                      ? "text-gray-900 "
-                      : "text-gray-900 "
-                  }`}
+                    className={`p-1.5 sm:p-2 mr-0.5 sm:mr-1 rounded-md transition-colors
+                ${
+                  filters.category === category._id
+                    ? "text-gray-900"
+                    : "text-gray-900"
+                }`}
                     aria-label={`${
                       expandedCategories.includes(category._id)
                         ? "Collapse"
@@ -238,7 +235,7 @@ export const FilterSidebar = ({ onClose }: FilterSidebarProps) => {
                     } ${category.title} subcategories`}
                   >
                     <svg
-                      className={`w-4 h-4 transform transition-transform ${
+                      className={`w-3.5 sm:w-4 h-3.5 sm:h-4 transform transition-transform ${
                         expandedCategories.includes(category._id)
                           ? "rotate-90"
                           : ""
@@ -261,12 +258,12 @@ export const FilterSidebar = ({ onClose }: FilterSidebarProps) => {
               {/* Subcategories */}
               {expandedCategories.includes(category._id) &&
                 category.hasSubcategories && (
-                  <div className="ml-4 mt-2 space-y-1.5 border-l-2 border-gray-200 pl-3 py-1.5">
+                  <div className="ml-3 sm:ml-4 mt-1.5 sm:mt-2 space-y-1 sm:space-y-1.5 border-l-2 border-gray-200 pl-2 sm:pl-3 py-1 sm:py-1.5">
                     {subCategories[category._id]?.map((subCat) => (
                       <button
                         key={subCat._id}
                         onClick={() => handleSubCategoryClick(subCat._id)}
-                        className={`w-full text-left px-3 py-2 rounded-md transition-colors text-sm flex items-center
+                        className={`w-full text-left px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-md transition-colors text-xs sm:text-sm flex items-center
                     ${
                       filters.subCategory === subCat._id
                         ? "bg-rose-100 text-rose-700 font-medium"
@@ -274,7 +271,7 @@ export const FilterSidebar = ({ onClose }: FilterSidebarProps) => {
                     }`}
                       >
                         <span
-                          className={`w-2 h-2 rounded-full mr-2 ${
+                          className={`w-1.5 sm:w-2 h-1.5 sm:h-2 rounded-full mr-1.5 sm:mr-2 ${
                             filters.subCategory === subCat._id
                               ? "bg-rose-500"
                               : "bg-gray-400"
@@ -284,7 +281,7 @@ export const FilterSidebar = ({ onClose }: FilterSidebarProps) => {
                         {filters.subCategory === subCat._id && (
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
-                            className="h-3.5 w-3.5 ml-auto text-rose-500"
+                            className="h-3 sm:h-3.5 w-3 sm:w-3.5 ml-auto text-rose-500"
                             viewBox="0 0 20 20"
                             fill="currentColor"
                           >

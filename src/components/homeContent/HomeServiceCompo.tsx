@@ -90,7 +90,7 @@ const HomeServiceCompo = () => {
             </span>
           </h1>
           {/* <div className="w-24 h-1 bg-gradient-to-r from-rose-300 to-rose-500 mx-auto mb-6"></div> */}
-          <p className="max-w-screen-3xl mx-auto w-[60%] text-md text-rose-800/90 font-light leading-relaxed">
+          <p className="max-w-screen-3xl mx-auto lg:w-[60%] md:w-[90%] text-md text-rose-800/90 font-light leading-relaxed">
             We offer comprehensive event solutions tailored to make your occasion unforgettable. 
             From intimate gatherings to grand celebrations, our services are designed to 
             bring your vision to life with elegance and precision.

@@ -105,7 +105,7 @@ export const FilterProvider = ({ children }: { children: ReactNode }) => {
     }
 
     setFilters(newFilters);
-    setCurrentPage(pageParam ? parseInt(pageParam, 10) : 1);
+    setCurrentPage(pageParam ? parseInt(pageParam, 24) : 1);
   }, [searchParams]);
 
   // Fetch categories with pagination

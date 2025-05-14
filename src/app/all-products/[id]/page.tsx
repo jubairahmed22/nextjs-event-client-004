@@ -40,6 +40,7 @@ export default function ProductDetailsPage() {
   const [activeTab, setActiveTab] = useState(0);
   const [isInCart, setIsInCart] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [isCopied, setIsCopied] = useState(false);
 
   const allImages =
     product && product.singleImage
@@ -170,6 +171,32 @@ export default function ProductDetailsPage() {
   const productCategory = product.category
   const productSubCategory = product.subCategory
 
+
+  const copyToClipboard = () => {
+    // Get the current URL
+    const url = window.location.href;
+    
+    // Copy to clipboard
+    navigator.clipboard.writeText(url)
+      .then(() => {
+        setIsCopied(true);
+        setTimeout(() => setIsCopied(false), 2000); // Reset after 2 seconds
+      })
+      .catch(err => {
+        console.error('Failed to copy: ', err);
+        // Fallback for older browsers
+        const textarea = document.createElement('textarea');
+        textarea.value = url;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+        setIsCopied(true);
+        setTimeout(() => setIsCopied(false), 2000);
+      });
+  };
+
+
   return (
     <div className="min-h-screen max-w-screen-3xl mx-auto py-12 px-4 sm:px-6 font-montserrat">
       <FilterParentsDetails productCategory={productCategory} productSubCategory={productSubCategory}></FilterParentsDetails>
@@ -215,6 +242,13 @@ export default function ProductDetailsPage() {
               <h1 className="text-2xl font-bold text-gray-900 leading-tight">
                 {product.title}
               </h1>
+{/* 
+               <button
+      onClick={copyToClipboard}
+      className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
+    >
+      {isCopied ? '✓ Copied!' : 'Copy Link'}
+    </button> */}
              
             
 

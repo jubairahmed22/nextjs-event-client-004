@@ -1,10 +1,10 @@
 "use client";
 import { useState, useEffect } from "react";
 import Head from "next/head";
-import background from "../../assets/expo-3.jpg";
+import background from "../../assets/event-con-3.jpg";
 import Image from "next/image";
 
-export default function ExpoForm() {
+export default function BookConsultation() {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -71,7 +71,7 @@ export default function ExpoForm() {
       };
 
       // First API call
-      const response = await fetch("http://localhost:8000/web/post-expo", {
+      const response = await fetch("https://server-gs.vercel.app/web/post-booking", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -87,7 +87,7 @@ export default function ExpoForm() {
 
       // Second API call
       const secondaryResponse = await fetch(
-        "http://localhost:8000/api/sent-expo-registration",
+        "https://server-gs.vercel.app/api/sent-event-booking",
         {
           method: "POST",
           headers: {
@@ -299,9 +299,11 @@ export default function ExpoForm() {
             <div className="animate-fade-in">
               <div className="bg-green-50 border-l-4 border-green-500 rounded-lg p-6 text-center shadow-sm">
                 <div className="text-green-800 font-semibold text-xl mb-2">
-                  Registration Confirmed!
+                  Booking Confirmed!
                 </div>
-                <p className="text-green-700 mb-4">Your unique Expo ID is:</p>
+                <p className="text-green-700 mb-4">
+                  Your unique Booking ID is:
+                </p>
                 <div className="bg-green-100 border border-green-200 inline-block px-4 py-2 rounded-lg mb-4">
                   <span className="font-bold text-green-800 text-lg">
                     {expoId}
@@ -336,10 +338,10 @@ export default function ExpoForm() {
             <form onSubmit={handleSubmit} className="space-y-6 animate-fade-in">
               <div className="text-center">
                 <h2 className="text-2xl font-bold text-gray-800">
-                  Join Our Exclusive Expo
+                  Interested in a Personalized Quote?
                 </h2>
                 <p className="text-gray-600 mt-2">
-                  Secure your spot at the most anticipated event of the year
+                  Fill out our contact form & schedule a phone consultation below!
                 </p>
               </div>
 
@@ -349,7 +351,7 @@ export default function ExpoForm() {
                 </div>
               )}
 
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+              <div className="grid lg:grid-cols-2 gap-5">
                 {/* Calendar Section */}
                 <div className="space-y-4">
                   <div className="flex justify-between items-center">
@@ -618,7 +620,7 @@ export default function ExpoForm() {
                       Securing Your Spot...
                     </>
                   ) : (
-                    "Confirm Registration"
+                    "Confirm Booking"
                   )}
                 </button>
               </div>

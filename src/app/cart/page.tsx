@@ -659,9 +659,9 @@ const EventCart = () => {
   return (
     <div className="px-4">
       <div>
-        <section className="py-8 antialiased dark:bg-gray-900 md:py-16 font-poppins ">
-          <div className="mx-auto max-w-screen-3xl px-4 2xl:px-0">
-          <motion.div className="text-start px-4 mb-16">
+        <section className="py-4 antialiased dark:bg-gray-900 md:py-16 font-poppins ">
+          <div className="mx-auto max-w-screen-3xl lg:px-4 px-0 2xl:px-0">
+          <motion.div className="text-start lg:px-6 px-0 mb-4 lg:mb-16">
             <h1 className="mb-4 text-lg md:text-2xl lg:text-6xl uppercase font-playfairDisplay font-bold">
               <span className="relative inline-block">
                 {letters.map((letter, i) => (
