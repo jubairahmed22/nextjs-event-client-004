@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import EventPageLoading from "@/components/Loading/EventPageLoading";
+import GalleryHomeSliderLoading from "../Loading/GalleryHomeSliderLoading";
 
 interface User {
   singleImage: string;
@@ -206,7 +207,7 @@ const HomeGalleryCompo = () => {
       </div>
 
       {loading ? (
-        <EventPageLoading />
+        <GalleryHomeSliderLoading />
       ) : galleryData.users.length > 0 ? (
         <div
           className="relative h-[300px] sm:h-[350px] md:h-[400px] lg:h-[500px] xl:h-[550px]"

@@ -120,7 +120,7 @@ const Footer = () => {
                   href="/book-consultation"
                   className="hover:text-white transition-colors"
                 >
-                  Book a consultation
+                  Book a Consultation
                 </a>
               </li>
             </ul>
