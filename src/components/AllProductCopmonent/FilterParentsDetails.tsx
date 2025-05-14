@@ -60,110 +60,116 @@ export const FilterParentsDetails = ({
   };
 
   // Handle subcategory navigation
-  const handleSubCategoryNavigation = (categoryId: string, subCategoryId: string) => {
+  const handleSubCategoryNavigation = (
+    categoryId: string,
+    subCategoryId: string
+  ) => {
     // Update the filters first
     handleSubCategoryChange(subCategoryId);
-    
+
     // Then navigate to the subcategory page
-    router.push(`/all-products?category=${categoryId}&subcategory=${subCategoryId}`);
+    router.push(
+      `/all-products?category=${categoryId}&subcategory=${subCategoryId}`
+    );
   };
 
   return (
-    <div
- 
+    <div className="w-full">
+  <div className="flex flex-col md:flex-row items-start md:items-center gap-1 md:gap-2">
+    <button
+      onClick={clearFilters}
+      className="font-montserrat text-sm lg:text-lg text-black hover:underline duration-200 whitespace-nowrap"
     >
-   
+      All Products
+    </button>
 
-   <div className="flex flex-row items-center">
-  <button
-    onClick={clearFilters}
-    className="font-montserrat text-lg text-black hover:underline duration-200"
-  >
-    All Products
-  </button>
-
- <div>
- {filteredCategories.length > 0 && (
-    <div className="">
-      {filteredCategories.map((category) => (
-        <div className="flex flex-row" key={category._id}>
-          <div className="flex flex-row items-center  text-lg justify-between px-3 rounded-md transition-colors
-            cursor-pointer
-            ${
-              filters.category === category._id
-                ? 'text-rose-900  font-montserrat'
-                : 'hover:text-black text-black'
-            }"
-          >
-            <button
-              onClick={() => {
-                handleCategoryChange(category._id);
-                router.push(`/all-products?category=${category._id}`);
-              }}
-              className="flex-grow text-left"
-            >
-              {`>`} <span className="hover:underline duration-200">{category.title}</span>
-            </button>
-
-            {/* {category.hasSubcategories && (
+    {filteredCategories.length > 0 && (
+      <div className="flex flex-col md:flex-row flex-wrap gap-1 md:gap-2">
+        {filteredCategories.map((category) => (
+          <div className="flex flex-col md:flex-row" key={category._id}>
+            <div className="flex flex-row items-center">
+              <span className="text-sm lg:text-lg px-1">/</span>
               <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  toggleCategoryExpansion(category._id);
+                onClick={() => {
+                  handleCategoryChange(category._id);
+                  router.push(`/all-products?category=${category._id}`);
                 }}
-                aria-label={`Toggle ${category.title} subcategories`}
+                className={`text-sm lg:text-lg px-1 rounded-md transition-colors whitespace-nowrap ${
+                  filters.category === category._id
+                    ? 'text-rose-900 font-montserrat'
+                    : 'hover:text-black text-black'
+                }`}
               >
-                <svg
-                  className={`w-4 h-4 transform transition-transform ${
-                    expandedCategories.includes(category._id)
-                      ? 'rotate-90'
-                      : ''
-                  }`}
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 5l7 7-7 7"
-                  />
-                </svg>
+                <span className="hover:underline duration-200">
+                  {category.title}
+                </span>
               </button>
-            )} */}
-          </div>
 
-          {expandedCategories.includes(category._id) && category.hasSubcategories && (
-            <div className="">
-              {getFilteredSubCategories(category._id)?.map((subCat) => (
+              {/* {category.hasSubcategories && (
                 <button
-                  key={subCat._id}
-                  onClick={() => handleSubCategoryNavigation(category._id, subCat._id)}
-                  className={`block w-full text-left text-lg rounded-md transition-colors
-                    ${
-                      filters.subCategory === subCat._id
-                        ? 'text-rose-900 '
-                        : 'hover:text-black duration-300 text-black'
-                    }`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    toggleCategoryExpansion(category._id);
+                  }}
+                  aria-label={`Toggle ${category.title} subcategories`}
+                  className="ml-1"
                 >
-                  {`>`} <span className="hover:underline duration-200">{subCat.title}</span>
+                  <svg
+                    className={`w-4 h-4 transform transition-transform ${
+                      expandedCategories.includes(category._id)
+                        ? 'rotate-90'
+                        : ''
+                    }`}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 5l7 7-7 7"
+                    />
+                  </svg>
                 </button>
-              ))}
+              )} */}
             </div>
-          )}
-        </div>
-      ))}
-    </div>
-  )}
- </div>
+
+            {expandedCategories.includes(category._id) &&
+              category.hasSubcategories && (
+                <div className="flex flex-col md:flex-row">
+                  {getFilteredSubCategories(category._id)?.map(
+                    (subCat) => (
+                      <div className="flex items-center" key={subCat._id}>
+                        <span className="text-sm lg:text-lg px-1">/</span>
+                        <button
+                          onClick={() =>
+                            handleSubCategoryNavigation(
+                              category._id,
+                              subCat._id
+                            )
+                          }
+                          className={`text-sm lg:text-lg px-1 rounded-md transition-colors whitespace-nowrap ${
+                            filters.subCategory === subCat._id
+                              ? "text-rose-900"
+                              : "hover:text-black duration-300 text-black"
+                          }`}
+                        >
+                          <span className="hover:underline duration-200">
+                            {subCat.title}
+                          </span>
+                        </button>
+                      </div>
+                    )
+                  )}
+                </div>
+              )}
+          </div>
+        ))}
+      </div>
+    )}
+  </div>
 </div>
-
-
-
-
-     
-    </div>
   );
 };
