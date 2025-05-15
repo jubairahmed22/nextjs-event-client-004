@@ -296,7 +296,7 @@ const NavbarMenu: React.FC = () => {
     <>
       {/* HEADER */}
       <header
-        className={`sticky font-montserrat py-4 top-0 z-40 bg-white/90 dark:bg-neutral-950/90 backdrop-blur-lg  transition-all duration-300 transform ${
+        className={`sticky font-montserrat py-4 top-0 z-40 bg-white/90 dark:bg-white/90 backdrop-blur-lg  transition-all duration-300 transform ${
           headerVisible ? "translate-y-0" : "-translate-y-full"
         }`}
       >

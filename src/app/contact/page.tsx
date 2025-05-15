@@ -100,7 +100,7 @@ const Page = () => {
                 {/* <span className="block mb-4 text-2xl font-semibold text-rose-900 ">
                   Contact Us
                 </span> */}
-                <h2 className="text-dark dark:text-white mb-6 text-[32px] font-bold uppercase sm:text-[40px] lg:text-[36px] xl:text-[40px]">
+                <h2 className="text-dark dark:text-black mb-6 text-[32px] font-bold uppercase sm:text-[40px] lg:text-[36px] xl:text-[40px]">
                   My Color Events
                 </h2>
                 {/* <p className="text-base leading-relaxed text-body-color dark:text-dark-6 mb-9">
@@ -140,11 +140,11 @@ const Page = () => {
                     </svg>
                   </div>
                   <div className="w-full">
-                    <h4 className="mb-1 text-xl font-bold text-dark dark:text-white">
+                    <h4 className="mb-1 text-xl font-bold text-dark dark:text-black">
                       Phone Number
                     </h4>
                     <p className="text-base text-body-color dark:text-dark-6">
-                      203-548-7769
+                     203-548-7769,<br/> 203-548-7769,<br/> 203-559-2621
                     </p>
                   </div>
                 </div>
@@ -164,7 +164,7 @@ const Page = () => {
                     </svg>
                   </div>
                   <div className="w-full">
-                    <h4 className="mb-1 text-xl font-bold text-dark dark:text-white">
+                    <h4 className="mb-1 text-xl font-bold text-dark dark:text-black">
                       Email message
                     </h4>
                     <p className="text-base text-body-color dark:text-dark-6">
@@ -188,7 +188,7 @@ const Page = () => {
                     </svg>
                   </div>
                   <div className="w-full">
-                    <h4 className="mb-1 text-xl font-bold text-dark dark:text-white">
+                    <h4 className="mb-1 text-xl font-bold text-dark dark:text-black">
                       Our Location
                     </h4>
                     <p className="text-base text-body-color dark:text-dark-6">

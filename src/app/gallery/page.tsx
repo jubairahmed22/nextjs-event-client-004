@@ -7,49 +7,49 @@ import EventPageLoading from "@/components/Loading/EventPageLoading";
 import InstaPost from "@/components/shared/InstaPost";
 import { motion } from "framer-motion";
 
-// Define the type for the user data
-interface User {
+// Define the type for the product data
+interface Product {
+  _id: string;
+  categoryId: string;
+  title: string;
+  showWebsite: boolean;
+  images: string[];
   singleImage: string;
-  images: string[]; // Add images property
+  video: string | null;
+  createdAt: string;
 }
 
-// Define the type for the gallery data
-interface GalleryData {
-  users: User[];
+// Define the type for the API response
+interface ApiResponse {
+  products: Product[];
   page: number;
   totalPages: number;
   totalDocuments: number;
 }
 
-// Define the type for the gallery object
-interface Gallery {
-  singleImage: string;
-  images: string[];
-}
-
 const Page = () => {
-  const [galleryData, setGalleryData] = useState<GalleryData>({
-    users: [],
+  const [productsData, setProductsData] = useState<ApiResponse>({
+    products: [],
     page: 1,
     totalPages: 1,
     totalDocuments: 0,
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [currentPage, setCurrentPage] = useState(1); // Add currentPage state
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
         const response = await fetch(
-          `https://server-gs.vercel.app/all-gallery?page=${currentPage}`
+          `https://server-gs.vercel.app/admin/main-gallery?page=${currentPage}&limit=10` // Adjust your API endpoint as needed
         );
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
-        const data: GalleryData = await response.json();
-        setGalleryData(data);
+        const data: ApiResponse = await response.json();
+        setProductsData(data);
         setLoading(false);
       } catch (error) {
         setError(
@@ -60,10 +60,10 @@ const Page = () => {
     };
 
     fetchData();
-  }, [currentPage]); // Add currentPage to dependency array
+  }, [currentPage]);
 
   const handlePageChange = (newPage: number) => {
-    if (newPage >= 1 && newPage <= galleryData.totalPages) {
+    if (newPage >= 1 && newPage <= productsData.totalPages) {
       setCurrentPage(newPage);
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
@@ -169,32 +169,15 @@ const Page = () => {
               </span>
             </h1>
           </motion.div>
-
-          {/* Mission Paragraph */}
-          {/* <div className="max-w-screen-3xl mx-auto mb-16 text-center">
-          <p className="text-md md:text-md text-rose-800 font-light leading-relaxed">
-            We craft extraordinary events that tell your unique story. With passion and precision, 
-            we transform dreams into reality through innovative planning, exquisite design, 
-            and flawless execution. Our mission is to create moments that linger in memory 
-            long after the last guest departs.
-          </p>
-        </div> */}
-          {/* <div
-            className="h-1 w-full mt-5"
-            style={{
-              background:
-                "linear-gradient(to right, transparent, #6B021A, transparent)",
-            }}
-          ></div> */}
         </div>
 
         {loading ? (
           <EventPageLoading></EventPageLoading>
         ) : (
           <>
-            <div className="grid lg:grid-cols-3 md:grid-cols-3 grid-cols-2 lg:gap-5 gap-2 px-4 lg:px-10">
-              {galleryData.users.map((gallery) => (
-                <div
+            <div  className="grid lg:grid-cols-2 md:grid-cols-2 grid-cols-2 lg:gap-5 gap-2 px-4 lg:px-10">
+              {productsData.products.map((gallery) => (
+                 <div
                   key={gallery.singleImage}
                   onClick={() => openModal(gallery)}
                   className="relative lg:h-[460px] h-[300px] rounded-xl "
@@ -209,47 +192,100 @@ const Page = () => {
               ))}
             </div>
 
-            {/* Add Pagination Controls */}
-            {galleryData.totalPages > 1 && (
-              <div className="flex justify-end mt-8 font-montserrat">
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={() => handlePageChange(currentPage - 1)}
-                    disabled={currentPage === 1}
-                  >
-                    Previous
-                  </button>
+            {/* Pagination Controls */}
+           {productsData.totalPages > 1 && (
+  <div className="flex justify-center mt-8 font-montserrat">
+    <div className="flex items-center gap-2">
+      <button
+        onClick={() => handlePageChange(currentPage - 1)}
+        disabled={currentPage === 1}
+        className="px-4 py-2 rounded-md border bg-white text-gray-700 border-gray-300 hover:bg-gray-50 disabled:opacity-50"
+      >
+        Previous
+      </button>
 
-                  {Array.from(
-                    { length: galleryData.totalPages },
-                    (_, i) => i + 1
-                  ).map((page) => (
-                    <button
-                      key={page}
-                      onClick={() => handlePageChange(page)}
-                      className={`px-4 py-2 rounded-md border text-sm font-medium ${
-                        currentPage === page
-                          ? "bg-rose-900 text-white border-rose-900"
-                          : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
-                      }`}
-                    >
-                      {page}
-                    </button>
-                  ))}
+      {/* Always show first page */}
+      <button
+        onClick={() => handlePageChange(1)}
+        className={`px-4 py-2 rounded-md border text-sm font-medium ${
+          currentPage === 1
+            ? "bg-rose-900 text-white border-rose-900"
+            : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
+        }`}
+      >
+        1
+      </button>
 
-                  <button
-                    onClick={() => handlePageChange(currentPage + 1)}
-                    disabled={currentPage === galleryData.totalPages}
-                  >
-                    Next
-                  </button>
-                </div>
-              </div>
-            )}
+      {/* Show ellipsis if current window doesn't include page 2 */}
+      {currentPage > 3 && <span className="px-2">...</span>}
+
+      {/* Calculate the range of pages to show */}
+      {(() => {
+        let startPage = Math.max(2, currentPage - 1);
+        let endPage = Math.min(productsData.totalPages - 1, currentPage + 1);
+
+        // Adjust if we're near the start
+        if (currentPage <= 3) {
+          endPage = Math.min(4, productsData.totalPages - 1);
+        }
+        // Adjust if we're near the end
+        else if (currentPage >= productsData.totalPages - 2) {
+          startPage = Math.max(productsData.totalPages - 3, 2);
+        }
+
+        const pages = [];
+        for (let i = startPage; i <= endPage; i++) {
+          pages.push(
+            <button
+              key={i}
+              onClick={() => handlePageChange(i)}
+              className={`px-4 py-2 rounded-md border text-sm font-medium ${
+                currentPage === i
+                  ? "bg-rose-900 text-white border-rose-900"
+                  : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
+              }`}
+            >
+              {i}
+            </button>
+          );
+        }
+        return pages;
+      })()}
+
+      {/* Show ellipsis if current window doesn't include last page */}
+      {currentPage < productsData.totalPages - 2 && (
+        <span className="px-2">...</span>
+      )}
+
+      {/* Always show last page if there's more than 1 page */}
+      {productsData.totalPages > 1 && (
+        <button
+          onClick={() => handlePageChange(productsData.totalPages)}
+          className={`px-4 py-2 rounded-md border text-sm font-medium ${
+            currentPage === productsData.totalPages
+              ? "bg-rose-900 text-white border-rose-900"
+              : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
+          }`}
+        >
+          {productsData.totalPages}
+        </button>
+      )}
+
+      <button
+        onClick={() => handlePageChange(currentPage + 1)}
+        disabled={currentPage === productsData.totalPages}
+        className="px-4 py-2 rounded-md border bg-white text-gray-700 border-gray-300 hover:bg-gray-50 disabled:opacity-50"
+      >
+        Next
+      </button>
+    </div>
+  </div>
+)}
           </>
         )}
       </div>
-      {isModalOpen && selectedImage && (
+
+            {isModalOpen && selectedImage && (
         <div className="fixed inset-0 z-50 flex items-center justify-center  shadow-md">
           <div
             ref={modalRef}

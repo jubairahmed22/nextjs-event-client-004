@@ -71,7 +71,7 @@ export default function ExpoForm() {
       };
 
       // First API call
-      const response = await fetch("http://localhost:8000/web/post-expo", {
+      const response = await fetch("https://server-gs.vercel.app/web/post-expo", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -87,7 +87,7 @@ export default function ExpoForm() {
 
       // Second API call
       const secondaryResponse = await fetch(
-        "http://localhost:8000/api/sent-expo-registration",
+        "https://server-gs.vercel.app/api/sent-expo-registration",
         {
           method: "POST",
           headers: {

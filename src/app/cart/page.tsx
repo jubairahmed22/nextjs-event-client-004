@@ -659,7 +659,7 @@ const EventCart = () => {
   return (
     <div className="px-4">
       <div>
-        <section className="py-4 antialiased dark:bg-gray-900 md:py-16 font-poppins ">
+        <section className="py-4 antialiased dark:bg-white md:py-16 font-poppins ">
           <div className="mx-auto max-w-screen-3xl lg:px-4 px-0 2xl:px-0">
           <motion.div className="text-start lg:px-6 px-0 mb-4 lg:mb-16">
             <h1 className="mb-4 text-lg md:text-2xl lg:text-6xl uppercase font-playfairDisplay font-bold">
@@ -682,191 +682,208 @@ const EventCart = () => {
             </h1>
           </motion.div>
 
-            <div className="mt-6 sm:mt-8 md:gap-6 lg:flex lg:items-start xl:gap-8">
+            <div className="mt-6 sm:mt-8 md:gap-6 lg:flex lg:items-start lg:gap:2 xl:gap-2">
               <div className="mx-auto w-full flex-none lg:max-w-screen-4xl xl:max-w-5xl">
-                <div className="space-y-6">
-                  {/* cart start */}
-                  {currentItems.length > 0 ? (
-                    currentItems.map((item, index) => {
-                      const totalPrice = item.perDayPricing * item.quantity;
+  <div className="mx-auto w-full flex-none lg:max-w-screen-4xl xl:max-w-5xl bg-white p-4 rounded-lg">
+  <div className="space-y-6">
+    {/* cart start */}
+    {currentItems.length > 0 ? (
+      currentItems.map((item, index) => {
+        const totalPrice = item.perDayPricing * item.quantity;
 
-                      return (
-                        <div
-                          key={item.productId || index}
-                          className="rounded-lg border  border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800 md:p-6"
-                        >
-                          <div className="space-y-4 md:flex md:items-center md:justify-between md:gap-6 md:space-y-0">
-                            <div className="shrink-0 md:order-1 ">
-                              {item.singleImage ? (
-                                <div>
-                                  <img
-                                    className="h-36 w-36 dark:hidden rounded"
-                                    src={item.singleImage}
-                                    alt="imac image"
-                                  />
-                                  <img
-                                    className="hidden h-36 w-36 dark:block"
-                                    src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/imac-front-dark.svg"
-                                    alt="imac image"
-                                  />
-                                </div>
-                              ) : (
-                                <img
-                                  className="h-36 w-36 dark:hidden rounded"
-                                  src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiB4PSIwIiB5PSIwIiB2aWV3Qm94PSIwIDAgMjQgMjQiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDUxMiA1MTIiIHhtbDpzcGFjZT0icHJlc2VydmUiIGNsYXNzPSIiPjxnPjxwYXRoIGQ9Ik03LjMyOCA1SDIxYTEuMDAxIDEuMDAxIDAgMCAxIDEgMXYxMC4yOTNsLTcuMTQ2LTcuMTQ3YS41LjUgMCAwIDAtLjcwNyAwbC0xLjA4NiAxLjA4NmEuNS41IDAgMCAwIC43MDcuNzA3bC43MzItLjczMiA3LjUgNy41VjE4YS45OTUuOTk1IDAgMCAxLS4zNTcuNzU3LjUuNSAwIDAgMCAuNjQ3Ljc2M0ExLjk5NCAxLjk5NCAwIDAgMCAyMyAxOFY2YTIuMDAyIDIuMDAyIDAgMCAwLTItMkg3LjMyOGEuNS41IDAgMCAwIDAgMVpNMjMuODU0IDIzLjE0NmwtMjMtMjNhLjUuNSAwIDAgMC0uNzA3LjcwN0wzLjI5MyA0SDNhMi4wMDIgMi4wMDIgMCAwIDAtMiAydjEyYTIuMDAyIDIuMDAyIDAgMCAwIDIgMmgxNi4yOTNsMy44NTQgMy44NTRhLjUuNSAwIDAgMCAuNzA3LS43MDdaTTcuMTUgNy44NTcgOS4xNDMgOS44NUExLjQ5IDEuNDkgMCAwIDEgNy4xNSA3Ljg1N1pNMyA1aDEuMjkzbDIuMTIxIDIuMTIyYTIuNSAyLjUgMCAwIDAgMy40NjQgMy40NjRsMS40MjcgMS40MjctMi41NDIgMi41NDMtMS45MS0xLjkxYS41LjUgMCAwIDAtLjcwNiAwTDIgMTYuNzkzVjZhMS4wMDEgMS4wMDEgMCAwIDEgMS0xWm0wIDE0YS45ODguOTg4IDAgMCAxLS45NjUtLjgyOEw2LjUgMTMuNzA3bDMuMTQ2IDMuMTQ2YS41LjUgMCAwIDAgLjcwNy0uNzA3bC0uODgzLS44ODMgMi41NDItMi41NDNMMTguMjkzIDE5WiIgZmlsbD0iI2JjMDAwMCIgb3BhY2l0eT0iMSIgZGF0YS1vcmlnaW5hbD0iIzAwMDAwMCIgY2xhc3M9IiI+PC9wYXRoPjwvZz48L3N2Zz4="
-                                />
-                              )}
-                            </div>
+        return (
+          <div
+            key={item.productId || index}
+            className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-300 dark:bg-white"
+          >
+            <div className="space-y-4 md:flex md:items-center md:justify-between md:gap-6 md:space-y-0">
+              <div className="shrink-0 md:order-1">
+                {item.singleImage ? (
+                  <div className="relative">
+                    <img
+                      className="h-36 w-36 rounded-lg object-cover"
+                      src={item.singleImage}
+                      alt={item.title}
+                    />
+                  </div>
+                ) : (
+                  <div className="flex h-36 w-36 items-center justify-center rounded-lg bg-gray-100">
+                    <svg
+                      className="h-16 w-16 text-gray-400"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        fill="currentColor"
+                        d="M7.328 5H21a1 1 0 0 1 1 1v10.293l-7.146-7.147a.5.5 0 0 0-.707 0l-1.086 1.086a.5.5 0 0 0 .707.707l.732-.732 7.5 7.5V18a.995.995 0 0 1-.357.757.5.5 0 0 0 .647.763A1.994 1.994 0 0 0 23 18V6a2.002 2.002 0 0 0-2-2H7.328a.5.5 0 0 0 0 1zm16.526 18.146l-23-23a.5.5 0 0 0-.707.707L3.293 4H3a2.002 2.002 0 0 0-2 2v12a2.002 2.002 0 0 0 2 2h16.293l3.854 3.854a.5.5 0 0 0 .707-.707ZM7.15 7.857 9.143 9.85A1.49 1.49 0 0 1 7.15 7.857zM3 5h1.293l2.121 2.122a2.5 2.5 0 0 0 3.464 3.464l1.427 1.427-2.542 2.543-1.91-1.91a.5.5 0 0 0-.706 0L2 16.793V6a1.001 1.001 0 0 1 1-1zm0 14a.988.988 0 0 1-.965-.828L6.5 13.707l3.146 3.146a.5.5 0 0 0 .707-.707l-.883-.883 2.542-2.543L18.293 19z"
+                      />
+                    </svg>
+                  </div>
+                )}
+              </div>
 
-                            <label htmlFor="counter-input" className="sr-only">
-                              Choose quantity:
-                            </label>
+              <div className="flex items-center justify-between md:order-3 md:justify-end">
+                <div className="flex items-center">
+                  <button
+                    onClick={() => handleQuantityChange(index, -1)}
+                    type="button"
+                    className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50 transition-colors"
+                    disabled={item.quantity <= 1}
+                  >
+                    <svg
+                      className="h-3 w-3 text-gray-800"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 18 2"
+                    >
+                      <path
+                        stroke="currentColor"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M1 1h16"
+                      />
+                    </svg>
+                  </button>
 
-                            <div className="flex items-center justify-between md:order-3 md:justify-end">
-                              <div className="flex items-center">
-                                <button
-                                  onClick={() =>
-                                    handleQuantityChange(index, -1)
-                                  }
-                                  type="button"
-                                  className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700"
-                                >
-                                  <svg
-                                    className="h-2.5 w-2.5 text-gray-900 dark:text-white"
-                                    aria-hidden="true"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 18 2"
-                                  >
-                                    <path
-                                      stroke="currentColor"
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                      strokeWidth="2"
-                                      d="M1 1h16"
-                                    />
-                                  </svg>
-                                </button>
-
-                                <input
-                                  type="number" // Changed from "text" to "number"
-                                  id="counter-input"
-                                  className="w-20 shrink-0 border-0 bg-transparent text-center text-sm font-medium text-gray-900 focus:outline-none focus:ring-0 dark:text-white"
-                                  value={item.quantity}
-                                  onChange={(e) => {
-                                    const newQuantity =
-                                      parseInt(e.target.value) || 0; // Ensure we get a number
-                                    // Add validation if needed (e.g., minimum 1)
-                                    handleQuantityChange(
-                                      index,
-                                      newQuantity - item.quantity
-                                    ); // Calculate difference
-                                  }}
-                                  min="1" // Optional: set minimum quantity
-                                  required
-                                />
-
-                                <button
-                                  type="button"
-                                  onClick={() => handleQuantityChange(index, 1)}
-                                  className="inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700"
-                                >
-                                  <svg
-                                    className="h-2.5 w-2.5 text-gray-900 dark:text-white"
-                                    aria-hidden="true"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 18 18"
-                                  >
-                                    <path
-                                      stroke="currentColor"
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                      strokeWidth="2"
-                                      d="M9 1v16M1 9h16"
-                                    />
-                                  </svg>
-                                </button>
-                              </div>
-                              <div className="text-end md:order-4 md:w-32">
-                                <p className="text-base font-bold text-gray-900 dark:text-white">
-                                  <span className="text-xl">
-                                    Total ${totalPrice}
-                                  </span>
-                                </p>
-                              </div>
-                            </div>
-
-                            <div className="w-full min-w-0 flex-1 space-y-4 md:order-2 md:max-w-md">
-                              <Link href={`/all-products/${item._id}`} passHref>
-                                <strong className="hover:underline">
-                                  {item.title}
-                                </strong>
-                              </Link>
-                              <br></br>
-                              <p className="text-base font-medium text-gray-900  dark:text-white">
-                                {item.productDescription}
-                              </p>
-
-                              <div className="flex items-center gap-4">
-                                <button
-                                  type="button"
-                                  className="inine-flex items-center gap-2 text-xl font-medium text-rose-900 hover:text-gray-900 hover:underline dark:text-gray-400 dark:hover:text-white"
-                                >
-                                  <strong>product price </strong>
-                                  {item.perDayPricing.toFixed(2)}
-                                </button>
-
-                                <button
-                                  type="button"
-                                  className="inline-flex items-center text-sm font-medium text-red-600 hover:underline dark:text-red-500"
-                                  onClick={() => removeFromCart(item)}
-                                >
-                                  <svg
-                                    className="me-1.5 h-5 w-5"
-                                    aria-hidden="true"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="24"
-                                    height="24"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                  >
-                                    <path
-                                      stroke="currentColor"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      stroke-width="2"
-                                      d="M6 18 17.94 6M18 18 6.06 6"
-                                    />
-                                  </svg>
-                                  Remove
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
+                  <input
+                    type="number"
+                    id="counter-input"
+                    className="w-16 shrink-0 border-0 bg-white text-center text-sm font-medium text-gray-900 focus:outline-none focus:ring-0"
+                    value={item.quantity}
+                    onChange={(e) => {
+                      const newQuantity = parseInt(e.target.value) || 1;
+                      handleQuantityChange(
+                        index,
+                        newQuantity - item.quantity
                       );
-                    })
-                  ) : (
-                    <p className="text-gray-700 text-center py-6">
-                      Your cart is empty.
-                    </p>
-                  )}
-                  {currentItems.length > 0 ? (
-                    <div className="w-full flex justify-end text-xl font-montserrat font-semibold">
-                      Products Total Price:{" "}
-                      {currentItems.reduce(
-                        (sum, item) => sum + item.perDayPricing * item.quantity,
-                        0
-                      )}
-                    </div>
-                  ) : (
-                    ""
-                  )}
+                    }}
+                    min="1"
+                    required
+                  />
 
-                  {/* cart end */}
+                  <button
+                    type="button"
+                    onClick={() => handleQuantityChange(index, 1)}
+                    className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50 transition-colors"
+                  >
+                    <svg
+                      className="h-3 w-3 text-gray-800"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 18 18"
+                    >
+                      <path
+                        stroke="currentColor"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M9 1v16M1 9h16"
+                      />
+                    </svg>
+                  </button>
+                </div>
+                <div className="text-end md:order-4 md:w-32">
+                  <p className="text-lg font-bold text-gray-900">
+                    ${totalPrice?.toFixed(2)}
+                  </p>
                 </div>
               </div>
+
+              <div className="w-full min-w-0 flex-1 space-y-4 md:order-2 md:max-w-md">
+                <Link 
+                  href={`/all-products/${item._id}`} 
+                  passHref
+                  className="group"
+                >
+                  <h3 className="text-xl font-semibold text-gray-900 group-hover:text-blue-600 group-hover:underline transition-colors">
+                    {item.title}
+                  </h3>
+                </Link>
+                <p className="text-gray-700 line-clamp-2">
+                  {item.productDescription}
+                </p>
+
+                <div className="flex items-center gap-4">
+                  <span className="text-lg font-medium text-gray-700">
+                    <span className="text-gray-500">Price: </span>
+                    ${item.perDayPricing?.toFixed(2)}/day
+                  </span>
+
+                  <button
+                    type="button"
+                    className="flex items-center text-sm font-medium text-red-600 hover:text-red-700 hover:underline transition-colors"
+                    onClick={() => removeFromCart(item)}
+                  >
+                    <svg
+                      className="mr-1.5 h-5 w-5"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke="currentColor"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M6 18 17.94 6M18 18 6.06 6"
+                      />
+                    </svg>
+                    Remove
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      })
+    ) : (
+      <div className="rounded-lg border border-gray-700 bg-white p-8 text-center">
+        <svg
+          className="mx-auto h-12 w-12 text-gray-400"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="1.5"
+            d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+          />
+        </svg>
+        <h3 className="mt-4 text-lg font-medium text-gray-900">
+          Your cart is empty
+        </h3>
+        <p className="mt-2 text-gray-600">
+          Start adding some products to see them here
+        </p>
+      </div>
+    )}
+    
+    {currentItems.length > 0 && (
+      <div className="w-full rounded-lg border border-gray-200 bg-white p-6">
+        <div className="flex justify-between items-center">
+          <h3 className="text-xl font-semibold text-gray-700">
+            Order Summary
+          </h3>
+          <div className="text-2xl font-bold text-gray-900">
+            ${currentItems.reduce(
+              (sum, item) => sum + item.perDayPricing * item.quantity,
+              0
+            )?.toFixed(2)}
+          </div>
+        </div>
+      </div>
+    )}
+  </div>
+</div>
+</div>
 
               <div className="mx-auto mt-6 max-w-2xl flex-1 space-y-6 lg:mt-0 lg:w-full shadow-md border border-rose-50 rounded-xl p-5">
                 <h1 className="text-3xl">Quote request form</h1>

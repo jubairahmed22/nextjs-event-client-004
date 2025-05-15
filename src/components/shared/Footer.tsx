@@ -27,7 +27,7 @@ const Footer = () => {
                 Based in CT. We Serve CT, NY, NJ, MA & RI
               </p>
               <p className="font-montserrat">Business: 203-548-7769</p>
-              <p className="font-montserrat">Mobile: 203-559-9680</p>
+              <p className="font-montserrat">Mobile: 203-559-9680, 203-559-2621</p>
               <p className="font-montserrat hover:text-white transition-colors">
                 <a href="mailto:info@mycolorevents.com">
                   Email: info@mycolorevents.com
@@ -73,6 +73,7 @@ const Footer = () => {
                 />
               </div>
             </div>
+            
           </div>
            {/* Quick Links - Example Section */}
           <div className="flex flex-row lg:justify-center sm:justify-center">
@@ -80,7 +81,7 @@ const Footer = () => {
             <h3 className="text-xl font-montserrat font-semibold text-white">
               Quick Links
             </h3>
-            <ul className="space-y-2 font-montserrat grid grid-cols-2 gap-3">
+            <ul className="space-y-2 font-montserrat grid grid-cols-2 ">
               <li>
                 <a href="/" className="hover:text-white transition-colors">
                   Home
@@ -124,6 +125,13 @@ const Footer = () => {
                 </a>
               </li>
             </ul>
+            <a href="https://pros.weddingpro.com/wp-content/themes/weddingpro-theme/dist/svg/logo.svg" target="_blank">
+              <img
+                  alt=""
+                  className="h-20 mt-4 w-full rounded-md bg-white px-2 object-contain"
+                  src="https://www.wipa.org/wp-content/uploads/2022/03/WeddingPro_Logo_Large-color.png"
+                />
+            </a>
           </div>
          
           </div>

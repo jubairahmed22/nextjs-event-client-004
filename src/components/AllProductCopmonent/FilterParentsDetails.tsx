@@ -75,37 +75,37 @@ export const FilterParentsDetails = ({
 
   return (
     <div className="w-full">
-  <div className="flex flex-col md:flex-row items-start md:items-center gap-1 md:gap-2">
-    <button
-      onClick={clearFilters}
-      className="font-montserrat text-sm lg:text-lg text-black hover:underline duration-200 whitespace-nowrap"
-    >
-      All Products
-    </button>
+      <div className="flex flex-col md:flex-row items-start md:items-center gap-1 md:gap-2">
+        <button
+          onClick={clearFilters}
+          className="font-montserrat text-sm lg:text-lg text-black hover:underline duration-200 whitespace-nowrap"
+        >
+          All Products
+        </button>
 
-    {filteredCategories.length > 0 && (
-      <div className="flex flex-col md:flex-row flex-wrap gap-1 md:gap-2">
-        {filteredCategories.map((category) => (
-          <div className="flex flex-col md:flex-row" key={category._id}>
-            <div className="flex flex-row items-center">
-              <span className="text-sm lg:text-lg px-1">/</span>
-              <button
-                onClick={() => {
-                  handleCategoryChange(category._id);
-                  router.push(`/all-products?category=${category._id}`);
-                }}
-                className={`text-sm lg:text-lg px-1 rounded-md transition-colors whitespace-nowrap ${
-                  filters.category === category._id
-                    ? 'text-rose-900 font-montserrat'
-                    : 'hover:text-black text-black'
-                }`}
-              >
-                <span className="hover:underline duration-200">
-                  {category.title}
-                </span>
-              </button>
+        {filteredCategories.length > 0 && (
+          <div className="flex flex-col md:flex-row flex-wrap gap-1 md:gap-2">
+            {filteredCategories.map((category) => (
+              <div className="flex flex-col md:flex-row" key={category._id}>
+                <div className="flex flex-row items-center">
+                  <span className="text-sm lg:text-lg px-1">/</span>
+                  <button
+                    onClick={() => {
+                      handleCategoryChange(category._id);
+                      router.push(`/all-products?category=${category._id}`);
+                    }}
+                    className={`text-sm lg:text-lg px-1 rounded-md transition-colors whitespace-nowrap ${
+                      filters.category === category._id
+                        ? "text-rose-900 font-montserrat"
+                        : "hover:text-black text-black"
+                    }`}
+                  >
+                    <span className="hover:underline duration-200">
+                      {category.title}
+                    </span>
+                  </button>
 
-              {/* {category.hasSubcategories && (
+                  {/* {category.hasSubcategories && (
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
@@ -134,42 +134,40 @@ export const FilterParentsDetails = ({
                   </svg>
                 </button>
               )} */}
-            </div>
-
-            {expandedCategories.includes(category._id) &&
-              category.hasSubcategories && (
-                <div className="flex flex-col md:flex-row">
-                  {getFilteredSubCategories(category._id)?.map(
-                    (subCat) => (
-                      <div className="flex items-center" key={subCat._id}>
-                        <span className="text-sm lg:text-lg px-1">/</span>
-                        <button
-                          onClick={() =>
-                            handleSubCategoryNavigation(
-                              category._id,
-                              subCat._id
-                            )
-                          }
-                          className={`text-sm lg:text-lg px-1 rounded-md transition-colors whitespace-nowrap ${
-                            filters.subCategory === subCat._id
-                              ? "text-rose-900"
-                              : "hover:text-black duration-300 text-black"
-                          }`}
-                        >
-                          <span className="hover:underline duration-200">
-                            {subCat.title}
-                          </span>
-                        </button>
-                      </div>
-                    )
-                  )}
                 </div>
-              )}
+
+                {expandedCategories.includes(category._id) &&
+                  category.hasSubcategories && (
+                    <div className="flex flex-col md:flex-row">
+                      {getFilteredSubCategories(category._id)?.map((subCat) => (
+                        <div className="flex items-center" key={subCat._id}>
+                          <span className="text-sm lg:text-lg px-1">/</span>
+                          <button
+                            onClick={() =>
+                              handleSubCategoryNavigation(
+                                category._id,
+                                subCat._id
+                              )
+                            }
+                            className={`text-sm lg:text-lg px-1 rounded-md transition-colors whitespace-nowrap ${
+                              filters.subCategory === subCat._id
+                                ? "text-rose-900"
+                                : "hover:text-black duration-300 text-black"
+                            }`}
+                          >
+                            <span className="hover:underline duration-200">
+                              {subCat.title}
+                            </span>
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+              </div>
+            ))}
           </div>
-        ))}
+        )}
       </div>
-    )}
-  </div>
-</div>
+    </div>
   );
 };

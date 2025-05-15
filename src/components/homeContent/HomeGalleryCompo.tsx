@@ -12,7 +12,7 @@ interface User {
 }
 
 interface GalleryData {
-  users: User[];
+  products: User[];
   page: number;
   totalPages: number;
   totalDocuments: number;
@@ -20,7 +20,7 @@ interface GalleryData {
 
 const HomeGalleryCompo = () => {
   const [galleryData, setGalleryData] = useState<GalleryData>({
-    users: [],
+    products: [],
     page: 1,
     totalPages: 1,
     totalDocuments: 0,
@@ -38,12 +38,12 @@ const HomeGalleryCompo = () => {
       intervalRef.current = setInterval(() => {
         setDirection("right");
         setCurrentIndex((prev) =>
-          prev === galleryData.users.length - 1 ? 0 : prev + 1
+          prev === galleryData.products.length - 1 ? 0 : prev + 1
         );
       }, 3000);
     };
 
-    if (!isHovered && galleryData.users.length > 1) {
+    if (!isHovered && galleryData.products.length > 1) {
       startAutoRotation();
     }
 
@@ -52,14 +52,16 @@ const HomeGalleryCompo = () => {
         clearInterval(intervalRef.current);
       }
     };
-  }, [galleryData.users.length, isHovered]);
+  }, [galleryData.products.length, isHovered]);
 
   // Fetch data
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const response = await fetch(`https://server-gs.vercel.app/all-gallery`);
+        const response = await fetch(
+          `https://server-gs.vercel.app/admin/main-gallery`
+        );
         if (!response.ok) throw new Error("Network response was not ok");
         const data: GalleryData = await response.json();
         setGalleryData(data);
@@ -78,7 +80,7 @@ const HomeGalleryCompo = () => {
   const nextSlide = () => {
     setDirection("right");
     setCurrentIndex((prev) =>
-      prev === galleryData.users.length - 1 ? 0 : prev + 1
+      prev === galleryData.products.length - 1 ? 0 : prev + 1
     );
     resetAutoRotation();
   };
@@ -86,7 +88,7 @@ const HomeGalleryCompo = () => {
   const prevSlide = () => {
     setDirection("left");
     setCurrentIndex((prev) =>
-      prev === 0 ? galleryData.users.length - 1 : prev - 1
+      prev === 0 ? galleryData.products.length - 1 : prev - 1
     );
     resetAutoRotation();
   };
@@ -104,17 +106,17 @@ const HomeGalleryCompo = () => {
   };
 
   const getVisibleItems = () => {
-    if (galleryData.users.length === 0) return [];
+    if (galleryData.products.length === 0) return [];
 
     const prevIndex =
-      currentIndex === 0 ? galleryData.users.length - 1 : currentIndex - 1;
+      currentIndex === 0 ? galleryData.products.length - 1 : currentIndex - 1;
     const nextIndex =
-      currentIndex === galleryData.users.length - 1 ? 0 : currentIndex + 1;
+      currentIndex === galleryData.products.length - 1 ? 0 : currentIndex + 1;
 
     return [
-      { ...galleryData.users[prevIndex], position: "left" },
-      { ...galleryData.users[currentIndex], position: "center" },
-      { ...galleryData.users[nextIndex], position: "right" },
+      { ...galleryData.products[prevIndex], position: "left" },
+      { ...galleryData.products[currentIndex], position: "center" },
+      { ...galleryData.products[nextIndex], position: "right" },
     ];
   };
 
@@ -208,7 +210,7 @@ const HomeGalleryCompo = () => {
 
       {loading ? (
         <GalleryHomeSliderLoading />
-      ) : galleryData.users.length > 0 ? (
+      ) : galleryData.products.length > 0 ? (
         <div
           className="relative h-[300px] sm:h-[350px] md:h-[400px] lg:h-[500px] xl:h-[550px]"
           onMouseEnter={() => setIsHovered(true)}
@@ -298,7 +300,7 @@ const HomeGalleryCompo = () => {
 
           {/* Indicator dots - responsive spacing and sizing */}
           <div className="flex justify-center space-x-1 sm:space-x-2 mt-4 sm:mt-6 md:mt-8 lg:mt-12 xl:mt-20 px-4">
-            {galleryData.users.map((_, index) => (
+            {galleryData.products.map((_, index) => (
               <button
                 key={index}
                 onClick={() => goToSlide(index)}
