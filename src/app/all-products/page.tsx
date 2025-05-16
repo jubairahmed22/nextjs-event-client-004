@@ -242,7 +242,7 @@ export const ProductsPage = () => {
     {/* Categories Button - Always shows text */}
     <button
       onClick={() => setShowFilterDropdown(!showFilterDropdown)}
-      className="flex text-lg sm:text-xl font-semibold font-montserrat items-center gap-2 px-3 sm:px-4 py-2 bg-transparent text-gray-700 hover:text-rose-600 rounded-md hover:bg-gray-50 transition-colors"
+      className="flex text-lg sm:text-xl font-semibold font-montserrat items-center gap-2 lg:px-4 py-2 bg-transparent text-gray-700 hover:text-rose-600 rounded-md hover:bg-gray-50 transition-colors"
       aria-expanded={showFilterDropdown}
     >
       <AnimatePresence mode="wait" initial={false}>
@@ -345,7 +345,7 @@ export const ProductsPage = () => {
         showFilterDropdown ? "md:w-[75%]" : "w-full"
       }`}
     >
-      <div className="p-6">
+      <div className="lg:p-6 p-4">
         {loading ? (
           <ProductGridSkeleton count={12} />
         ) : (

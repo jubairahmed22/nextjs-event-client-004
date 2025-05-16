@@ -27,7 +27,7 @@ const Footer = () => {
                 Based in CT. We Serve CT, NY, NJ, MA & RI
               </p>
               <p className="font-montserrat">Business: 203-548-7769</p>
-              <p className="font-montserrat">Mobile: 203-559-9680, 203-559-2621</p>
+              <p className="font-montserrat">Cell Phone: 203-559-9680, 203-559-2621</p>
               <p className="font-montserrat hover:text-white transition-colors">
                 <a href="mailto:info@mycolorevents.com">
                   Email: info@mycolorevents.com
@@ -44,31 +44,31 @@ const Footer = () => {
               Certified by
             </h3>
             <div className="grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-2 gap-4">
-              <div className="flex items-center justify-center p-2 bg-white rounded-lg">
+              <div className="flex items-center justify-center p-1 bg-white rounded-lg">
                 <img
                   alt=""
-                  className="h-32  object-contain"
+                  className="h-16  object-contain"
                   src={love.src}
                 />
               </div>
-              <div className="flex items-center justify-center p-2 bg-white rounded-lg">
+              <div className="flex items-center justify-center p-1 bg-white rounded-lg">
                 <img
                   alt=""
-                  className="h-32  object-contain"
+                  className="h-16  object-contain"
                   src={aed.src}
                 />
               </div>
-              <div className="flex items-center justify-center p-2 bg-white rounded-lg">
+              <div className="flex items-center justify-center p-1 bg-white rounded-lg">
                 <img
                   alt=""
-                  className="h-32  object-contain"
+                  className="h-16  object-contain"
                   src={iwed.src}
                 />
               </div>
-              <div className="flex items-center justify-center p-2 bg-white rounded-lg">
+              <div className="flex items-center justify-center p-1 bg-white rounded-lg">
                 <img
                   alt=""
-                  className="h-32  object-contain"
+                  className="h-16  object-contain"
                   src={lwpi.src}
                 />
               </div>
@@ -128,7 +128,7 @@ const Footer = () => {
             <a href="https://pros.weddingpro.com/wp-content/themes/weddingpro-theme/dist/svg/logo.svg" target="_blank">
               <img
                   alt=""
-                  className="h-20 mt-4 w-full rounded-md bg-white px-2 object-contain"
+                  className="h-10 mt-4 w-32 rounded-md bg-white px-2 object-contain"
                   src="https://www.wipa.org/wp-content/uploads/2022/03/WeddingPro_Logo_Large-color.png"
                 />
             </a>

@@ -144,7 +144,7 @@ const Page = () => {
                       Phone Number
                     </h4>
                     <p className="text-base text-body-color dark:text-dark-6">
-                     203-548-7769,<br/> 203-548-7769,<br/> 203-559-2621
+                     Business: 203-548-7769,<br/>Cell Phone: 203-559-9680,<br/>Cell Phone: 203-559-2621
                     </p>
                   </div>
                 </div>

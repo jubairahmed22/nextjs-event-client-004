@@ -175,9 +175,9 @@ const Page = () => {
           <EventPageLoading></EventPageLoading>
         ) : (
           <>
-            <div  className="grid lg:grid-cols-2 md:grid-cols-2 grid-cols-2 lg:gap-5 gap-2 px-4 lg:px-10">
+            <div className="grid lg:grid-cols-2 md:grid-cols-2 grid-cols-2 lg:gap-5 gap-2 px-4 lg:px-10">
               {productsData.products.map((gallery) => (
-                 <div
+                <div
                   key={gallery.singleImage}
                   onClick={() => openModal(gallery)}
                   className="relative lg:h-[460px] h-[300px] rounded-xl "
@@ -193,99 +193,102 @@ const Page = () => {
             </div>
 
             {/* Pagination Controls */}
-           {productsData.totalPages > 1 && (
-  <div className="flex justify-center mt-8 font-montserrat">
-    <div className="flex items-center gap-2">
-      <button
-        onClick={() => handlePageChange(currentPage - 1)}
-        disabled={currentPage === 1}
-        className="px-4 py-2 rounded-md border bg-white text-gray-700 border-gray-300 hover:bg-gray-50 disabled:opacity-50"
-      >
-        Previous
-      </button>
+            {productsData.totalPages > 1 && (
+              <div className="flex justify-center mt-8 font-montserrat">
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => handlePageChange(currentPage - 1)}
+                    disabled={currentPage === 1}
+                    className="px-4 py-2 rounded-md border bg-white text-gray-700 border-gray-300 hover:bg-gray-50 disabled:opacity-50"
+                  >
+                    Previous
+                  </button>
 
-      {/* Always show first page */}
-      <button
-        onClick={() => handlePageChange(1)}
-        className={`px-4 py-2 rounded-md border text-sm font-medium ${
-          currentPage === 1
-            ? "bg-rose-900 text-white border-rose-900"
-            : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
-        }`}
-      >
-        1
-      </button>
+                  {/* Always show first page */}
+                  <button
+                    onClick={() => handlePageChange(1)}
+                    className={`px-4 py-2 rounded-md border text-sm font-medium ${
+                      currentPage === 1
+                        ? "bg-rose-900 text-white border-rose-900"
+                        : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
+                    }`}
+                  >
+                    1
+                  </button>
 
-      {/* Show ellipsis if current window doesn't include page 2 */}
-      {currentPage > 3 && <span className="px-2">...</span>}
+                  {/* Show ellipsis if current window doesn't include page 2 */}
+                  {currentPage > 3 && <span className="px-2">...</span>}
 
-      {/* Calculate the range of pages to show */}
-      {(() => {
-        let startPage = Math.max(2, currentPage - 1);
-        let endPage = Math.min(productsData.totalPages - 1, currentPage + 1);
+                  {/* Calculate the range of pages to show */}
+                  {(() => {
+                    let startPage = Math.max(2, currentPage - 1);
+                    let endPage = Math.min(
+                      productsData.totalPages - 1,
+                      currentPage + 1
+                    );
 
-        // Adjust if we're near the start
-        if (currentPage <= 3) {
-          endPage = Math.min(4, productsData.totalPages - 1);
-        }
-        // Adjust if we're near the end
-        else if (currentPage >= productsData.totalPages - 2) {
-          startPage = Math.max(productsData.totalPages - 3, 2);
-        }
+                    // Adjust if we're near the start
+                    if (currentPage <= 3) {
+                      endPage = Math.min(4, productsData.totalPages - 1);
+                    }
+                    // Adjust if we're near the end
+                    else if (currentPage >= productsData.totalPages - 2) {
+                      startPage = Math.max(productsData.totalPages - 3, 2);
+                    }
 
-        const pages = [];
-        for (let i = startPage; i <= endPage; i++) {
-          pages.push(
-            <button
-              key={i}
-              onClick={() => handlePageChange(i)}
-              className={`px-4 py-2 rounded-md border text-sm font-medium ${
-                currentPage === i
-                  ? "bg-rose-900 text-white border-rose-900"
-                  : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
-              }`}
-            >
-              {i}
-            </button>
-          );
-        }
-        return pages;
-      })()}
+                    const pages = [];
+                    for (let i = startPage; i <= endPage; i++) {
+                      pages.push(
+                        <button
+                          key={i}
+                          onClick={() => handlePageChange(i)}
+                          className={`px-4 py-2 rounded-md border text-sm font-medium ${
+                            currentPage === i
+                              ? "bg-rose-900 text-white border-rose-900"
+                              : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
+                          }`}
+                        >
+                          {i}
+                        </button>
+                      );
+                    }
+                    return pages;
+                  })()}
 
-      {/* Show ellipsis if current window doesn't include last page */}
-      {currentPage < productsData.totalPages - 2 && (
-        <span className="px-2">...</span>
-      )}
+                  {/* Show ellipsis if current window doesn't include last page */}
+                  {currentPage < productsData.totalPages - 2 && (
+                    <span className="px-2">...</span>
+                  )}
 
-      {/* Always show last page if there's more than 1 page */}
-      {productsData.totalPages > 1 && (
-        <button
-          onClick={() => handlePageChange(productsData.totalPages)}
-          className={`px-4 py-2 rounded-md border text-sm font-medium ${
-            currentPage === productsData.totalPages
-              ? "bg-rose-900 text-white border-rose-900"
-              : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
-          }`}
-        >
-          {productsData.totalPages}
-        </button>
-      )}
+                  {/* Always show last page if there's more than 1 page */}
+                  {productsData.totalPages > 1 && (
+                    <button
+                      onClick={() => handlePageChange(productsData.totalPages)}
+                      className={`px-4 py-2 rounded-md border text-sm font-medium ${
+                        currentPage === productsData.totalPages
+                          ? "bg-rose-900 text-white border-rose-900"
+                          : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
+                      }`}
+                    >
+                      {productsData.totalPages}
+                    </button>
+                  )}
 
-      <button
-        onClick={() => handlePageChange(currentPage + 1)}
-        disabled={currentPage === productsData.totalPages}
-        className="px-4 py-2 rounded-md border bg-white text-gray-700 border-gray-300 hover:bg-gray-50 disabled:opacity-50"
-      >
-        Next
-      </button>
-    </div>
-  </div>
-)}
+                  <button
+                    onClick={() => handlePageChange(currentPage + 1)}
+                    disabled={currentPage === productsData.totalPages}
+                    className="px-4 py-2 rounded-md border bg-white text-gray-700 border-gray-300 hover:bg-gray-50 disabled:opacity-50"
+                  >
+                    Next
+                  </button>
+                </div>
+              </div>
+            )}
           </>
         )}
       </div>
 
-            {isModalOpen && selectedImage && (
+      {isModalOpen && selectedImage && (
         <div className="fixed inset-0 z-50 flex items-center justify-center  shadow-md">
           <div
             ref={modalRef}
