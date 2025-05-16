@@ -247,6 +247,34 @@ export const FilterProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  const handleCategoryClick = (categoryId: string) => {
+  // First execute the existing category change logic
+  handleCategoryChange(categoryId);
+  
+  // Create URL parameters
+  const params = new URLSearchParams();
+  
+  // Only set category if it's not being cleared (toggle behavior)
+  if (categoryId !== filters.category) {
+    params.set('category', categoryId);
+  }
+  
+  // Always reset to page 1 when changing categories
+  params.set('page', '1');
+  
+  // Preserve other existing filters that should persist
+  if (filters.title) params.set('q', filters.title);
+  if (filters.minPrice) params.set('minPrice', filters.minPrice);
+  if (filters.maxPrice) params.set('maxPrice', filters.maxPrice);
+  if (filters.promotionFilter === 'true') params.set('promotion', '"true"');
+  
+  // Navigate to the new URL
+  router.push(`/all-products?${params.toString()}`);
+};
+
+
+
+
   const handleSubCategoryChange = (subCategoryId: string) => {
     // When selecting subcategory, keep the parent category in URL
     const categoryForSub = categories.find(cat => 
@@ -298,6 +326,7 @@ export const FilterProvider = ({ children }: { children: ReactNode }) => {
         handlePriceChange,
         handlePromotionToggle,
         handleCategoryChange,
+        handleCategoryClick,
         handleSubCategoryChange,
         handlePageChange,
         clearFilters,
