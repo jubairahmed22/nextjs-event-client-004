@@ -5,7 +5,7 @@ import { useFilters } from "@/app/contexts/FilterContext";
 import { FilterInput } from "./FilterInput";
 import { FilterPagination } from "../FilterPagination";
 import Image from "next/image";
-import { motion } from 'framer-motion';
+import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 
 export const FilterRentalEvents = () => {
@@ -27,13 +27,16 @@ export const FilterRentalEvents = () => {
   const text = "Décor Rental";
   const letters = text.split("");
 
-  const handleCategoryClick = (categoryId: string) => {
-    // Update the URL to /all-products with the category filter
-    const params = new URLSearchParams();
-    params.set("category", categoryId);
-    params.set("page", "1");
-    router.push(`/all-products?${params.toString()}`);
-  };
+const handleCategoryClick = (categoryId: string) => {
+  const params = new URLSearchParams(window.location.search);
+  params.set("category", categoryId);
+  params.set("page", "1");
+  // Remove other filters that might conflict
+  params.delete("subCategory");
+  params.delete("minPrice");
+  params.delete("maxPrice");
+  router.push(`/all-products?${params.toString()}`);
+};
 
   return (
     <div className="max-w-screen-3xl mx-auto px-4 sm:px-6 lg:px-8 lg:my-20 my-5">
@@ -45,9 +48,9 @@ export const FilterRentalEvents = () => {
                 key={i}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ 
+                transition={{
                   duration: 0.5,
-                  delay: i * 0.05 
+                  delay: i * 0.05,
                 }}
                 className="relative text-transparent bg-clip-text bg-gradient-to-r from-rose-700 to-rose-900"
               >
@@ -57,13 +60,13 @@ export const FilterRentalEvents = () => {
           </span>
         </h1>
       </motion.div>
-     
+
       <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 lg:gap-6 gap-2">
         {categories.map((category) => (
           <div
             key={category._id}
             className={`relative h-[250px] md:h-[350px] lg:h-[450px] rounded-lg overflow-hidden group transition-all duration-500 hover:shadow-2xl hover:shadow-primary/20 hover:scale-[1.02] border border-gray-200 dark:border-gray-700 cursor-pointer ${
-              filters.category === category._id ? 'ring-4 ring-rose-600' : ''
+              filters.category === category._id ? "ring-4 ring-rose-600" : ""
             }`}
             onClick={() => handleCategoryClick(category._id)}
           >

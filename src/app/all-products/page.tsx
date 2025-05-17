@@ -24,9 +24,10 @@ export const ProductsPage = () => {
   const [totalProducts, setTotalProducts] = useState(0);
   const { filters, isSidebarOpen, setIsSidebarOpen } = useFilters();
 
-  // Initialize page from URL params
-  useEffect(() => {
+   useEffect(() => {
     const pageParam = searchParams.get("page");
+    const categoryParam = searchParams.get("category");
+    
     if (pageParam) {
       try {
         const parsedPage = JSON.parse(pageParam);
@@ -35,32 +36,29 @@ export const ProductsPage = () => {
         console.error("Error parsing page parameter:", e);
       }
     }
+    
+    // You might want to initialize other filters from URL here if needed
   }, [searchParams]);
 
-  // Fetch products from the appropriate endpoint based on promotion filter
+  // Fetch products with debouncing
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         setLoading(true);
 
-        // Determine which endpoint to use
-        const endpoint =
-          filters.promotionFilter === "true"
-            ? "/web/products/discount"
-            : "/web/main/all-products";
+        const endpoint = filters.promotionFilter === "true"
+          ? "/web/products/discount"
+          : "/web/main/all-products";
 
-        // Prepare API params
         const apiParams: Record<string, string> = {
           page: currentPage.toString(),
         };
 
-        // Add promotion filter if active
         if (filters.promotionFilter === "true") {
           apiParams.Promotion = "true";
           apiParams.showWebsite = "true";
         }
 
-        // Add other filters if they exist
         if (filters.title) apiParams.title = filters.title;
         if (filters.category) apiParams.category = filters.category;
         if (filters.subCategory) apiParams.subCategory = filters.subCategory;
@@ -69,18 +67,22 @@ export const ProductsPage = () => {
         if (filters.SelectedType) apiParams.SelectedType = filters.SelectedType;
         if (filters.productCode) apiParams.productCode = filters.productCode;
 
-        // Fetch products
-        const response = await fetch(
-          `https://server-gs.vercel.app${endpoint}?${new URLSearchParams(
-            apiParams
-          ).toString()}`
-        );
-        const data = await response.json();
+        // Add a small delay to prevent rapid successive requests
+        const timer = setTimeout(async () => {
+          const response = await fetch(
+            `https://server-gs.vercel.app${endpoint}?${new URLSearchParams(
+              apiParams
+            ).toString()}`
+          );
+          const data = await response.json();
 
-        setProducts(data.products);
-        setTotalPages(data.totalPages);
-        setTotalProducts(data.totalProducts || 0);
-        setLoading(false);
+          setProducts(data.products || []);
+          setTotalPages(data.totalPages || 1);
+          setTotalProducts(data.totalProducts || 0);
+          setLoading(false);
+        }, 100); // 100ms debounce delay
+
+        return () => clearTimeout(timer);
       } catch (error) {
         console.error("Error fetching products:", error);
         setLoading(false);
@@ -88,12 +90,24 @@ export const ProductsPage = () => {
     };
 
     fetchProducts();
-  }, [currentPage, filters]);
+  }, [
+    currentPage,
+    filters.category,
+    filters.subCategory,
+    filters.promotionFilter,
+    filters.title,
+    filters.minPrice,
+    filters.maxPrice,
+    filters.SelectedType,
+    filters.productCode
+  ]);
 
-  // In ProductsPage.tsx
+  // Reset to page 1 when filters change (except for page changes)
   useEffect(() => {
-    // Reset to page 1 when filters change (except for page changes)
-    setCurrentPage(1);
+    // Only reset if we have actual filter values (not initial empty state)
+    if (Object.values(filters).some(val => val !== '' && val !== undefined)) {
+      setCurrentPage(1);
+    }
   }, [
     filters.category,
     filters.subCategory,
@@ -102,7 +116,7 @@ export const ProductsPage = () => {
     filters.minPrice,
     filters.maxPrice,
   ]);
-
+  
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
 
@@ -111,6 +125,9 @@ export const ProductsPage = () => {
     urlParams.set("page", JSON.stringify({ searchPage: page }));
     router.push(`?${urlParams.toString()}`, undefined, { shallow: true });
   };
+
+
+  
 
   const [selectedProductId, setSelectedProductId] = useState<string | null>(
     null
