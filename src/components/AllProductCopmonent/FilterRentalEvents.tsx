@@ -28,14 +28,11 @@ export const FilterRentalEvents = () => {
   const letters = text.split("");
 
 const handleCategoryClick = (categoryId: string) => {
-  const params = new URLSearchParams(window.location.search);
+  const params = new URLSearchParams();
   params.set("category", categoryId);
   params.set("page", "1");
-  // Remove other filters that might conflict
-  params.delete("subCategory");
-  params.delete("minPrice");
-  params.delete("maxPrice");
-  router.push(`/all-products?${params.toString()}`);
+  // Force a hard navigation to reset all states
+  window.location.href = `/all-products?${params.toString()}`;
 };
 
   return (
