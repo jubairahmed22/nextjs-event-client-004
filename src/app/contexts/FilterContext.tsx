@@ -6,7 +6,6 @@ import {
   useState,
   useEffect,
   ReactNode,
-  useCallback,
   useMemo,
 } from "react";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
@@ -65,57 +64,67 @@ export const FilterProvider = ({ children }: { children: ReactNode }) => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  // Get current URL params as an object
-  const currentParams = useMemo(() => {
-    const params: Record<string, string> = {};
-    searchParams.forEach((value, key) => {
-      params[key] = value;
-    });
-    return params;
+  // Initialize filters from URL params immediately
+  const initialFilters = useMemo(() => {
+    const params = new URLSearchParams(searchParams.toString());
+    return {
+      title: params.get("q") || "",
+      productId: "",
+      category: params.get("category") || "",
+      subCategory: params.get("subCategory") || "",
+      SelectedType: "",
+      productCode: "",
+      promotionFilter: params.get("promotion") === "true" ? "true" : "",
+      minPrice: params.get("minPrice") || "",
+      maxPrice: params.get("maxPrice") || "",
+    };
   }, [searchParams]);
 
-  // Initialize state from URL params
-  const [filters, setFilters] = useState<Filters>(() => ({
-    title: currentParams.q || "",
-    productId: "",
-    category: currentParams.category || "",
-    subCategory: currentParams.subCategory || "",
-    SelectedType: "",
-    productCode: "",
-    promotionFilter: currentParams.promotion === '"true"' ? "true" : "",
-    minPrice: currentParams.minPrice || "",
-    maxPrice: currentParams.maxPrice || "",
-  }));
-
+  const [filters, setFilters] = useState<Filters>(initialFilters);
   const [categories, setCategories] = useState<Category[]>([]);
   const [subCategories, setSubCategories] = useState<
     Record<string, SubCategory[]>
   >({});
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(
-    Number(currentParams.page) || 1
+    parseInt(searchParams.get("page") || "1", 10)
   );
   const [totalPages, setTotalPages] = useState(1);
 
-  // Update filters when URL params change
+  // Sync state with URL params when they change
   useEffect(() => {
-    setFilters({
-      title: currentParams.q || "",
+    const params = new URLSearchParams(searchParams.toString());
+    const newPage = parseInt(params.get("page") || "1", 10);
+    
+    if (newPage !== currentPage) {
+      setCurrentPage(newPage);
+    }
+
+    const newFilters = {
+      title: params.get("q") || "",
+      category: params.get("category") || "",
+      subCategory: params.get("subCategory") || "",
+      minPrice: params.get("minPrice") || "",
+      maxPrice: params.get("maxPrice") || "",
+      promotionFilter: params.get("promotion") === "true" ? "true" : "",
+      // Reset these to empty string as they're not in URL
       productId: "",
-      category: currentParams.category || "",
-      subCategory: currentParams.subCategory || "",
       SelectedType: "",
       productCode: "",
-      promotionFilter: currentParams.promotion === '"true"' ? "true" : "",
-      minPrice: currentParams.minPrice || "",
-      maxPrice: currentParams.maxPrice || "",
-    });
-    setCurrentPage(Number(currentParams.page) || 1);
-  }, [currentParams]);
+    };
 
-  // Fetch categories
-  const fetchCategories = useCallback(async () => {
+    setFilters(prev => {
+      // Only update if something actually changed
+      if (JSON.stringify(prev) !== JSON.stringify(newFilters)) {
+        return newFilters;
+      }
+      return prev;
+    });
+  }, [searchParams]);
+
+  // Fetch categories with pagination
+  const fetchCategories = async () => {
     try {
       setLoading(true);
       const res = await fetch(
@@ -127,88 +136,89 @@ export const FilterProvider = ({ children }: { children: ReactNode }) => {
         ...cat,
         hasSubcategories: subCategories[cat._id] ? true : undefined,
       }));
-
+      
       setCategories(formatted);
       setTotalPages(data.totalPages || 1);
 
-      // If we have a category filter, ensure its subcategories are loaded
-      if (filters.category && !subCategories[filters.category]) {
-        await fetchSubCategories(filters.category);
-      }
+      // Fetch subcategories for categories that don't have them yet
+      formatted.forEach((cat: Category) => {
+        if (!subCategories[cat._id]) {
+          fetchSubCategories(cat._id);
+        }
+      });
     } catch (error) {
       console.error("Failed to fetch categories:", error);
     } finally {
       setLoading(false);
     }
-  }, [currentPage, filters.category, subCategories]);
+  };
 
-  // Fetch subcategories
-  const fetchSubCategories = useCallback(async (categoryId: string) => {
+  useEffect(() => {
+    fetchCategories();
+  }, [currentPage]);
+
+  const fetchSubCategories = async (categoryId: string) => {
     try {
       const res = await fetch(
         `https://server-gs.vercel.app/admin/web/sub-category/${categoryId}`
       );
       const data = await res.json();
-
+      
       if (data.subCategories?.length > 0) {
         setSubCategories((prev) => ({
           ...prev,
           [categoryId]: data.subCategories,
         }));
-
-        // Update the hasSubcategories flag
+        
+        // Update the hasSubcategories flag for this category
+        setCategories(prev => 
+          prev.map(cat => 
+            cat._id === categoryId 
+              ? { ...cat, hasSubcategories: true } 
+              : cat
+          )
+        );
+      } else {
         setCategories(prev =>
           prev.map(cat =>
-            cat._id === categoryId ? { ...cat, hasSubcategories: true } : cat
+            cat._id === categoryId ? { ...cat, hasSubcategories: false } : cat
           )
         );
       }
     } catch (err) {
       console.error("Error fetching subcategories:", err);
     }
-  }, []);
+  };
 
-  // Fetch categories when page changes or filters change
-  useEffect(() => {
-    fetchCategories();
-  }, [currentPage, fetchCategories]);
+  const applyFilters = (newFilters: Partial<Filters>, pageReset = true) => {
+    const updatedFilters = { ...filters, ...newFilters };
+    setFilters(updatedFilters);
 
-  // Update URL when filters change
-  const applyFilters = useCallback(
-    (newFilters: Partial<Filters>, pageReset = true) => {
-      setFilters((prev) => {
-        const updatedFilters = { ...prev, ...newFilters };
-        const pageToSet = pageReset ? 1 : currentPage;
+    const pageToSet = pageReset ? 1 : currentPage;
+    updateUrlParams(updatedFilters, pageToSet);
+  };
 
-        const params = new URLSearchParams();
+  const updateUrlParams = (updatedFilters: Filters, page: number) => {
+    const urlParams = new URLSearchParams();
 
-        if (updatedFilters.title) params.set("q", updatedFilters.title);
-        if (updatedFilters.category) params.set("category", updatedFilters.category);
-        if (updatedFilters.subCategory) params.set("subCategory", updatedFilters.subCategory);
-        if (updatedFilters.minPrice) params.set("minPrice", updatedFilters.minPrice);
-        if (updatedFilters.maxPrice) params.set("maxPrice", updatedFilters.maxPrice);
-        if (updatedFilters.promotionFilter === "true") {
-          params.set("promotion", '"true"');
-        }
-        params.set("page", pageToSet.toString());
+    if (updatedFilters.title) urlParams.set("q", updatedFilters.title);
+    if (updatedFilters.category) urlParams.set("category", updatedFilters.category);
+    if (updatedFilters.subCategory) urlParams.set("subCategory", updatedFilters.subCategory);
+    if (updatedFilters.minPrice) urlParams.set("minPrice", updatedFilters.minPrice);
+    if (updatedFilters.maxPrice) urlParams.set("maxPrice", updatedFilters.maxPrice);
+    if (updatedFilters.promotionFilter === "true") {
+      urlParams.set("promotion", "true");
+    }
+    urlParams.set("page", page.toString());
 
-        // Special handling for subcategory to category navigation
-        if (newFilters.category && !newFilters.subCategory && prev.subCategory) {
-          params.delete("subCategory");
-        }
-
-        const url = `${pathname}?${params.toString()}`;
-        router.replace(url);
-
-        return updatedFilters;
-      });
-
-      if (pageReset) {
-        setCurrentPage(1);
-      }
-    },
-    [currentPage, pathname, router]
-  );
+    // Only push if the URL would actually change
+    const newUrl = `${pathname}?${urlParams.toString()}`;
+    if (`${pathname}?${searchParams.toString()}` !== newUrl) {
+      router.push(newUrl, { scroll: false });
+    }
+    
+    setCurrentPage(page);
+  };
 
   const handleFilterChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -225,80 +235,46 @@ export const FilterProvider = ({ children }: { children: ReactNode }) => {
   const handlePromotionToggle = () => {
     applyFilters({
       promotionFilter: filters.promotionFilter === "true" ? "" : "true",
-      category: "",
       subCategory: "",
+      category:""
     });
   };
 
   const handleCategoryChange = (categoryId: string) => {
-    // When changing category, clear subcategory and promotion
     applyFilters(
       {
         category: categoryId === filters.category ? "" : categoryId,
         subCategory: "",
         promotionFilter: "",
       },
-      true
+      false
     );
-
-    // Fetch subcategories if needed
-    if (categoryId && !subCategories[categoryId]) {
-      fetchSubCategories(categoryId);
-    }
   };
 
-  const handleCategoryClick = (categoryId: string) => {
-  // First execute the existing category change logic
-  handleCategoryChange(categoryId);
-  
-  // Create URL parameters
-  const params = new URLSearchParams();
-  
-  // Only set category if it's not being cleared (toggle behavior)
-  if (categoryId !== filters.category) {
-    params.set('category', categoryId);
-  }
-  
-  // Always reset to page 1 when changing categories
-  params.set('page', '1');
-  
-  // Preserve other existing filters that should persist
-  if (filters.title) params.set('q', filters.title);
-  if (filters.minPrice) params.set('minPrice', filters.minPrice);
-  if (filters.maxPrice) params.set('maxPrice', filters.maxPrice);
-  if (filters.promotionFilter === 'true') params.set('promotion', '"true"');
-  
-  // Navigate to the new URL
-  router.push(`/all-products?${params.toString()}`);
-};
-
-
-
-
   const handleSubCategoryChange = (subCategoryId: string) => {
-    // When selecting subcategory, keep the parent category in URL
-    const categoryForSub = categories.find(cat => 
-      subCategories[cat._id]?.some(sub => sub._id === subCategoryId)
-    )?._id || "";
+    const parentCategory =
+      Object.entries(subCategories).find(([catId, subs]) =>
+        subs.some((sub) => sub._id === subCategoryId)
+      )?.[0] || "";
 
     applyFilters(
       {
+        category: parentCategory,
         subCategory: subCategoryId === filters.subCategory ? "" : subCategoryId,
-        category: categoryForSub,
         promotionFilter: "",
       },
-      true
+      false
     );
   };
 
   const handlePageChange = (page: number) => {
     if (page >= 1 && page <= totalPages) {
-      setCurrentPage(page);
+      updateUrlParams(filters, page);
     }
   };
 
   const clearFilters = () => {
-    applyFilters({
+    const resetFilters = {
       title: "",
       productId: "",
       category: "",
@@ -308,7 +284,10 @@ export const FilterProvider = ({ children }: { children: ReactNode }) => {
       promotionFilter: "",
       minPrice: "",
       maxPrice: "",
-    });
+    };
+    setFilters(resetFilters);
+    setCurrentPage(1);
+    router.push(`${pathname}?page=1`, { scroll: false });
   };
 
   return (
@@ -326,7 +305,6 @@ export const FilterProvider = ({ children }: { children: ReactNode }) => {
         handlePriceChange,
         handlePromotionToggle,
         handleCategoryChange,
-        handleCategoryClick,
         handleSubCategoryChange,
         handlePageChange,
         clearFilters,

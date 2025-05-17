@@ -27,22 +27,13 @@ export const FilterRentalEvents = () => {
   const text = "Décor Rental";
   const letters = text.split("");
 
-  //   const handleCategoryClick = (categoryId: string) => {
-  //   handleCategoryChange(categoryId);
-  // };
-
-
-
-const handleCategoryClick = async (categoryId: string) => {
-  const params = new URLSearchParams();
-  params.set('category', categoryId);
-  params.set('page', '1');
-  const newUrl = `/all-products?${params.toString()}`;
-  
-  // Use router.push with await to ensure navigation happens
-  await router.push(newUrl);
-
-};
+  const handleCategoryClick = (categoryId: string) => {
+    // Update the URL to /all-products with the category filter
+    const params = new URLSearchParams();
+    params.set("category", categoryId);
+    params.set("page", "1");
+    router.push(`/all-products?${params.toString()}`);
+  };
 
   return (
     <div className="max-w-screen-3xl mx-auto px-4 sm:px-6 lg:px-8 lg:my-20 my-5">
@@ -74,7 +65,7 @@ const handleCategoryClick = async (categoryId: string) => {
             className={`relative h-[250px] md:h-[350px] lg:h-[450px] rounded-lg overflow-hidden group transition-all duration-500 hover:shadow-2xl hover:shadow-primary/20 hover:scale-[1.02] border border-gray-200 dark:border-gray-700 cursor-pointer ${
               filters.category === category._id ? 'ring-4 ring-rose-600' : ''
             }`}
-           onClick={() => handleCategoryClick(category._id)}
+            onClick={() => handleCategoryClick(category._id)}
           >
             {/* Image Background */}
             <div className="absolute inset-0 w-full h-full">
