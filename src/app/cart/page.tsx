@@ -5,7 +5,6 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import Swal from "sweetalert2";
 import { motion } from "framer-motion";
 
-
 interface CartItem {
   _id: string;
   singleImage: string;
@@ -106,7 +105,7 @@ const EventCart = () => {
     [key: number]: boolean;
   }>({});
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const itemsPerPage = 5;
+  const itemsPerPage = 100;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -307,15 +306,17 @@ const EventCart = () => {
       confirmButtonText: "Yes, send it!",
       cancelButtonText: "No, cancel!",
       customClass: {
-        container: 'p-4 ',
-        popup: 'rounded-lg shadow-xl',
-        title: 'text-2xl font-bold font-montserrat text-gray-800',
-        htmlContainer: 'text-gray-600 font-montserrat mb-4',
-        confirmButton: 'bg-black hover:bg-gray-800 text-white font-montserrat font-medium py-2 px-4 rounded-lg mx-1 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50',
-        cancelButton: 'bg-red-500 hover:bg-red-600 text-white font-medium font-montserrat py-2 px-4 rounded-lg mx-1 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50',
-        actions: 'flex justify-end mt-4'
+        container: "p-4 ",
+        popup: "rounded-lg shadow-xl",
+        title: "text-2xl font-bold font-montserrat text-gray-800",
+        htmlContainer: "text-gray-600 font-montserrat mb-4",
+        confirmButton:
+          "bg-black hover:bg-gray-800 text-white font-montserrat font-medium py-2 px-4 rounded-lg mx-1 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50",
+        cancelButton:
+          "bg-red-500 hover:bg-red-600 text-white font-medium font-montserrat py-2 px-4 rounded-lg mx-1 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50",
+        actions: "flex justify-end mt-4",
       },
-      buttonsStyling: false
+      buttonsStyling: false,
     });
 
     if (result.isConfirmed) {
@@ -337,7 +338,7 @@ const EventCart = () => {
         confirmButtonText: "I understood",
         confirmButtonColor: "#000000",
         customClass: {
-          popup: 'font-[Poppins]', // Ensures Poppins is applied to the entire modal
+          popup: "font-[Poppins]", // Ensures Poppins is applied to the entire modal
         },
       });
 
@@ -350,16 +351,16 @@ const EventCart = () => {
           Swal.showLoading();
           const popup = Swal.getPopup();
           if (popup) {
-            popup.classList.add('font-montserrat'); // Apply Montserrat to the entire modal
+            popup.classList.add("font-montserrat"); // Apply Montserrat to the entire modal
           }
         },
         customClass: {
-          popup: 'font-montserrat', // Ensures Montserrat is applied to the entire modal
-          title: 'text-lg font-medium', // Optional: Adjust title styling
-          htmlContainer: 'text-gray-800', // Optional: Adjust text color
+          popup: "font-montserrat", // Ensures Montserrat is applied to the entire modal
+          title: "text-lg font-medium", // Optional: Adjust title styling
+          htmlContainer: "text-gray-800", // Optional: Adjust text color
         },
-        background: 'white', // Optional: Set background
-        backdrop: 'rgba(0,0,0,0.5)', // Optional: Adjust backdrop opacity
+        background: "white", // Optional: Set background
+        backdrop: "rgba(0,0,0,0.5)", // Optional: Adjust backdrop opacity
       });
 
       // Rest of your existing code...
@@ -504,14 +505,16 @@ const EventCart = () => {
           confirmButtonText: "OK",
           confirmButtonColor: "#000000", // Black background
           customClass: {
-            popup: 'font-montserrat bg-white',
-            title: 'text-2xl',
-            htmlContainer: 'text-gray-700',
-            confirmButton: 'px-4 py-2 rounded-md bg-black text-white hover:bg-gray-800',
+            popup: "font-montserrat bg-white",
+            title: "text-2xl",
+            htmlContainer: "text-gray-700",
+            confirmButton:
+              "px-4 py-2 rounded-md bg-black text-white hover:bg-gray-800",
           },
           buttonsStyling: false,
         });
         resetForm();
+        localStorage.removeItem("cart");
       } catch (error) {
         console.error("Error:", error);
         Swal.fire({
@@ -524,7 +527,6 @@ const EventCart = () => {
     }
   };
 
-  
   const toggleDropdown = (index: number) => {
     setDropdownVisible((prev) => ({
       ...prev,
@@ -652,7 +654,6 @@ const EventCart = () => {
     };
   }, []);
 
-  
   const text = "Wish List";
   const letters = text.split("");
 
@@ -661,236 +662,260 @@ const EventCart = () => {
       <div>
         <section className="py-4 antialiased dark:bg-white md:py-16 font-poppins ">
           <div className="mx-auto max-w-screen-3xl lg:px-4 px-0 2xl:px-0">
-          <motion.div className="text-start lg:px-6 px-0 mb-4 lg:mb-16">
-            <h1 className="mb-4 text-lg md:text-2xl lg:text-6xl uppercase font-playfairDisplay font-bold">
-              <span className="relative inline-block">
-                {letters.map((letter, i) => (
-                  <motion.span
-                    key={i}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{
-                      duration: 0.5,
-                      delay: i * 0.05,
-                    }}
-                    className="relative text-transparent bg-clip-text bg-gradient-to-r from-rose-700 to-rose-900"
-                  >
-                    {letter === " " ? "\u00A0" : letter}
-                  </motion.span>
-                ))}
-              </span>
-            </h1>
-          </motion.div>
-
-            <div className="mt-6 sm:mt-8 md:gap-6 lg:flex lg:items-start lg:gap:2 xl:gap-2">
-              <div className="mx-auto w-full flex-none lg:max-w-screen-4xl xl:max-w-5xl">
-  <div className="mx-auto w-full flex-none lg:max-w-screen-4xl xl:max-w-5xl bg-white p-4 rounded-lg">
-  <div className="space-y-6">
-    {/* cart start */}
-    {currentItems.length > 0 ? (
-      currentItems.map((item, index) => {
-        const totalPrice = item.perDayPricing * item.quantity;
-
-        return (
-          <div
-            key={item.productId || index}
-            className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-300 dark:bg-white"
-          >
-            <div className="space-y-4 md:flex md:items-center md:justify-between md:gap-6 md:space-y-0">
-              <div className="shrink-0 md:order-1">
-                {item.singleImage ? (
-                  <div className="relative">
-                    <img
-                      className="h-36 w-36 rounded-lg object-cover"
-                      src={item.singleImage}
-                      alt={item.title}
-                    />
-                  </div>
-                ) : (
-                  <div className="flex h-36 w-36 items-center justify-center rounded-lg bg-gray-100">
-                    <svg
-                      className="h-16 w-16 text-gray-400"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
+            <motion.div className="text-start lg:px-4 px-0 mb-4 lg:mb-16">
+              <h1 className="mb-4 text-lg md:text-2xl lg:text-6xl uppercase font-playfairDisplay font-bold">
+                <span className="relative inline-block">
+                  {letters.map((letter, i) => (
+                    <motion.span
+                      key={i}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{
+                        duration: 0.5,
+                        delay: i * 0.05,
+                      }}
+                      className="relative text-transparent bg-clip-text bg-gradient-to-r from-rose-700 to-rose-900"
                     >
-                      <path
-                        fill="currentColor"
-                        d="M7.328 5H21a1 1 0 0 1 1 1v10.293l-7.146-7.147a.5.5 0 0 0-.707 0l-1.086 1.086a.5.5 0 0 0 .707.707l.732-.732 7.5 7.5V18a.995.995 0 0 1-.357.757.5.5 0 0 0 .647.763A1.994 1.994 0 0 0 23 18V6a2.002 2.002 0 0 0-2-2H7.328a.5.5 0 0 0 0 1zm16.526 18.146l-23-23a.5.5 0 0 0-.707.707L3.293 4H3a2.002 2.002 0 0 0-2 2v12a2.002 2.002 0 0 0 2 2h16.293l3.854 3.854a.5.5 0 0 0 .707-.707ZM7.15 7.857 9.143 9.85A1.49 1.49 0 0 1 7.15 7.857zM3 5h1.293l2.121 2.122a2.5 2.5 0 0 0 3.464 3.464l1.427 1.427-2.542 2.543-1.91-1.91a.5.5 0 0 0-.706 0L2 16.793V6a1.001 1.001 0 0 1 1-1zm0 14a.988.988 0 0 1-.965-.828L6.5 13.707l3.146 3.146a.5.5 0 0 0 .707-.707l-.883-.883 2.542-2.543L18.293 19z"
-                      />
-                    </svg>
-                  </div>
-                )}
-              </div>
+                      {letter === " " ? "\u00A0" : letter}
+                    </motion.span>
+                  ))}
+                </span>
+              </h1>
+            </motion.div>
 
-              <div className="flex items-center justify-between md:order-3 md:justify-end">
-                <div className="flex items-center">
-                  <button
-                    onClick={() => handleQuantityChange(index, -1)}
-                    type="button"
-                    className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50 transition-colors"
-                    disabled={item.quantity <= 1}
-                  >
-                    <svg
-                      className="h-3 w-3 text-gray-800"
-                      aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 18 2"
-                    >
-                      <path
-                        stroke="currentColor"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M1 1h16"
-                      />
-                    </svg>
-                  </button>
+            <div className="flex lg:flex-row flex-col   gap-5 lg:px-4">
+              <div className="lg:w-[60%] w-full">
+                <div className="space-y-6">
+                  {/* cart start */}
+                  {currentItems.length > 0 ? (
+                    currentItems.map((item, index) => {
+                      const totalPrice = item.perDayPricing * item.quantity;
 
-                  <input
-                    type="number"
-                    id="counter-input"
-                    className="w-16 shrink-0 border-0 bg-white text-center text-sm font-medium text-gray-900 focus:outline-none focus:ring-0"
-                    value={item.quantity}
-                    onChange={(e) => {
-                      const newQuantity = parseInt(e.target.value) || 1;
-                      handleQuantityChange(
-                        index,
-                        newQuantity - item.quantity
+                      return (
+                        <div
+                          key={item.productId || index}
+                          className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-300 dark:bg-white"
+                        >
+                          <div className="space-y-4 md:flex md:items-center md:justify-between md:gap-6 md:space-y-0">
+                            <div className="shrink-0 md:order-1">
+                              {item.singleImage ? (
+                                <div className="relative">
+                                  <img
+                                    className="h-36 w-36 rounded-lg object-cover"
+                                    src={item.singleImage}
+                                    alt={item.title}
+                                  />
+                                </div>
+                              ) : (
+                                <div className="flex h-36 w-36 items-center justify-center rounded-lg bg-gray-100">
+                                  <svg
+                                    className="h-16 w-16 text-gray-400"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                  >
+                                    <path
+                                      fill="currentColor"
+                                      d="M7.328 5H21a1 1 0 0 1 1 1v10.293l-7.146-7.147a.5.5 0 0 0-.707 0l-1.086 1.086a.5.5 0 0 0 .707.707l.732-.732 7.5 7.5V18a.995.995 0 0 1-.357.757.5.5 0 0 0 .647.763A1.994 1.994 0 0 0 23 18V6a2.002 2.002 0 0 0-2-2H7.328a.5.5 0 0 0 0 1zm16.526 18.146l-23-23a.5.5 0 0 0-.707.707L3.293 4H3a2.002 2.002 0 0 0-2 2v12a2.002 2.002 0 0 0 2 2h16.293l3.854 3.854a.5.5 0 0 0 .707-.707ZM7.15 7.857 9.143 9.85A1.49 1.49 0 0 1 7.15 7.857zM3 5h1.293l2.121 2.122a2.5 2.5 0 0 0 3.464 3.464l1.427 1.427-2.542 2.543-1.91-1.91a.5.5 0 0 0-.706 0L2 16.793V6a1.001 1.001 0 0 1 1-1zm0 14a.988.988 0 0 1-.965-.828L6.5 13.707l3.146 3.146a.5.5 0 0 0 .707-.707l-.883-.883 2.542-2.543L18.293 19z"
+                                    />
+                                  </svg>
+                                </div>
+                              )}
+                            </div>
+
+                            <div className="flex items-center justify-between md:order-3 md:justify-end">
+                              <div className="flex items-center">
+                                <button
+                                  onClick={() =>
+                                    handleQuantityChange(index, -1)
+                                  }
+                                  type="button"
+                                  className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50 transition-colors"
+                                  disabled={item.quantity <= 1}
+                                >
+                                  <svg
+                                    className="h-3 w-3 text-gray-800"
+                                    aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 18 2"
+                                  >
+                                    <path
+                                      stroke="currentColor"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      strokeWidth="2"
+                                      d="M1 1h16"
+                                    />
+                                  </svg>
+                                </button>
+
+                                <input
+                                  type="number"
+                                  id="counter-input"
+                                  className="w-16 shrink-0 border-0 bg-white text-center text-sm font-medium text-gray-900 focus:outline-none focus:ring-0"
+                                  value={item.quantity}
+                                  onChange={(e) => {
+                                    const newQuantity =
+                                      parseInt(e.target.value) || 1;
+                                    handleQuantityChange(
+                                      index,
+                                      newQuantity - item.quantity
+                                    );
+                                  }}
+                                  min="1"
+                                  required
+                                />
+
+                                <button
+                                  type="button"
+                                  onClick={() => handleQuantityChange(index, 1)}
+                                  className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50 transition-colors"
+                                >
+                                  <svg
+                                    className="h-3 w-3 text-gray-800"
+                                    aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 18 18"
+                                  >
+                                    <path
+                                      stroke="currentColor"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      strokeWidth="2"
+                                      d="M9 1v16M1 9h16"
+                                    />
+                                  </svg>
+                                </button>
+                              </div>
+                              <div className="text-end md:order-4 md:w-32">
+                                <p className="text-lg font-bold text-gray-900">
+                                  ${totalPrice?.toFixed(2)}
+                                </p>
+                              </div>
+                            </div>
+
+                            <div className="w-full min-w-0 flex-1 space-y-4 md:order-2 md:max-w-md">
+                              <Link
+                                href={`/all-products/${item._id}`}
+                                passHref
+                                className="group"
+                              >
+                                <h3 className="text-xl font-semibold text-gray-900 group-hover:text-blue-600 group-hover:underline transition-colors">
+                                  {item.title}
+                                </h3>
+                              </Link>
+                              <p className="text-gray-700 line-clamp-2">
+                                {item.productDescription}
+                              </p>
+
+                              <div className="flex items-center gap-4">
+                                <span className="text-lg font-medium text-gray-700">
+                                  <span className="text-gray-500">Price: </span>
+                                  ${item.perDayPricing?.toFixed(2)}/day
+                                </span>
+
+                                <button
+                                  type="button"
+                                  className="flex items-center text-sm font-medium text-red-600 hover:text-red-700 hover:underline transition-colors"
+                                  onClick={() => removeFromCart(item)}
+                                >
+                                  <svg
+                                    className="mr-1.5 h-5 w-5"
+                                    aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="24"
+                                    height="24"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                  >
+                                    <path
+                                      stroke="currentColor"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      strokeWidth="2"
+                                      d="M6 18 17.94 6M18 18 6.06 6"
+                                    />
+                                  </svg>
+                                  Remove
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                       );
-                    }}
-                    min="1"
-                    required
-                  />
+                    })
+                  ) : (
+                    <div className="rounded-xl border border-gray-200 bg-white p-8 text-center shadow-sm transition-all hover:shadow-xl">
+                      <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-gray-100 p-3">
+                        <svg
+                          className="h-10 w-10 text-black"
+                          fill="currentColor"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="1.5"
+                            d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                          />
+                        </svg>
+                      </div>
+                      <h3 className="mt-5 text-xl font-semibold text-gray-900 font-montserrat">
+                        Start adding products to see them here
+                      </h3>
 
-                  <button
-                    type="button"
-                    onClick={() => handleQuantityChange(index, 1)}
-                    className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50 transition-colors"
-                  >
-                    <svg
-                      className="h-3 w-3 text-gray-800"
-                      aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 18 18"
-                    >
-                      <path
-                        stroke="currentColor"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M9 1v16M1 9h16"
-                      />
-                    </svg>
-                  </button>
-                </div>
-                <div className="text-end md:order-4 md:w-32">
-                  <p className="text-lg font-bold text-gray-900">
-                    ${totalPrice?.toFixed(2)}
-                  </p>
-                </div>
-              </div>
+                      <div className="mt-6">
+                        <Link href="/all-products">
+                          <button className="inline-flex items-center rounded-lg bg-black px-6 py-3 text-sm font-medium text-white transition-all hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 font-montserrat">
+                            <svg
+                              className="-ml-1 mr-2 h-5 w-5"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
+                                d="M4 6h16M4 12h16M4 18h16"
+                              />
+                            </svg>
+                            Browse All Products
+                          </button>
+                        </Link>
+                      </div>
+                    </div>
+                  )}
 
-              <div className="w-full min-w-0 flex-1 space-y-4 md:order-2 md:max-w-md">
-                <Link 
-                  href={`/all-products/${item._id}`} 
-                  passHref
-                  className="group"
-                >
-                  <h3 className="text-xl font-semibold text-gray-900 group-hover:text-blue-600 group-hover:underline transition-colors">
-                    {item.title}
-                  </h3>
-                </Link>
-                <p className="text-gray-700 line-clamp-2">
-                  {item.productDescription}
-                </p>
-
-                <div className="flex items-center gap-4">
-                  <span className="text-lg font-medium text-gray-700">
-                    <span className="text-gray-500">Price: </span>
-                    ${item.perDayPricing?.toFixed(2)}/day
-                  </span>
-
-                  <button
-                    type="button"
-                    className="flex items-center text-sm font-medium text-red-600 hover:text-red-700 hover:underline transition-colors"
-                    onClick={() => removeFromCart(item)}
-                  >
-                    <svg
-                      className="mr-1.5 h-5 w-5"
-                      aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        stroke="currentColor"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M6 18 17.94 6M18 18 6.06 6"
-                      />
-                    </svg>
-                    Remove
-                  </button>
+                  {currentItems.length > 0 && (
+                    <div className="w-full rounded-lg border border-gray-200 bg-white p-6">
+                      <div className="flex justify-between items-center">
+                        <h3 className="text-xl font-semibold text-gray-700">
+                          Order Summary
+                        </h3>
+                        <div className="text-2xl font-bold text-gray-900">
+                          $
+                          {currentItems
+                            .reduce(
+                              (sum, item) =>
+                                sum + item.perDayPricing * item.quantity,
+                              0
+                            )
+                            ?.toFixed(2)}
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
-            </div>
-          </div>
-        );
-      })
-    ) : (
-      <div className="rounded-lg border border-gray-700 bg-white p-8 text-center">
-        <svg
-          className="mx-auto h-12 w-12 text-gray-400"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="1.5"
-            d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-          />
-        </svg>
-        <h3 className="mt-4 text-lg font-medium text-gray-900">
-          Your cart is empty
-        </h3>
-        <p className="mt-2 text-gray-600">
-          Start adding some products to see them here
-        </p>
-      </div>
-    )}
-    
-    {currentItems.length > 0 && (
-      <div className="w-full rounded-lg border border-gray-200 bg-white p-6">
-        <div className="flex justify-between items-center">
-          <h3 className="text-xl font-semibold text-gray-700">
-            Order Summary
-          </h3>
-          <div className="text-2xl font-bold text-gray-900">
-            ${currentItems.reduce(
-              (sum, item) => sum + item.perDayPricing * item.quantity,
-              0
-            )?.toFixed(2)}
-          </div>
-        </div>
-      </div>
-    )}
-  </div>
-</div>
-</div>
-
-              <div className="mx-auto mt-6 max-w-2xl flex-1 space-y-6 lg:mt-0 lg:w-full shadow-md border border-rose-50 rounded-xl p-5">
+              <div className="rounded-2xl top-0 sticky lg:w-[40%] w-full border lg:h-[1300px] md:h-full sm:h-full border-gray-200 shadow-md p-6">
                 <h1 className="text-3xl">Quote request form</h1>
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div className="grid grid-cols-1 gap-4 w-full">
                     <p className="text-xl font-semibold text-gray-900 mt-5">
-                    Your Contact Info
+                      Your Contact Info
                     </p>
                     <div className="flex flex-row gap-5 items-center w-full">
                       <div className="w-full">
