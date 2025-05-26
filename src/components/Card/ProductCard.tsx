@@ -165,11 +165,20 @@ const ProductCard: React.FC<ProductCardProps> = ({
       ) : (
         <div className="flex items-end gap-1 sm:gap-2">
           <span className="text-lg sm:text-xl md:text-2xl font-bold text-rose-700">
-            ${product.perDayPricing}
+            ${
+  product.perDayPricing === "0" 
+    ? "Call For Pricing" 
+    : (
+      <span>
+       $ {product.perDayPricing}
+        <span className="text-xs sm:text-sm font-medium text-gray-500 mb-0.5 sm:mb-1">
+          /day
+        </span>
+      </span>
+    )
+}
           </span>
-          <span className="text-xs sm:text-sm font-medium text-gray-500 mb-0.5 sm:mb-1">
-            /day
-          </span>
+          
         </div>
       )}
     </div>

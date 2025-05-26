@@ -150,7 +150,7 @@ const ServicesPage = () => {
     },
   ];
 
-  const text = "Event Planing";
+  const text = "Event Planning";
   const letters = text.split("");
   return (
     <div className="max-w-screen-3xl mx-auto px-4 sm:px-6 lg:px-8 lg:my-20 my-5">

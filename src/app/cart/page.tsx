@@ -396,7 +396,7 @@ const EventCart = () => {
         if (projectSelectedEndPeriod === "AM" && endHour === 12) endHour = 0;
 
         const allProductPrice = cartItems.reduce(
-          (sum, item) => sum + item.perDayPricing * item.quantity,
+          (sum, item) => sum + item?.perDayPricing * item.quantity,
           0
         );
 
@@ -429,8 +429,8 @@ const EventCart = () => {
               startDate: combinedStartDate,
               endDate: combinedEndDate,
               products: cartItems.map((item) => {
-                const priceValue = item.perDayPricing;
-                const productTotal = item.perDayPricing * item.quantity;
+                const priceValue = item?.perDayPricing;
+                const productTotal = item?.perDayPricing * item.quantity;
 
                 return {
                   singleImage: item.singleImage,
@@ -483,8 +483,8 @@ const EventCart = () => {
               cartItems: cartItems.map((item) => ({
                 title: item.title,
                 quantity: item.quantity,
-                price: item.perDayPricing,
-                total: item.perDayPricing * item.quantity,
+                price: item?.perDayPricing,
+                total: item?.perDayPricing * item.quantity,
               })),
               totalPrice: allProductPrice,
               startDate: combinedStartDate,
@@ -689,7 +689,7 @@ const EventCart = () => {
                   {/* cart start */}
                   {currentItems.length > 0 ? (
                     currentItems.map((item, index) => {
-                      const totalPrice = item.perDayPricing * item.quantity;
+                      const totalPrice = item?.perDayPricing * item.quantity;
 
                       return (
                         <div
@@ -812,7 +812,7 @@ const EventCart = () => {
                               <div className="flex items-center gap-4">
                                 <span className="text-lg font-medium text-gray-700">
                                   <span className="text-gray-500">Price: </span>
-                                  ${item.perDayPricing?.toFixed(2)}/day
+                                  ${Number(item?.perDayPricing)?.toFixed(2)}/day
                                 </span>
 
                                 <button
@@ -900,7 +900,7 @@ const EventCart = () => {
                           {currentItems
                             .reduce(
                               (sum, item) =>
-                                sum + item.perDayPricing * item.quantity,
+                                sum + item?.perDayPricing * item.quantity,
                               0
                             )
                             ?.toFixed(2)}
@@ -996,6 +996,7 @@ const EventCart = () => {
                         <input
                           type="date"
                           value={projectSelectDate}
+                          required
                           onChange={(e) =>
                             setProjectSelectedDate(e.target.value)
                           }
@@ -1065,6 +1066,7 @@ const EventCart = () => {
                         <input
                           type="date"
                           value={projectSelectEndDate}
+                          required
                           onChange={(e) =>
                             setProjectSelectedEndDate(e.target.value)
                           }

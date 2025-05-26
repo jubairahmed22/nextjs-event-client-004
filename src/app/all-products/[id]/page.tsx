@@ -260,7 +260,12 @@ export default function ProductDetailsPage() {
           {/* Pricing section */}
           <div className="space-y-1 md:space-y-2">
             <div className="flex items-center flex-wrap gap-x-2">
-              {showOriginalPrice && (
+              {
+  product?.perDayPricing === "0" 
+    ? <span className="text-gray-600 text-base md:text-lg">Call For Pricing</span> 
+    : (
+      <div>
+        {showOriginalPrice && (
                 <span className="text-base md:text-lg text-gray-400 line-through">
                   ${(Number(product.perDayPricing) || 0).toFixed(2)}
                 </span>
@@ -269,6 +274,10 @@ export default function ProductDetailsPage() {
                 ${discountedPrice.toFixed(2)}
               </span>
               <span className="text-gray-600 text-base md:text-lg">/ day</span>
+      </div>
+    )
+}
+              
             </div>
             {product.Promotion === "true" && (
               <div className="inline-block bg-rose-100 text-rose-800 text-xs sm:text-sm font-semibold px-2 sm:px-3 py-0.5 sm:py-1 rounded-full">
