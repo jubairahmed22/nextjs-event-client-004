@@ -170,7 +170,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
     ? "Call For Pricing" 
     : (
       <span>
-       $ {product.perDayPricing}
+       {product.perDayPricing}
         <span className="text-xs sm:text-sm font-medium text-gray-500 mb-0.5 sm:mb-1">
           /day
         </span>
