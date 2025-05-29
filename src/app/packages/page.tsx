@@ -43,7 +43,7 @@ const Page = () => {
       try {
         setLoading(true);
         const response = await fetch(
-          `https://server-gs.vercel.app/admin/main-packageImage?page=${currentPage}&limit=10` // Adjust your API endpoint as needed
+          `http://localhost:8000/admin/main-packageImage?page=${currentPage}&limit=10` // Adjust your API endpoint as needed
         );
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -175,12 +175,12 @@ const Page = () => {
           <EventPageLoading></EventPageLoading>
         ) : (
           <>
-            <div className="grid lg:grid-cols-3 md:grid-cols-3 grid-cols-3 lg:gap-5 gap-2 px-4 lg:px-10">
+            <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-2 lg:gap-5 gap-2 px-4 lg:px-10 mb-10">
               {productsData.products.map((gallery) => (
                 <div
                   key={gallery.singleImage}
                   onClick={() => openModal(gallery)}
-                  className="relative  lg:h-[600px] rounded-xl "
+                  className="relative  lg:h-[750px] h-56 rounded-xl "
                 >
                   <img
                     className="absolute inset-0 w-full h-full rounded-xl"
@@ -292,7 +292,7 @@ const Page = () => {
         <div className="fixed inset-0 z-50 flex items-center justify-center  shadow-md">
           <div
             ref={modalRef}
-            className="relative w-[40%] h-[85%] bg-white rounded-lg overflow-hidden"
+            className="relative lg:w-[600px] lg:h-[800px] md:w-[400px] md:h-[600px] sm:w-[200px] sm:h-[400px] bg-white rounded-lg overflow-hidden"
           >
             {/* Carousel Wrapper */}
             <div className="relative h-full overflow-hidden">
@@ -300,7 +300,7 @@ const Page = () => {
               <div className="duration-700 ease-in-out">
                 <img
                   src={getCurrentImage()}
-                  className="absolute block w-full h-full object-cover"
+                  className="absolute block w-full h-full "
                   alt=""
                 />
               </div>

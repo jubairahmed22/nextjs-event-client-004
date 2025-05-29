@@ -60,7 +60,7 @@ const HomeGalleryCompo = () => {
       try {
         setLoading(true);
         const response = await fetch(
-          `https://server-gs.vercel.app/admin/main-gallery`
+          `http://localhost:8000/admin/main-gallery`
         );
         if (!response.ok) throw new Error("Network response was not ok");
         const data: GalleryData = await response.json();

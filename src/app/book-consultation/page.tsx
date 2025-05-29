@@ -71,7 +71,7 @@ export default function BookConsultation() {
       };
 
       // First API call
-      const response = await fetch("https://server-gs.vercel.app/web/post-booking", {
+      const response = await fetch("http://localhost:8000/web/post-booking", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -87,7 +87,7 @@ export default function BookConsultation() {
 
       // Second API call
       const secondaryResponse = await fetch(
-        "https://server-gs.vercel.app/api/sent-event-booking",
+        "http://localhost:8000/api/sent-event-booking",
         {
           method: "POST",
           headers: {

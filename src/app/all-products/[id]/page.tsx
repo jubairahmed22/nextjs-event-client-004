@@ -114,7 +114,7 @@ export default function ProductDetailsPage() {
       try {
         setLoading(true);
         const response = await fetch(
-          `https://server-gs.vercel.app/web/event-products-details/${id}`
+          `http://localhost:8000/web/event-products-details/${id}`
         );
         const data: ProductDetails = await response.json();
         setProduct(data);

@@ -125,7 +125,7 @@ const Footer = () => {
                 </a>
               </li>
             </ul>
-            <a href="https://pros.weddingpro.com/wp-content/themes/weddingpro-theme/dist/svg/logo.svg" target="_blank">
+            <a href="https://pros.weddingpro.com/" target="_blank">
               <img
                   alt=""
                   className="h-10 mt-4 w-32 rounded-md bg-white px-2 object-contain"

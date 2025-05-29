@@ -28,7 +28,7 @@ const TeamMember = () => {
       setIsLoading(true);
       try {
         const response = await fetch(
-          `https://server-gs.vercel.app/admin/team-member?page=${currentPage}`
+          `http://localhost:8000/admin/team-member?page=${currentPage}`
         );
         const data: ApiResponse = await response.json();
 

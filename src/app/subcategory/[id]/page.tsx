@@ -45,7 +45,7 @@ interface ProductsResponse {
 }
 
 // Constants
-const API_BASE_URL = "https://server-gs.vercel.app";
+const API_BASE_URL = "http://localhost:8000";
 const DEFAULT_PAGE = 1;
 const PRODUCTS_PER_PAGE = 2;
 

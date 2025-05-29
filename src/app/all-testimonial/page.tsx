@@ -58,7 +58,7 @@ const Page = () => {
       try {
         setLoading(true);
         const response = await fetch(
-          `https://server-gs.vercel.app/admin/testimonial?page=${currentPage}`
+          `http://localhost:8000/admin/testimonial?page=${currentPage}`
         );
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);

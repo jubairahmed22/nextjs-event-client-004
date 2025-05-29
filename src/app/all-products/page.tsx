@@ -70,7 +70,7 @@ export const ProductsPage = () => {
         // Add a small delay to prevent rapid successive requests
         const timer = setTimeout(async () => {
           const response = await fetch(
-            `https://server-gs.vercel.app${endpoint}?${new URLSearchParams(
+            `http://localhost:8000${endpoint}?${new URLSearchParams(
               apiParams
             ).toString()}`
           );
