@@ -29,7 +29,7 @@ const Page = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:8000/api/sendMail",
+        "https://server-gs.vercel.app/api/sendMail",
         formData
       );
 

@@ -40,7 +40,7 @@ const InstaPost = () => {
         setError(null);
 
         const res = await fetch(
-          `http://localhost:8000/admin/instagram-post?page=${page}&limit=8`
+          `https://server-gs.vercel.app/admin/instagram-post?page=${page}&limit=8`
         );
 
         if (!res.ok) {

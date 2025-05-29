@@ -4,6 +4,8 @@ import love from "../../assets/love.jpeg"; // Import the image
 import aed from "../../assets/aed.jpeg"; // Import the image
 import iwed from "../../assets/iwed.jpeg"; // Import the image
 import lwpi from "../../assets/lwpi.jpeg"; // Import the image
+import rated from "../../assets/rated.jpeg"; // Import the image
+import theKnot from "../../assets/theKnot.jpeg"; // Import the image
 import Link from "next/link";
 
 const Footer = () => {
@@ -125,13 +127,31 @@ const Footer = () => {
                 </a>
               </li>
             </ul>
-            <a href="https://pros.weddingpro.com/" target="_blank">
+            <div className="flex flex-row justify-start gap-5">
+               <a href="https://pros.weddingpro.com/" target="_blank">
               <img
                   alt=""
                   className="h-10 mt-4 w-32 rounded-md bg-white px-2 object-contain"
                   src="https://www.wipa.org/wp-content/uploads/2022/03/WeddingPro_Logo_Large-color.png"
                 />
             </a>
+             <div className="flex gap-2">
+              <a href="https://www.weddingwire.com/biz/my-color-events-design-llc/b47d59fedc0e2af1.html" target="_blank">
+              <img
+                  alt=""
+                  className="h-16 mt-4  rounded-md  px-2 object-contain"
+                  src={rated.src}
+                />
+            </a>
+            <a href="https://www.weddingwire.com/biz/my-color-events-design-llc/b47d59fedc0e2af1.html" target="_blank">
+              <img
+                  alt=""
+                  className="h-16 mt-4  rounded-md  px-2 object-contain"
+                  src={theKnot.src}
+                />
+            </a>
+             </div>
+            </div>
           </div>
          
           </div>

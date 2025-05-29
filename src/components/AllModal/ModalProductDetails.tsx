@@ -86,7 +86,7 @@ const ModalProductDetails: React.FC<ModalProductDetailsProps> = ({
       setTimeout(() => setShow(true), 10);
 
       if (productId) {
-        fetch(`http://localhost:8000/web/event-products-details/${productId}`)
+        fetch(`https://server-gs.vercel.app/web/event-products-details/${productId}`)
           .then((res) => res.json())
           .then((data: ProductDetails) => setProductDetails(data))
           .catch((error) => console.error("Failed to load product details:", error));

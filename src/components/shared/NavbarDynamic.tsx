@@ -41,7 +41,7 @@ const NavbarDynamic: React.FC = () => {
     const fetchCategories = async () => {
       try {
         const response = await fetch(
-          "http://localhost:8000/web/main-category"
+          "https://server-gs.vercel.app/web/main-category"
         );
         const data = await response.json();
         const initialCategories = (data.products || []).map(
@@ -65,7 +65,7 @@ const NavbarDynamic: React.FC = () => {
     if (subCategories[categoryId]) return;
     try {
       const res = await fetch(
-        `http://localhost:8000/admin/web/sub-category/${categoryId}`
+        `https://server-gs.vercel.app/admin/web/sub-category/${categoryId}`
       );
       const data = await res.json();
       if (data.subCategories?.length > 0) {

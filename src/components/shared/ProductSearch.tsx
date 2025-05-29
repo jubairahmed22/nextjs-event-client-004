@@ -38,7 +38,7 @@ const ProductSearch = () => {
     setIsLoading(true);
     try {
       const res = await fetch(
-        `http://localhost:8000/web/search/products?title=${encodeURIComponent(
+        `https://server-gs.vercel.app/web/search/products?title=${encodeURIComponent(
           searchTerm
         )}&page=1`
       );

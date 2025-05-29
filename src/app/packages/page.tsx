@@ -43,7 +43,7 @@ const Page = () => {
       try {
         setLoading(true);
         const response = await fetch(
-          `http://localhost:8000/admin/main-packageImage?page=${currentPage}&limit=10` // Adjust your API endpoint as needed
+          `https://server-gs.vercel.app/admin/main-packageImage?page=${currentPage}&limit=10` // Adjust your API endpoint as needed
         );
         if (!response.ok) {
           throw new Error("Network response was not ok");

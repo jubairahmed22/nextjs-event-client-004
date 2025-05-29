@@ -22,7 +22,7 @@ const RentalMainPage: React.FC = () => {
   const fetchCategories = useCallback(async () => {
     try {
       const response = await axios.get<Category[]>(
-        "http://localhost:8000/category"
+        "https://server-gs.vercel.app/category"
       );
       setCategories(response.data);
       setLoading(false);
