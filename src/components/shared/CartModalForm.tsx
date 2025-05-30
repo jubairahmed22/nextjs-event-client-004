@@ -571,7 +571,7 @@ const CartModalForm: React.FC = () => {
   useEffect(() => {
     const script = document.createElement("script");
     script.src =
-      "https://maps.googleapis.com/maps/api/js?key=AIzaSyDE9PduE1gTdXyEixCCxwpGgxTbN4o9-wo&libraries=places&v=beta";
+      "https://maps.googleapis.com/maps/api/js?key=AIzaSyASJ8-qp5vbTQ_Z3ZHqPyo0Ls-MVzv5NTk&libraries=places&v=beta";
     script.async = true;
     script.defer = true;
     document.head.appendChild(script);
